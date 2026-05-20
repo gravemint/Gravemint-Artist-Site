@@ -6,24 +6,68 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.">
 	<link rel="canonical" href="https://gravemint.com/">
-	<meta property="og:image" content="https://gravemint.com/images/logo@2x.png">
-	<meta property="og:image:width" content="512">
-	<meta property="og:image:height" content="512">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="gravemint">
 	<meta property="og:title" content="gravemint">
 	<meta property="og:description" content="sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.">
 	<meta property="og:url" content="https://gravemint.com/">
-	<link rel="icon" href="/favicon.ico">
+	<meta property="og:image" content="https://gravemint.com/favicon-192.png">
+	<meta property="og:image:width" content="192">
+	<meta property="og:image:height" content="192">
+	<meta property="og:image:alt" content="gravemint">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="gravemint">
+	<meta name="twitter:description" content="sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.">
+	<meta name="twitter:image" content="https://gravemint.com/favicon-192.png">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
-		"@type": "MusicGroup",
-		"name": "gravemint",
-		"url": "https://gravemint.com/",
-		"description": "sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.",
-		"image": "https://gravemint.com/images/logo@2x.png"
+		"@graph": [
+			{
+				"@type": "WebSite",
+				"@id": "https://gravemint.com/#website",
+				"url": "https://gravemint.com/",
+				"name": "gravemint",
+				"description": "sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.",
+				"publisher": { "@id": "https://gravemint.com/#musicgroup" },
+				"inLanguage": "en"
+			},
+			{
+				"@type": ["MusicGroup", "Organization"],
+				"@id": "https://gravemint.com/#musicgroup",
+				"name": "gravemint",
+				"url": "https://gravemint.com/",
+				"description": "sounds from somewhere between a forest and a dream. michigan-based producer making ethereal electronic music since 2017.",
+				"logo": {
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/#logo",
+					"url": "https://gravemint.com/favicon-192.png",
+					"contentUrl": "https://gravemint.com/favicon-192.png",
+					"width": 192,
+					"height": 192,
+					"caption": "gravemint"
+				},
+				"image": {
+					"@id": "https://gravemint.com/#logo"
+				},
+				"sameAs": [
+					"https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG",
+					"https://music.apple.com/us/artist/gravemint/1279415284",
+					"https://gravemint.bandcamp.com",
+					"https://www.youtube.com/gravemint",
+					"https://www.instagram.com/gravemint/",
+					"https://www.tiktok.com/@gravemint",
+					"https://www.facebook.com/gravemint/"
+				]
+			}
+		]
 	}
 	</script>
 </head>
@@ -34,7 +78,7 @@
 	<main class="scroll-root">
 		<section id="home" class="panel panel--hero" data-section="home">
 			<a class="logo" href="#home" aria-label="gravemint home">
-				<img src="images/logo@2x.png" alt="gravemint">
+				<img src="images/logo@2x.png" alt="gravemint" width="626" height="142">
 			</a>
 
 			<ul class="social social--primary" aria-label="Social links">
