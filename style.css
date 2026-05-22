@@ -150,6 +150,13 @@ body {
 	gap: clamp(1.5rem, 4.5vh, 2.75rem);
 }
 
+.logo-heading {
+	margin: 0;
+	font: inherit;
+	font-weight: inherit;
+	line-height: 0;
+}
+
 .logo {
 	display: block;
 	margin-bottom: 0;
