@@ -58,6 +58,30 @@
 
 	updateActiveSection();
 
+	function loadSpotifyEmbed() {
+		const iframe = document.querySelector('.spotify-wrap iframe[data-src]');
+		if (!iframe) return;
+		iframe.src = iframe.dataset.src;
+		iframe.removeAttribute('data-src');
+	}
+
+	function scheduleSpotifyEmbed() {
+		const run = () => {
+			if ('requestIdleCallback' in window) {
+				requestIdleCallback(loadSpotifyEmbed, { timeout: 2000 });
+			} else {
+				setTimeout(loadSpotifyEmbed, 100);
+			}
+		};
+		if (document.readyState === 'complete') {
+			run();
+		} else {
+			window.addEventListener('load', run, { once: true });
+		}
+	}
+
+	scheduleSpotifyEmbed();
+
 	if (window.location.hash) {
 		const target = document.querySelector(window.location.hash);
 		if (target) {
