@@ -18,7 +18,7 @@ const primaryPlatforms = [
 const morePlatforms = [
 	{ key: 'amazon', label: 'amazon music', icon: 'fab fa-amazon' },
 	{ key: 'tidal', label: 'tidal', icon: 'fa-solid fa-water' },
-	{ key: 'deezer', label: 'teezer', icon: 'fab fa-deezer' },
+	{ key: 'deezer', label: 'deezer', icon: 'fab fa-deezer' },
 	{ key: 'iheart', label: 'iheartradio', icon: 'fa-solid fa-heart' },
 ];
 
@@ -64,7 +64,14 @@ function buildArtCreditHtml() {
 	const credit = data.artCredit;
 	if (!credit?.name || !credit?.instagram) return '';
 
-	return `				<p class="release-art-credit">art by <a href="${esc(credit.instagram)}" target="_blank" rel="noopener noreferrer">${esc(credit.name)}</a></p>
+	return `					<p class="release-art-credit">art by <a href="${esc(credit.instagram)}" target="_blank" rel="noopener noreferrer">${esc(credit.name)}</a></p>
+`;
+}
+
+function buildArtMetaHtml(release) {
+	return `				<div class="release-hero-art-meta">
+					<p class="release-eyebrow">${esc(release.type)} · ${esc(release.year)}</p>
+${buildArtCreditHtml()}				</div>
 `;
 }
 
@@ -76,7 +83,7 @@ function buildArtHtml(release) {
 					<img class="release-hero-art" src="${esc(release.cover)}" alt="${esc(release.title)} cover art" width="800" height="800" fetchpriority="high">
 					<span class="release-art-hint" aria-hidden="true">view art</span>
 				</button>
-${buildArtCreditHtml()}			</div>`;
+${buildArtMetaHtml(release)}			</div>`;
 }
 
 function buildPage(release) {
@@ -173,27 +180,30 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 		</header>
 
 		<article class="release-hero">
-${buildArtHtml(release)}
-			<div class="release-hero-meta">
-				<p class="release-eyebrow">${esc(release.type)} · ${esc(release.year)}</p>
+			<header class="release-hero-head">
 				<h1 class="release-page-title">${esc(release.title)}</h1>
-
+			</header>
+${buildArtHtml(release)}
+			<div class="release-hero-stage">
 				<div class="spotify-wrap embed-wrap release-embed">
 					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager"></iframe>
 				</div>
-
-				<h2 class="platform-heading">listen</h2>
-				<ul class="platform-list platform-list--primary">
-${primaryHtml}
-				</ul>
-
-				<h2 class="platform-heading platform-heading--support">support</h2>
-				<ul class="platform-list platform-list--support">
-${bandcampHtml}
-				</ul>
-
-${moreSection}
 			</div>
+			<aside class="release-hero-links" aria-label="streaming and purchase links">
+				<div class="release-links-group">
+					<h2 class="platform-heading">listen</h2>
+					<ul class="platform-list platform-list--primary">
+${primaryHtml}
+					</ul>
+				</div>
+				<div class="release-links-group">
+					<h2 class="platform-heading platform-heading--support">support</h2>
+					<ul class="platform-list platform-list--support">
+${bandcampHtml}
+					</ul>
+				</div>
+${moreSection}
+			</aside>
 		</article>
 	</main>
 
