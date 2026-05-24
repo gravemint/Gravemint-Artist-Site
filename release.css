@@ -456,12 +456,4 @@
 	.platform-more summary:active::after {
 		color: var(--accent-hot);
 	}
-
-	.release-embed.embed-wrap:active,
-	.video-wrap.embed-wrap:active {
-		box-shadow:
-			0 8px 40px rgba(0, 0, 0, 0.6),
-			0 0 28px rgba(0, 229, 255, 0.22);
-		outline-color: rgba(0, 229, 255, 0.45);
-	}
 }

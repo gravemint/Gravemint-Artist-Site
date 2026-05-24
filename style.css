@@ -903,13 +903,6 @@ a:focus-visible {
 		transform: translateY(calc(-50% - 1px));
 	}
 
-	.embed-wrap:active {
-		box-shadow:
-			0 8px 40px rgba(0, 0, 0, 0.6),
-			0 0 28px rgba(0, 229, 255, 0.22);
-		outline-color: rgba(0, 229, 255, 0.45);
-	}
-
 	.release-card:active {
 		color: #fff;
 		transform: translateY(-2px);
