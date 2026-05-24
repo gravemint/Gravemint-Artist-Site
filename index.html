@@ -25,6 +25,8 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
+	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -74,15 +76,29 @@
 	</script>
 </head>
 <body>
+	<svg class="svg-filters" aria-hidden="true" focusable="false" width="0" height="0">
+		<defs>
+			<filter id="gravemint-logo-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+				<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"></feGaussianBlur>
+				<feFlood flood-color="#00e5ff" flood-opacity="0.52" result="color"></feFlood>
+				<feComposite in="color" in2="blur" operator="in" result="glow"></feComposite>
+				<feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000000" flood-opacity="0.75" in="SourceGraphic" result="logo"></feDropShadow>
+				<feMerge>
+					<feMergeNode in="glow"></feMergeNode>
+					<feMergeNode in="logo"></feMergeNode>
+				</feMerge>
+			</filter>
+		</defs>
+	</svg>
 	<div class="page-bg" aria-hidden="true"></div>
 	<canvas id="ghost-canvas" aria-hidden="true"></canvas>
 
 	<main class="scroll-root">
 		<section id="home" class="panel panel--hero" data-section="home">
 			<h1 class="logo-heading">
-				<a class="logo" href="#home">
+				<span class="logo logo--static">
 					<img src="images/logo@2x.png" alt="gravemint" width="626" height="142">
-				</a>
+				</span>
 			</h1>
 
 			<ul class="social social--primary" aria-label="Social links">
@@ -100,7 +116,7 @@
 				<iframe src="https://www.youtube.com/embed/asmuX78lwsA" title="gravemint on YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 
-			<a class="release-link" href="https://distrokid.com/hyperfollow/gravemint/etne" target="_blank" rel="noopener noreferrer">
+			<a class="release-link" href="/music/vicarious-solitude/" data-spotify-embed="https://open.spotify.com/embed/album/6Nc3nYDm89fRlFLgtvHw9x?utm_source=generator&amp;theme=0">
 				<span class="release-eyebrow">featured music</span>
 				<span class="release-title">vicarious solitude</span>
 			</a>
@@ -120,12 +136,67 @@
 			</div>
 		</section>
 
-		<section id="music" class="panel" data-section="music">
+		<section id="music" class="panel panel--scrollable" data-section="music">
 			<hr class="rule">
 			<h2 class="section-label">music</h2>
-			<div class="spotify-wrap embed-wrap">
-				<iframe data-src="https://open.spotify.com/embed/playlist/6MAL9sInP1jWH8Lz3226mP?utm_source=generator&amp;theme=0" title="gravemint on Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-			</div>
+			<ul class="release-catalog">
+				<li>
+					<a class="release-card" href="/music/maritime-mystic/" data-spotify-embed="https://open.spotify.com/embed/album/1F1HYiAuW2jTwEGdxosLq8?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/maritime_mystic.jpg" alt="maritime mystic cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">maritime mystic</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/cat-cafe/" data-spotify-embed="https://open.spotify.com/embed/album/20mO0c9zXx2MjFSjx5H0EJ?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/cat_cafe.jpg" alt="cat cafe cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">cat cafe</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/sheltered-neon/" data-spotify-embed="https://open.spotify.com/embed/album/2bxQH2XGpevo8pkrDgG8mI?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/sheltered_neon.jpg" alt="sheltered neon cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">sheltered neon</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/vicarious-solitude/" data-spotify-embed="https://open.spotify.com/embed/album/6Nc3nYDm89fRlFLgtvHw9x?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/vicarious_solitude.jpg" alt="vicarious solitude cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">vicarious solitude</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/keep-us-awake/" data-spotify-embed="https://open.spotify.com/embed/album/0di8JK6lUJhussV0bRpy0D?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/keep_us_awake.jpg" alt="keep us awake cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">keep us awake</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/ghost/" data-spotify-embed="https://open.spotify.com/embed/album/3rvRfvtzprvaHnsiT7nW9Z?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/ghost.jpg" alt="ghost cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">ghost</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/kitten-kibbu/" data-spotify-embed="https://open.spotify.com/embed/album/7iylkvpw1tVpKCU9j6JJ9K?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/kitten_kibbu.jpg" alt="kitten kibbu cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">kitten kibbu</span>
+					</a>
+				</li>
+			</ul>
 		</section>
 	</main>
 
@@ -138,3 +209,4 @@
 	<script src="main.js" defer></script>
 </body>
 </html>
+

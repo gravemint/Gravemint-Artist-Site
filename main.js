@@ -5,6 +5,7 @@
 	const canvas = document.getElementById('ghost-canvas');
 	const navLinks = document.querySelectorAll('.side-nav a[data-section]');
 	const sections = Array.from(document.querySelectorAll('main [data-section]'));
+	const hasSections = sections.length > 0;
 
 	let activeSection = 'home';
 
@@ -16,11 +17,18 @@
 		});
 	}
 
-	function sectionDocTop(section) {
-		return section.getBoundingClientRect().top + window.scrollY;
+	function updateNavDock() {
+		const about = document.getElementById('about');
+		const nav = document.querySelector('.side-nav');
+		if (!about || !nav) return;
+
+		const aboutTop = about.getBoundingClientRect().top;
+		const dock = aboutTop <= window.innerHeight * 0.92;
+		nav.classList.toggle('side-nav--dock', dock);
 	}
 
 	function updateActiveSection() {
+		if (!hasSections) return;
 		const line = window.scrollY + window.innerHeight * 0.35;
 		let id = sections[0].dataset.section;
 
@@ -31,10 +39,16 @@
 		});
 
 		setActiveSection(id);
+		updateNavDock();
+	}
+
+	function sectionDocTop(section) {
+		return section.getBoundingClientRect().top + window.scrollY;
 	}
 
 	let scrollTicking = false;
 	function onScroll() {
+		if (!hasSections) return;
 		if (scrollTicking) return;
 		scrollTicking = true;
 		requestAnimationFrame(() => {
@@ -47,40 +61,130 @@
 	window.addEventListener('resize', updateActiveSection);
 	window.addEventListener('hashchange', updateActiveSection);
 
-	navLinks.forEach((link) => {
-		link.addEventListener('click', () => {
-			const id = link.dataset.section;
-			if (id) setActiveSection(id);
-			setTimeout(updateActiveSection, 400);
-			setTimeout(updateActiveSection, 900);
+	if (hasSections) {
+		navLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				const id = link.dataset.section;
+				if (id) setActiveSection(id);
+				link.blur();
+				setTimeout(updateActiveSection, 400);
+				setTimeout(updateActiveSection, 900);
+			});
 		});
-	});
 
-	updateActiveSection();
-
-	function loadSpotifyEmbed() {
-		const iframe = document.querySelector('.spotify-wrap iframe[data-src]');
-		if (!iframe) return;
-		iframe.src = iframe.dataset.src;
-		iframe.removeAttribute('data-src');
+		updateActiveSection();
+		updateNavDock();
 	}
 
-	function scheduleSpotifyEmbed() {
-		const run = () => {
+	const embedWraps = document.querySelectorAll('.embed-wrap');
+	const canHover =
+		typeof window.matchMedia === 'function' &&
+		window.matchMedia('(hover: hover)').matches;
+	let embedHoverActive = false;
+	let lastPointer = { x: -1, y: -1 };
+
+	function pointInRect(x, y, rect) {
+		return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+	}
+
+	function updateEmbedHover(clientX, clientY) {
+		if (!canHover) return;
+		if (clientX >= 0) {
+			lastPointer.x = clientX;
+			lastPointer.y = clientY;
+		}
+
+		let hovered = null;
+		embedWraps.forEach((wrap) => {
+			if (pointInRect(lastPointer.x, lastPointer.y, wrap.getBoundingClientRect())) {
+				hovered = wrap;
+			}
+		});
+
+		embedHoverActive = !!hovered;
+		embedWraps.forEach((wrap) => {
+			wrap.classList.toggle('is-embed-hover', wrap === hovered);
+		});
+	}
+
+	function clearEmbedHover() {
+		if (!canHover) return;
+		embedHoverActive = false;
+		lastPointer.x = -1;
+		lastPointer.y = -1;
+		embedWraps.forEach((wrap) => wrap.classList.remove('is-embed-hover'));
+	}
+
+	if (canHover && embedWraps.length) {
+		window.addEventListener('scroll', () => updateEmbedHover(lastPointer.x, lastPointer.y), {
+			passive: true,
+		});
+		window.addEventListener('resize', () => updateEmbedHover(lastPointer.x, lastPointer.y));
+		document.addEventListener('mouseleave', clearEmbedHover);
+
+		embedWraps.forEach((wrap) => {
+			wrap.addEventListener('mouseenter', () => {
+				embedHoverActive = true;
+				embedWraps.forEach((w) => w.classList.toggle('is-embed-hover', w === wrap));
+			});
+			wrap.addEventListener('mouseleave', () => {
+				requestAnimationFrame(() => updateEmbedHover(lastPointer.x, lastPointer.y));
+			});
+		});
+	}
+
+	initSpotifyEmbedWarm();
+
+	function initSpotifyEmbedWarm() {
+		const links = document.querySelectorAll(
+			'a.release-card[data-spotify-embed], a.release-link[data-spotify-embed]'
+		);
+		if (!links.length) return;
+
+		const warmed = new Set();
+		let warmFrame = null;
+
+		function warmEmbed(url) {
+			if (!url || warmed.has(url)) return;
+			warmed.add(url);
+			warmFrame?.remove();
+			warmFrame = document.createElement('iframe');
+			warmFrame.src = url;
+			warmFrame.tabIndex = -1;
+			warmFrame.setAttribute('aria-hidden', 'true');
+			warmFrame.title = '';
+			Object.assign(warmFrame.style, {
+				position: 'absolute',
+				width: '0',
+				height: '0',
+				border: '0',
+				opacity: '0',
+				pointerEvents: 'none',
+				visibility: 'hidden',
+			});
+			document.body.appendChild(warmFrame);
+		}
+
+		links.forEach((link) => {
+			const url = link.dataset.spotifyEmbed;
+			const intent = () => warmEmbed(url);
+			link.addEventListener('pointerenter', intent, { passive: true });
+			link.addEventListener('touchstart', intent, { passive: true });
+		});
+
+		const runIdle = (fn) => {
 			if ('requestIdleCallback' in window) {
-				requestIdleCallback(loadSpotifyEmbed, { timeout: 2000 });
+				requestIdleCallback(fn, { timeout: 4000 });
 			} else {
-				setTimeout(loadSpotifyEmbed, 100);
+				setTimeout(fn, 2000);
 			}
 		};
-		if (document.readyState === 'complete') {
-			run();
-		} else {
-			window.addEventListener('load', run, { once: true });
-		}
-	}
 
-	scheduleSpotifyEmbed();
+		runIdle(() => {
+			const featured = document.querySelector('a.release-link[data-spotify-embed]');
+			if (featured) warmEmbed(featured.dataset.spotifyEmbed);
+		});
+	}
 
 	if (window.location.hash) {
 		const target = document.querySelector(window.location.hash);
@@ -92,7 +196,14 @@
 		setTimeout(updateActiveSection, 100);
 	}
 
-	if (reducedMotion || !canvas) {
+	function isPointerEffectDevice() {
+		return (
+			window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+			navigator.maxTouchPoints === 0
+		);
+	}
+
+	if (reducedMotion || !canvas || !isPointerEffectDevice()) {
 		if (canvas) canvas.style.display = 'none';
 		return;
 	}
@@ -105,7 +216,6 @@
 	const particles = [];
 	const maxParticles = 110;
 	let lastSpawn = 0;
-	let lastActiveTime = 0;
 	let rafId = 0;
 
 	function resize() {
@@ -135,11 +245,25 @@
 		}
 	}
 
+	function clearPointer() {
+		pointer.active = false;
+		pointer.x = -9999;
+		pointer.y = -9999;
+		smooth.x = -9999;
+		smooth.y = -9999;
+		particles.length = 0;
+	}
+
 	function setPointer(clientX, clientY) {
+		updateEmbedHover(clientX, clientY);
+		if (embedHoverActive) {
+			pointer.active = false;
+			return;
+		}
+
 		pointer.x = clientX;
 		pointer.y = clientY;
 		pointer.active = true;
-		lastActiveTime = performance.now();
 		const now = performance.now();
 		if (now - lastSpawn > 14) {
 			lastSpawn = now;
@@ -149,18 +273,15 @@
 	}
 
 	window.addEventListener('resize', resize);
-	window.addEventListener('mousemove', (e) => setPointer(e.clientX, e.clientY));
-	window.addEventListener(
-		'touchmove',
-		(e) => {
-			if (e.touches[0]) setPointer(e.touches[0].clientX, e.touches[0].clientY);
-		},
-		{ passive: true }
-	);
-	document.addEventListener('mouseleave', () => {
-		pointer.active = false;
-		lastActiveTime = performance.now();
+	window.addEventListener('mousemove', (e) => {
+		if (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= width - 1 || e.clientY >= height - 1) {
+			clearPointer();
+			return;
+		}
+		setPointer(e.clientX, e.clientY);
 	});
+	document.addEventListener('mouseleave', clearPointer);
+	window.addEventListener('blur', clearPointer);
 
 	resize();
 
@@ -203,20 +324,19 @@
 
 	function drawParticles(time) {
 		const t = time * 0.001;
-		const now = performance.now();
 		const followRate = pointer.active ? 0.42 : 0.22;
 		smooth.x += (pointer.x - smooth.x) * followRate;
 		smooth.y += (pointer.y - smooth.y) * followRate;
 
-		const cursorAlive = pointer.active || now - lastActiveTime < 8000;
+		const cursorAlive = !embedHoverActive && pointer.active;
 
-		if (pointer.active && Math.random() < 0.5) {
+		if (pointer.active && !embedHoverActive && Math.random() < 0.5) {
 			spawnParticle(smooth.x, smooth.y, { size: 1.2 + Math.random() * 2.5 });
 		} else if (cursorAlive && Math.random() < 0.22) {
 			spawnParticle(smooth.x, smooth.y, { size: 0.8 + Math.random() * 1.8, life: 0.85 });
 		}
 
-		const trailDecay = 0.034;
+		const trailDecay = embedHoverActive ? 0.06 : 0.034;
 
 		ctx.clearRect(0, 0, width, height);
 		ctx.globalCompositeOperation = 'lighter';
