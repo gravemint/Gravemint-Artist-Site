@@ -419,6 +419,69 @@
 	margin-top: 0.25rem;
 }
 
+.release-about {
+	margin-top: clamp(2rem, 5vh, 3rem);
+	padding-top: clamp(1.5rem, 3vh, 2.25rem);
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.release-about-heading {
+	font-size: 0.6rem;
+	font-weight: 400;
+	letter-spacing: 0.42em;
+	text-transform: lowercase;
+	color: rgba(255, 255, 255, 0.45);
+	margin-bottom: 1rem;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+}
+
+.release-about-text {
+	max-width: 42rem;
+	font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+	line-height: 1.85;
+	color: rgba(255, 255, 255, 0.82);
+	text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
+}
+
+.release-tracks {
+	margin-top: clamp(1.75rem, 4vh, 2.5rem);
+	padding-top: clamp(1.25rem, 2.5vh, 2rem);
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.release-tracklist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	max-width: 32rem;
+	counter-reset: track;
+}
+
+.release-tracklist li {
+	counter-increment: track;
+	display: flex;
+	align-items: baseline;
+	gap: 0.85rem;
+	padding: 0.55rem 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	font-size: clamp(0.88rem, 1.4vw, 0.98rem);
+	color: rgba(255, 255, 255, 0.82);
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+
+.release-tracklist li::before {
+	content: counter(track, decimal-leading-zero);
+	flex: 0 0 auto;
+	font-size: 0.62rem;
+	letter-spacing: 0.28em;
+	color: rgba(255, 255, 255, 0.38);
+	min-width: 1.75rem;
+}
+
+.release-tracklist li:last-child {
+	border-bottom: none;
+}
+
 @media (max-width: 52rem) {
 	.release-main {
 		padding-top: clamp(1.35rem, 5vh, 2.25rem);

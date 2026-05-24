@@ -41,9 +41,101 @@ function platformLink(key, label, icon, url, extraClass = '') {
 				</a></li>`;
 }
 
-function schemaType(type) {
-	if (type === 'Single') return 'https://schema.org/MusicRecording';
-	return 'https://schema.org/MusicAlbum';
+function todayISO() {
+	return new Date().toISOString().slice(0, 10);
+}
+
+function ogType(release) {
+	return release.type === 'Single' ? 'music.song' : 'music.album';
+}
+
+function releaseTitle(release) {
+	return `${release.title} by gravemint`;
+}
+
+function releaseMetaDescription(release) {
+	return release.metaDescription || release.description || '';
+}
+
+function releaseLongDescription(release) {
+	return release.longDescription || release.description || '';
+}
+
+function releaseDatePublished(release) {
+	return release.datePublished || release.year || '';
+}
+
+function artistRef() {
+	return {
+		'@type': 'MusicGroup',
+		'@id': `${data.site}/#musicgroup`,
+		name: data.artist,
+		url: `${data.site}/`,
+	};
+}
+
+function buildBreadcrumb(url, release) {
+	return {
+		'@type': 'BreadcrumbList',
+		'@id': `${url}#breadcrumb`,
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: data.artist,
+				item: `${data.site}/`,
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'music',
+				item: `${data.site}/#music`,
+			},
+			{
+				'@type': 'ListItem',
+				position: 3,
+				name: release.title,
+				item: url,
+			},
+		],
+	};
+}
+
+function buildReleaseSchema(release, url, ogImage) {
+	const isSingle = release.type === 'Single';
+	const schema = {
+		'@type': isSingle ? 'MusicRecording' : 'MusicAlbum',
+		'@id': `${url}#release`,
+		name: release.title,
+		url,
+		image: ogImage,
+		description: releaseLongDescription(release),
+		datePublished: releaseDatePublished(release),
+		inLanguage: 'en-US',
+		byArtist: artistRef(),
+		mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+	};
+
+	if (!isSingle && release.trackCount) {
+		schema.numTracks = release.trackCount;
+		schema.albumReleaseType = release.type === 'EP' ? 'EP' : 'Album';
+	}
+
+	if (!isSingle && Array.isArray(release.tracks) && release.tracks.length) {
+		schema.track = release.tracks.map((name, index) => ({
+			'@type': 'MusicRecording',
+			'@id': `${url}#track-${index + 1}`,
+			name,
+			position: index + 1,
+			byArtist: artistRef(),
+			inAlbum: { '@id': `${url}#release` },
+		}));
+	}
+
+	const sameAs = Object.values(release.links).filter(Boolean);
+	if (sameAs.length) schema.sameAs = sameAs;
+
+	return schema;
 }
 
 function resolveCoverFull(release) {
@@ -70,7 +162,7 @@ function buildArtCreditHtml() {
 
 function buildArtMetaHtml(release) {
 	return `				<div class="release-hero-art-meta">
-					<p class="release-eyebrow">${esc(release.type)} · ${esc(release.year)}</p>
+					<p class="release-eyebrow">${esc(String(release.type).toLowerCase())} · ${esc(release.year)}</p>
 ${buildArtCreditHtml()}				</div>
 `;
 }
@@ -88,8 +180,14 @@ ${buildArtMetaHtml(release)}			</div>`;
 
 function buildPage(release) {
 	const url = `${data.site}/music/${release.slug}/`;
-	const title = `${release.title} | gravemint`;
+	const title = releaseTitle(release);
 	const ogImage = `${data.site}${release.cover}`;
+	const ogTypeValue = ogType(release);
+	const metaDesc = releaseMetaDescription(release);
+	const longDesc = releaseLongDescription(release);
+	const releaseDate = releaseDatePublished(release);
+	const themeColor = data.seo?.themeColor || '#060606';
+	const musicianUrl = `${data.site}/#musicgroup`;
 
 	const primaryHtml = primaryPlatforms
 		.filter((p) => release.links[p.key])
@@ -97,7 +195,7 @@ function buildPage(release) {
 		.join('\n');
 
 	const bandcampHtml = release.links.bandcamp
-		? platformLink('bandcamp', 'Bandcamp', 'fab fa-bandcamp', release.links.bandcamp, ' platform-btn--support')
+		? platformLink('bandcamp', 'bandcamp', 'fab fa-bandcamp', release.links.bandcamp, ' platform-btn--support')
 		: '';
 
 	const moreHtml = morePlatforms
@@ -114,45 +212,37 @@ ${moreHtml}
 			</details>`
 		: '';
 
-	const schema = {
+	const schemaGraph = {
 		'@context': 'https://schema.org',
-		'@type': release.type === 'Single' ? 'MusicRecording' : 'MusicAlbum',
-		'@id': `${url}#release`,
-		name: release.title,
-		url,
-		image: ogImage,
-		description: release.description,
-		datePublished: release.year,
-		byArtist: {
-			'@type': 'MusicGroup',
-			'@id': `${data.site}/#musicgroup`,
-			name: data.artist,
-			url: `${data.site}/`,
-		},
+		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage)],
 	};
-
-	const sameAs = Object.values(release.links).filter(Boolean);
-	if (sameAs.length) schema.sameAs = sameAs;
 
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>${esc(title)}</title>
 	<meta charset="utf-8">
+	<title>${esc(title)}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="${esc(release.description)}">
+	<meta name="theme-color" content="${esc(themeColor)}">
+	<meta name="description" content="${esc(metaDesc)}">
 	<link rel="canonical" href="${esc(url)}">
-	<meta property="og:type" content="music.album">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="${esc(ogTypeValue)}">
 	<meta property="og:site_name" content="gravemint">
-	<meta property="og:title" content="${esc(release.title)} — gravemint">
-	<meta property="og:description" content="${esc(release.description)}">
+	<meta property="og:title" content="${esc(release.title)} by gravemint">
+	<meta property="og:description" content="${esc(metaDesc)}">
 	<meta property="og:url" content="${esc(url)}">
 	<meta property="og:image" content="${esc(ogImage)}">
-	<meta property="og:image:alt" content="${esc(release.title)} cover art">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="${esc(release.title)} — gravemint">
-	<meta name="twitter:description" content="${esc(release.description)}">
+	<meta property="og:image:type" content="image/jpeg">
+	<meta property="og:image:width" content="800">
+	<meta property="og:image:height" content="800">
+	<meta property="og:image:alt" content="${esc(release.title)} cover art by gravemint">
+	<meta property="music:musician" content="${esc(musicianUrl)}">
+	${releaseDate ? `<meta property="music:release_date" content="${esc(releaseDate)}">\n\t` : ''}<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="${esc(release.title)} by gravemint">
+	<meta name="twitter:description" content="${esc(metaDesc)}">
 	<meta name="twitter:image" content="${esc(ogImage)}">
+	<meta name="twitter:image:alt" content="${esc(release.title)} cover art by gravemint">
 	<link rel="icon" href="/favicon.ico" sizes="any">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
@@ -164,7 +254,7 @@ ${moreHtml}
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/release.css">
 	<script type="application/ld+json">
-${JSON.stringify(schema, null, '\t')}
+${JSON.stringify(schemaGraph, null, '\t')}
 	</script>
 </head>
 <body class="release-page">
@@ -186,7 +276,7 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 ${buildArtHtml(release)}
 			<div class="release-hero-stage">
 				<div class="spotify-wrap embed-wrap release-embed">
-					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager"></iframe>
+					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager"></iframe>
 				</div>
 			</div>
 			<aside class="release-hero-links" aria-label="streaming and purchase links">
@@ -205,7 +295,19 @@ ${bandcampHtml}
 ${moreSection}
 			</aside>
 		</article>
-	</main>
+${longDesc ? `
+		<section class="release-about" aria-label="about ${esc(release.title)}">
+			<h2 class="release-about-heading">about</h2>
+			<p class="release-about-text">${esc(longDesc)}</p>
+		</section>
+` : ''}${Array.isArray(release.tracks) && release.tracks.length > 1 ? `
+		<section class="release-tracks" aria-label="tracks">
+			<h2 class="release-about-heading">tracks</h2>
+			<ol class="release-tracklist">
+${release.tracks.map((t) => `				<li>${esc(t)}</li>`).join('\n')}
+			</ol>
+		</section>
+` : ''}	</main>
 
 	<div class="art-lightbox" hidden aria-hidden="true">
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
@@ -229,11 +331,12 @@ for (const release of data.releases) {
 	console.log(`wrote music/${release.slug}/index.html`);
 }
 
+const buildDate = todayISO();
 const sitemapUrls = [
-	{ loc: `${data.site}/`, lastmod: '2026-05-23' },
+	{ loc: `${data.site}/`, lastmod: buildDate },
 	...data.releases.map((r) => ({
 		loc: `${data.site}/music/${r.slug}/`,
-		lastmod: '2026-05-23',
+		lastmod: r.lastmod || buildDate,
 	})),
 ];
 
@@ -274,4 +377,132 @@ function syncIndexEmbedHints() {
 	console.log('updated index.html embed hints');
 }
 
+function buildHomeSchema() {
+	const seo = data.seo || {};
+	const sameAs = data.sameAs || [];
+	const person = data.person;
+	const discography = data.releases.map((release, index) => ({
+		'@type': 'ListItem',
+		position: index + 1,
+		name: release.title,
+		url: `${data.site}/music/${release.slug}/`,
+	}));
+
+	const musicGroup = {
+		'@type': ['MusicGroup', 'Organization'],
+		'@id': `${data.site}/#musicgroup`,
+		name: data.artist,
+		url: `${data.site}/`,
+		description: seo.homeDescription,
+		foundingDate: seo.foundingDate,
+		genre: seo.genre,
+		logo: {
+			'@type': 'ImageObject',
+			'@id': `${data.site}/#logo`,
+			url: `${data.site}/favicon-192.png`,
+			contentUrl: `${data.site}/favicon-192.png`,
+			width: 192,
+			height: 192,
+			caption: data.artist,
+		},
+		image: { '@id': `${data.site}/#logo` },
+		sameAs,
+	};
+
+	const graph = [
+		{
+			'@type': 'WebSite',
+			'@id': `${data.site}/#website`,
+			url: `${data.site}/`,
+			name: data.artist,
+			description: seo.homeDescription,
+			inLanguage: 'en-US',
+			publisher: { '@id': `${data.site}/#musicgroup` },
+			mainEntity: { '@id': `${data.site}/#musicgroup` },
+		},
+	];
+
+	if (person) {
+		const personSchema = {
+			'@type': 'Person',
+			'@id': `${data.site}/#person`,
+			name: [person.givenName, person.familyName].filter(Boolean).join(' ') || person.alternateName || data.artist,
+			alternateName: person.alternateName || data.artist,
+			memberOf: { '@id': `${data.site}/#musicgroup` },
+		};
+		if (person.givenName) personSchema.givenName = person.givenName;
+		if (person.familyName) personSchema.familyName = person.familyName;
+		if (person.sameAs?.length) personSchema.sameAs = person.sameAs;
+		graph.push(personSchema);
+		musicGroup.member = { '@id': `${data.site}/#person` };
+	}
+
+	graph.push(musicGroup);
+	graph.push({
+		'@type': 'ItemList',
+		'@id': `${data.site}/#discography`,
+		name: `${data.artist} discography`,
+		numberOfItems: discography.length,
+		itemListElement: discography,
+	});
+
+	return {
+		'@context': 'https://schema.org',
+		'@graph': graph,
+	};
+}
+
+function syncIndexSeo() {
+	const seo = data.seo;
+	if (!seo) return;
+
+	const indexPath = path.join(root, 'index.html');
+	let html = fs.readFileSync(indexPath, 'utf8');
+	const site = data.site;
+	const homeSchema = JSON.stringify(buildHomeSchema(), null, '\t');
+
+	const themeColor = seo.themeColor || '#060606';
+	const headBlock = `<head>
+	<meta charset="utf-8">
+	<title>${esc(seo.homeTitle)}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="${esc(themeColor)}">
+	<meta name="description" content="${esc(seo.homeDescription)}">
+	<link rel="canonical" href="${esc(site)}/">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="gravemint">
+	<meta property="og:title" content="${esc(seo.ogTitle)}">
+	<meta property="og:description" content="${esc(seo.ogDescription)}">
+	<meta property="og:url" content="${esc(site)}/">
+	<meta property="og:image" content="${esc(site)}/og.jpg">
+	<meta property="og:image:type" content="image/jpeg">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="gravemint electronic music artist">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
+	<meta name="twitter:description" content="${esc(seo.ogDescription)}">
+	<meta name="twitter:image" content="${esc(site)}/og.jpg">
+	<meta name="twitter:image:alt" content="gravemint electronic music artist">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
+	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="application/ld+json">
+${homeSchema}
+	</script>
+</head>`;
+
+	html = html.replace(/<head>[\s\S]*?<\/head>/, headBlock);
+	fs.writeFileSync(indexPath, html);
+	console.log('updated index.html SEO');
+}
+
 syncIndexEmbedHints();
+syncIndexSeo();

@@ -1,6 +1,28 @@
 {
 	"site": "https://gravemint.com",
 	"artist": "gravemint",
+	"seo": {
+		"homeTitle": "gravemint | ethereal electronic music",
+		"homeDescription": "gravemint is a michigan-based electronic music artist making ethereal, melodically driven electronic music since 2017. stream on spotify, apple music, youtube, and bandcamp",
+		"ogTitle": "gravemint | ethereal electronic music",
+		"ogDescription": "michigan-based electronic music artist. ethereal, melodically driven sounds since 2017",
+		"genre": "electronic music",
+		"foundingDate": "2017",
+		"themeColor": "#060606"
+	},
+	"person": {
+		"givenName": "christian",
+		"alternateName": "gravemint"
+	},
+	"sameAs": [
+		"https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG",
+		"https://music.apple.com/us/artist/gravemint/1279415284",
+		"https://gravemint.bandcamp.com",
+		"https://www.youtube.com/gravemint",
+		"https://www.instagram.com/gravemint/",
+		"https://www.tiktok.com/@gravemint",
+		"https://www.facebook.com/gravemint/"
+	],
 	"coverFullPlaceholder": "/images/releases/placeholder-large.svg",
 	"artCredit": {
 		"name": "nekoinstall",
@@ -12,10 +34,21 @@
 			"title": "maritime mystic",
 			"type": "EP",
 			"year": "2019",
-			"description": "maritime mystic by gravemint — ethereal electronic EP. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 8,
+			"tracks": [
+				"illuminate",
+				"misted mentha",
+				"maritime mystic",
+				"relinquish",
+				"illuminate (instrumental)",
+				"misted mentha (instrumental)",
+				"maritime mystic (instrumental)",
+				"relinquish (instrumental)"
+			],
+			"metaDescription": "a vocaloid ep inspired by the pacific northwest. sparkly synths, harps, and ghostly vocals exploring loneliness, mystery, and an unfamiliar coast",
+			"longDescription": "gravemint's vocaloid debut, featuring synthesizer performances from miku and luka with full instrumental versions of every track. inspired by the beauty of the pacific northwest and the puget sound, maritime mystic explores the loneliness and wonder of arriving somewhere new, far from everyone you know. sparkly synths, harps, piano, and clean bass weave through themes of solitude, mystery, and the strange pull of an unfamiliar coast",
 			"cover": "/images/releases/maritime_mystic.jpg",
 			"spotifyAlbumId": "1F1HYiAuW2jTwEGdxosLq8",
-			"trackCount": 5,
 			"links": {
 				"spotify": "https://open.spotify.com/album/1F1HYiAuW2jTwEGdxosLq8",
 				"apple": "https://music.apple.com/us/album/maritime-mystic/1464429766",
@@ -30,12 +63,17 @@
 		{
 			"slug": "cat-cafe",
 			"title": "cat cafe",
-			"type": "Single",
+			"type": "EP",
 			"year": "2018",
-			"description": "cat cafe by gravemint — ethereal electronic single. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 2,
+			"tracks": [
+				"neon cat cafe",
+				"cat cafe piano"
+			],
+			"metaDescription": "two versions of one idea: a glitchy breakneck beat and a calm jazz-laced piece. the full duality of cats, captured in sound",
+			"longDescription": "a two-sided release inspired by a cat cafe in downtown seattle, capturing the full duality of cats themselves. one version is a breakneck, glitch-adjacent track built on fast experimental beats and piano; the other a calm, jazz-inflected piece filled with ambient purring and warm atmosphere. two moods, one idea: the creature that knocks things off shelves and then curls up in your lap",
 			"cover": "/images/releases/cat_cafe.jpg",
 			"spotifyAlbumId": "20mO0c9zXx2MjFSjx5H0EJ",
-			"trackCount": 1,
 			"links": {
 				"spotify": "https://open.spotify.com/album/20mO0c9zXx2MjFSjx5H0EJ",
 				"apple": "https://music.apple.com/us/album/cat-cafe-single/1448825863",
@@ -52,10 +90,17 @@
 			"title": "sheltered neon",
 			"type": "EP",
 			"year": "2018",
-			"description": "sheltered neon by gravemint — ethereal electronic EP. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 4,
+			"tracks": [
+				"solace plaza",
+				"rooftop overgrowth",
+				"to metropolis",
+				"sheltered neon"
+			],
+			"metaDescription": "almost-downtempo electronica for the unknown of moving to a new city. sparse drops, evolving ambience, and the quiet solace of neon light at night",
+			"longDescription": "an almost-downtempo electronica record about the unknown of moving to a new city. sparse, dark drops give way to evolving ambience, with high pads and deliberate breaks that let the atmosphere breathe and shift. the quiet solace of a distant neon glow",
 			"cover": "/images/releases/sheltered_neon.jpg",
 			"spotifyAlbumId": "2bxQH2XGpevo8pkrDgG8mI",
-			"trackCount": 4,
 			"links": {
 				"spotify": "https://open.spotify.com/album/2bxQH2XGpevo8pkrDgG8mI",
 				"apple": "https://music.apple.com/us/album/sheltered-neon-ep/1438823261",
@@ -72,10 +117,17 @@
 			"title": "vicarious solitude",
 			"type": "EP",
 			"year": "2018",
-			"description": "vicarious solitude by gravemint — ethereal electronic EP. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 4,
+			"tracks": [
+				"rain, hello",
+				"winter moon's installment",
+				"temporal blossom",
+				"soft gardens, warm nights"
+			],
+			"metaDescription": "gravemint's debut ep. ambient rain, harps, and ghostly vocal chops tracing seasons, memories, and a grateful look back at who you used to be",
+			"longDescription": "gravemint's debut ep, structured around the seasons. sparkly synths, harps, ghostly vocal chops, cold windy piano, and a mandolin lead that opens into something much larger. the warmth of looking back at every version of yourself, surrounded by everything that made you",
 			"cover": "/images/releases/vicarious_solitude.jpg",
 			"spotifyAlbumId": "6Nc3nYDm89fRlFLgtvHw9x",
-			"trackCount": 4,
 			"links": {
 				"spotify": "https://open.spotify.com/album/6Nc3nYDm89fRlFLgtvHw9x",
 				"apple": "https://music.apple.com/us/album/vicarious-solitude-ep/1434637371",
@@ -91,10 +143,11 @@
 			"title": "keep us awake",
 			"type": "Single",
 			"year": "2018",
-			"description": "keep us awake by gravemint — ethereal electronic single. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 1,
+			"metaDescription": "dreamy, high-energy electronica built on massive synths and driving piano. our desires keep us going and keep us from sleeping",
+			"longDescription": "a dreamy, high-energy electronic track built on enormous synths and a driving piano backing. somewhere between chillwave and ethereal electronica, about the dreams and desires that give us purpose and keep us awake at night. our dreams keep us awake",
 			"cover": "/images/releases/keep_us_awake.jpg",
 			"spotifyAlbumId": "0di8JK6lUJhussV0bRpy0D",
-			"trackCount": 1,
 			"links": {
 				"spotify": "https://open.spotify.com/album/0di8JK6lUJhussV0bRpy0D",
 				"apple": "https://music.apple.com/us/album/keep-us-awake/1434517317",
@@ -110,10 +163,11 @@
 			"title": "ghost",
 			"type": "Single",
 			"year": "2018",
-			"description": "ghost by gravemint — ethereal electronic single. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 1,
+			"metaDescription": "a glitchy experiment where nearly every instrument is a manipulated voice. a song about believing something completely, then looking back like a stranger",
+			"longDescription": "a glitchy, chiptune-adjacent experiment where nearly every instrument is christian's own voice, heavily modulated and transformed beyond recognition. about how completely you can believe something in the moment, and how foreign that feeling can look later. heavy beat, manipulated vocal layers, and a restless, distorted energy throughout",
 			"cover": "/images/releases/ghost.jpg",
 			"spotifyAlbumId": "3rvRfvtzprvaHnsiT7nW9Z",
-			"trackCount": 1,
 			"links": {
 				"spotify": "https://open.spotify.com/album/3rvRfvtzprvaHnsiT7nW9Z",
 				"apple": "https://music.apple.com/us/album/ghost-single/1434618308",
@@ -128,10 +182,11 @@
 			"title": "kitten kibbu",
 			"type": "Single",
 			"year": "2018",
-			"description": "kitten kibbu by gravemint — ethereal electronic single. stream on spotify, apple music, youtube music, or support on bandcamp.",
+			"trackCount": 1,
+			"metaDescription": "where gravemint began. cat meows and purrs transformed into instruments, wrapped in atmosphere and a beat that quietly started everything",
+			"longDescription": "where gravemint began. built in a first daw session using manipulated cat meows and purrs as instruments. a strong beat with hats anchors the manipulated cat voices, with an ethereal drift underneath that quietly points toward everything that would come next",
 			"cover": "/images/releases/kitten_kibbu.jpg",
 			"spotifyAlbumId": "7iylkvpw1tVpKCU9j6JJ9K",
-			"trackCount": 1,
 			"links": {
 				"spotify": "https://open.spotify.com/album/7iylkvpw1tVpKCU9j6JJ9K",
 				"apple": "https://music.apple.com/us/album/kitten-kibbu-single/1434516559",
