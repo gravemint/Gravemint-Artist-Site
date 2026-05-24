@@ -692,6 +692,41 @@ body {
 	font-size: 0.92em;
 }
 
+#about .prose-lead {
+	font-size: clamp(1.05rem, 2vw, 1.28rem);
+	font-style: italic;
+	color: rgba(255, 255, 255, 0.78);
+	margin-bottom: 1.5rem;
+}
+
+#about .prose-accent {
+	color: rgba(255, 255, 255, 0.92);
+	font-style: italic;
+}
+
+#about .prose-meta {
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+#about .prose-tone {
+	font-style: normal;
+	color: rgba(190, 240, 255, 0.98);
+	text-shadow:
+		0 0 10px rgba(0, 229, 255, 0.65),
+		0 0 24px rgba(0, 229, 255, 0.35),
+		0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+#about .prose-theme {
+	font-style: normal;
+	color: rgba(255, 255, 255, 0.94);
+}
+
+#about .prose-name {
+	color: rgba(255, 255, 255, 0.95);
+}
+
 a:focus-visible {
 	outline: 1px solid var(--accent-hot);
 	outline-offset: 3px;
