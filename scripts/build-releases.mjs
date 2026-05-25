@@ -472,6 +472,8 @@ function buildLlmsTxt() {
 
 > michigan-based electronic music artist since 2017. ethereal, melodically driven sounds exploring solitude, memory, atmosphere, and place
 
+extended documentation: ${data.site}/llms-full.txt
+
 ## discography
 
 ${releaseLines}
@@ -488,8 +490,73 @@ ${platformLinks}
 `;
 }
 
+function buildLlmsFullTxt() {
+	const aboutParagraphs = (data.seo?.llmsAbout || [])
+		.map((p) => p.trim())
+		.filter(Boolean)
+		.join('\n\n');
+
+	const releaseSections = data.releases
+		.map((r) => {
+			const eyebrow = `${String(r.type).toLowerCase()}, ${r.year}`;
+			const url = `${data.site}/music/${r.slug}/`;
+			const meta = r.metaDescription || '';
+			const long = r.longDescription || r.description || '';
+			const tracks =
+				Array.isArray(r.tracks) && r.tracks.length
+					? `\n\ntracks:\n${r.tracks.map((t, i) => `${i + 1}. ${t}`).join('\n')}`
+					: '';
+			const links = r.links
+				? `\n\nlisten:\n${Object.entries(r.links)
+						.filter(([, href]) => href)
+						.map(([key, href]) => `- ${key}: ${href}`)
+						.join('\n')}`
+				: '';
+
+			return `### ${r.title} (${eyebrow})
+
+${url}
+
+${meta}
+
+${long}${tracks}${links}`;
+		})
+		.join('\n\n');
+
+	const platformLinks = (data.sameAs || [])
+		.map((url) => `- ${url}`)
+		.join('\n');
+
+	return `# gravemint
+
+> michigan-based electronic music artist since 2017. ethereal, melodically driven sounds exploring solitude, memory, atmosphere, and place
+
+short summary: ${data.site}/llms.txt
+
+## about
+
+${aboutParagraphs}
+
+## discography
+
+${releaseSections}
+
+## listen
+
+${platformLinks}
+
+## site
+
+- [home](${data.site}/)
+- [all music](${data.site}/#music)
+- [about](${data.site}/#about)
+`;
+}
+
 fs.writeFileSync(path.join(root, 'llms.txt'), buildLlmsTxt());
 console.log('updated llms.txt');
+fs.writeFileSync(path.join(root, 'llms-full.txt'), buildLlmsFullTxt());
+console.log('updated llms-full.txt');
 
 function syncIndexEmbedHints() {
 	const indexPath = path.join(root, 'index.html');

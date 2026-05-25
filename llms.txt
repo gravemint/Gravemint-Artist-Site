@@ -2,6 +2,8 @@
 
 > michigan-based electronic music artist since 2017. ethereal, melodically driven sounds exploring solitude, memory, atmosphere, and place
 
+extended documentation: https://gravemint.com/llms-full.txt
+
 ## discography
 
 - [maritime mystic (ep, 2019)](https://gravemint.com/music/maritime-mystic/): a vocaloid ep inspired by the pacific northwest. sparkly synths, harps, and ghostly vocals exploring loneliness, mystery, and an unfamiliar coast
