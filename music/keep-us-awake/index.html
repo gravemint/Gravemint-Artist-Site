@@ -82,11 +82,40 @@
 				"@type": "WebPage",
 				"@id": "https://gravemint.com/music/keep-us-awake/"
 			},
+			"associatedMedia": [
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/keep-us-awake/#image-1",
+					"contentUrl": "https://gravemint.com/images/releases/keep-us-awake/keep-us-awake-cover.jpg",
+					"url": "https://gravemint.com/images/releases/keep-us-awake/keep-us-awake-cover.jpg",
+					"name": "keep us awake cover",
+					"description": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art",
+					"caption": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art",
+					"representativeOfPage": true,
+					"creditText": "nekoinstall",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/keep-us-awake/#image-2",
+					"contentUrl": "https://gravemint.com/images/releases/keep-us-awake/keep-us-awake-landscape.jpg",
+					"url": "https://gravemint.com/images/releases/keep-us-awake/keep-us-awake-landscape.jpg",
+					"name": "keep us awake landscape",
+					"description": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art",
+					"caption": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art",
+					"representativeOfPage": false,
+					"creditText": "nekoinstall",
+					"width": 2160,
+					"height": 1215
+				}
+			],
 			"sameAs": [
 				"https://open.spotify.com/album/0di8JK6lUJhussV0bRpy0D",
 				"https://music.apple.com/us/album/keep-us-awake/1434517317",
 				"https://www.youtube.com/watch?v=IFk78_-pgpM",
 				"https://gravemint.bandcamp.com/track/keep-us-awake",
+				"https://soundcloud.com/gravemint/keep-us-awake",
 				"https://music.amazon.com/albums/B07GXF17NR",
 				"https://tidal.com/album/94249763",
 				"https://www.deezer.com/us/album/71794092"
@@ -127,9 +156,11 @@
 				<h1 class="release-page-title">keep us awake</h1>
 			</header>
 			<div class="release-hero-art-col">
-				<button type="button" class="release-hero-art-wrap release-art-open" data-art-full="/images/releases/placeholder-large.svg" aria-label="view full cover art for keep us awake">
+				<button type="button" class="release-hero-art-wrap release-art-open" data-art-gallery="[{&quot;src&quot;:&quot;/images/releases/keep-us-awake/keep-us-awake-cover.jpg&quot;,&quot;alt&quot;:&quot;floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art&quot;,&quot;type&quot;:&quot;cover&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:2000,&quot;height&quot;:2000},{&quot;src&quot;:&quot;/images/releases/keep-us-awake/keep-us-awake-landscape.jpg&quot;,&quot;alt&quot;:&quot;floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art&quot;,&quot;type&quot;:&quot;landscape&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:2160,&quot;height&quot;:1215}]" aria-label="view gallery for keep us awake">
 					<img class="release-hero-art" src="/images/releases/keep_us_awake.jpg" alt="keep us awake cover art" width="800" height="800" fetchpriority="high">
-					<span class="release-art-hint" aria-hidden="true">view art</span>
+					<span class="release-art-zoom" aria-hidden="true">
+						<i class="fa-solid fa-images"></i>
+					</span>
 				</button>
 				<div class="release-hero-art-meta">
 					<p class="release-eyebrow">single · 2018</p>
@@ -168,6 +199,10 @@
 				</a></li>
 				</ul>
 				<ul id="release-more-platforms-keep-us-awake" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
+				<li><a class="platform-btn platform-btn--soundcloud" href="https://soundcloud.com/gravemint/keep-us-awake" target="_blank" rel="noopener noreferrer">
+					<i class="fab fa-soundcloud" aria-hidden="true"></i>
+					<span>soundcloud</span>
+				</a></li>
 				<li><a class="platform-btn platform-btn--amazon" href="https://music.amazon.com/albums/B07GXF17NR" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-amazon" aria-hidden="true"></i>
 					<span>amazon music</span>
@@ -194,7 +229,16 @@
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
 		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
 			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<img class="art-lightbox-img" src="" alt="">
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
 		</div>
 	</div>
 

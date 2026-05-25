@@ -17,6 +17,7 @@ const primaryPlatforms = [
 ];
 
 const morePlatforms = [
+	{ key: 'soundcloud', label: 'soundcloud', icon: 'fab fa-soundcloud' },
 	{ key: 'amazon', label: 'amazon music', icon: 'fab fa-amazon' },
 	{ key: 'tidal', label: 'tidal', icon: 'fab fa-tidal' },
 	{ key: 'deezer', label: 'deezer', icon: 'fab fa-deezer' },
@@ -102,7 +103,7 @@ function buildBreadcrumb(url, release) {
 	};
 }
 
-function buildReleaseSchema(release, url, ogImage) {
+function buildReleaseSchema(release, url, ogImage, gallery) {
 	const isSingle = release.type === 'Single';
 	const schema = {
 		'@type': isSingle ? 'MusicRecording' : 'MusicAlbum',
@@ -133,6 +134,25 @@ function buildReleaseSchema(release, url, ogImage) {
 		}));
 	}
 
+	if (Array.isArray(gallery) && gallery.length > 1) {
+		schema.associatedMedia = gallery.map((item, index) => {
+			const node = {
+				'@type': 'ImageObject',
+				'@id': `${url}#image-${index + 1}`,
+				contentUrl: `${data.site}${item.src}`,
+				url: `${data.site}${item.src}`,
+				name: `${release.title} ${item.type}`,
+				description: item.alt,
+				caption: item.alt,
+				representativeOfPage: index === 0,
+				creditText: data.artCredit?.name || undefined,
+			};
+			if (item.width) node.width = item.width;
+			if (item.height) node.height = item.height;
+			return node;
+		});
+	}
+
 	const sameAs = Object.values(release.links).filter(Boolean);
 	if (sameAs.length) schema.sameAs = sameAs;
 
@@ -153,6 +173,36 @@ function resolveCoverFull(release) {
 	return data.coverFullPlaceholder ?? '/images/releases/placeholder-large.svg';
 }
 
+function resolveGallery(release) {
+	const items = Array.isArray(release.gallery) ? release.gallery : [];
+
+	if (!items.length) {
+		return [
+			{
+				src: resolveCoverFull(release),
+				alt: `${release.title} cover art by gravemint`,
+				type: 'cover',
+			},
+		];
+	}
+
+	return items
+		.filter((item) => item && item.src)
+		.map((item) => {
+			const src = item.src.startsWith('/')
+				? item.src
+				: `/images/releases/${release.slug}/${item.src}`;
+			return {
+				src,
+				alt: item.alt || `${release.title} ${item.type || 'art'} by gravemint`,
+				type: item.type || 'art',
+				caption: item.caption || '',
+				width: item.width || null,
+				height: item.height || null,
+			};
+		});
+}
+
 function buildArtCreditHtml() {
 	const credit = data.artCredit;
 	if (!credit?.name || !credit?.instagram) return '';
@@ -168,13 +218,20 @@ ${buildArtCreditHtml()}				</div>
 `;
 }
 
-function buildArtHtml(release) {
-	const coverFull = resolveCoverFull(release);
+function buildArtHtml(release, gallery) {
+	const galleryJson = JSON.stringify(gallery);
+	const hasMultiple = gallery.length > 1;
+	const iconClass = hasMultiple ? 'fa-solid fa-images' : 'fa-solid fa-magnifying-glass-plus';
+	const label = hasMultiple
+		? `view gallery for ${release.title}`
+		: `view full cover art for ${release.title}`;
 
 	return `			<div class="release-hero-art-col">
-				<button type="button" class="release-hero-art-wrap release-art-open" data-art-full="${esc(coverFull)}" aria-label="view full cover art for ${esc(release.title)}">
+				<button type="button" class="release-hero-art-wrap release-art-open" data-art-gallery="${esc(galleryJson)}" aria-label="${esc(label)}">
 					<img class="release-hero-art" src="${esc(release.cover)}" alt="${esc(release.title)} cover art" width="800" height="800" fetchpriority="high">
-					<span class="release-art-hint" aria-hidden="true">view art</span>
+					<span class="release-art-zoom" aria-hidden="true">
+						<i class="${iconClass}"></i>
+					</span>
 				</button>
 ${buildArtMetaHtml(release)}			</div>`;
 }
@@ -218,9 +275,10 @@ ${moreHtml}
 `
 		: '';
 
+	const gallery = resolveGallery(release);
 	const schemaGraph = {
 		'@context': 'https://schema.org',
-		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage)],
+		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage, gallery)],
 	};
 
 	return `<!DOCTYPE html>
@@ -279,7 +337,7 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 			<header class="release-hero-head">
 				<h1 class="release-page-title">${esc(release.title)}</h1>
 			</header>
-${buildArtHtml(release)}
+${buildArtHtml(release, gallery)}
 			<div class="release-hero-stage">
 				<div class="spotify-wrap embed-wrap release-embed">
 					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager"></iframe>
@@ -315,7 +373,16 @@ ${release.tracks.map((t) => `					<li>${esc(t)}</li>`).join('\n')}
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
 		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
 			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<img class="art-lightbox-img" src="" alt="">
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
 		</div>
 	</div>
 

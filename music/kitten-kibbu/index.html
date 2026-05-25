@@ -82,11 +82,40 @@
 				"@type": "WebPage",
 				"@id": "https://gravemint.com/music/kitten-kibbu/"
 			},
+			"associatedMedia": [
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/kitten-kibbu/#image-1",
+					"contentUrl": "https://gravemint.com/images/releases/kitten-kibbu/kitten-kibbu-cover.jpg",
+					"url": "https://gravemint.com/images/releases/kitten-kibbu/kitten-kibbu-cover.jpg",
+					"name": "kitten kibbu cover",
+					"description": "kawaii cat paw raised against a pastel purple background, kitten kibbu cover art",
+					"caption": "kawaii cat paw raised against a pastel purple background, kitten kibbu cover art",
+					"representativeOfPage": true,
+					"creditText": "nekoinstall",
+					"width": 1080,
+					"height": 1080
+				},
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/kitten-kibbu/#image-2",
+					"contentUrl": "https://gravemint.com/images/releases/kitten-kibbu/kitten-kibbu-landscape.jpg",
+					"url": "https://gravemint.com/images/releases/kitten-kibbu/kitten-kibbu-landscape.jpg",
+					"name": "kitten kibbu landscape",
+					"description": "kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art",
+					"caption": "kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art",
+					"representativeOfPage": false,
+					"creditText": "nekoinstall",
+					"width": 2489,
+					"height": 1400
+				}
+			],
 			"sameAs": [
 				"https://open.spotify.com/album/7iylkvpw1tVpKCU9j6JJ9K",
 				"https://music.apple.com/us/album/kitten-kibbu-single/1434516559",
 				"https://www.youtube.com/watch?v=X1WBlDrklmk",
 				"https://gravemint.bandcamp.com/track/kitten-kibbu",
+				"https://soundcloud.com/gravemint/kittenkibbu",
 				"https://music.amazon.com/albums/B07GX8HFYS",
 				"https://tidal.com/album/94245775"
 			]
@@ -126,9 +155,11 @@
 				<h1 class="release-page-title">kitten kibbu</h1>
 			</header>
 			<div class="release-hero-art-col">
-				<button type="button" class="release-hero-art-wrap release-art-open" data-art-full="/images/releases/placeholder-large.svg" aria-label="view full cover art for kitten kibbu">
+				<button type="button" class="release-hero-art-wrap release-art-open" data-art-gallery="[{&quot;src&quot;:&quot;/images/releases/kitten-kibbu/kitten-kibbu-cover.jpg&quot;,&quot;alt&quot;:&quot;kawaii cat paw raised against a pastel purple background, kitten kibbu cover art&quot;,&quot;type&quot;:&quot;cover&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:1080,&quot;height&quot;:1080},{&quot;src&quot;:&quot;/images/releases/kitten-kibbu/kitten-kibbu-landscape.jpg&quot;,&quot;alt&quot;:&quot;kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art&quot;,&quot;type&quot;:&quot;landscape&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:2489,&quot;height&quot;:1400}]" aria-label="view gallery for kitten kibbu">
 					<img class="release-hero-art" src="/images/releases/kitten_kibbu.jpg" alt="kitten kibbu cover art" width="800" height="800" fetchpriority="high">
-					<span class="release-art-hint" aria-hidden="true">view art</span>
+					<span class="release-art-zoom" aria-hidden="true">
+						<i class="fa-solid fa-images"></i>
+					</span>
 				</button>
 				<div class="release-hero-art-meta">
 					<p class="release-eyebrow">single · 2018</p>
@@ -167,6 +198,10 @@
 				</a></li>
 				</ul>
 				<ul id="release-more-platforms-kitten-kibbu" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
+				<li><a class="platform-btn platform-btn--soundcloud" href="https://soundcloud.com/gravemint/kittenkibbu" target="_blank" rel="noopener noreferrer">
+					<i class="fab fa-soundcloud" aria-hidden="true"></i>
+					<span>soundcloud</span>
+				</a></li>
 				<li><a class="platform-btn platform-btn--amazon" href="https://music.amazon.com/albums/B07GX8HFYS" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-amazon" aria-hidden="true"></i>
 					<span>amazon music</span>
@@ -189,7 +224,16 @@
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
 		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
 			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<img class="art-lightbox-img" src="" alt="">
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
 		</div>
 	</div>
 

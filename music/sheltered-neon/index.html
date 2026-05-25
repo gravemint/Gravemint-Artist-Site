@@ -146,11 +146,40 @@
 					}
 				}
 			],
+			"associatedMedia": [
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/sheltered-neon/#image-1",
+					"contentUrl": "https://gravemint.com/images/releases/sheltered-neon/sheltered-neon-cover.jpg",
+					"url": "https://gravemint.com/images/releases/sheltered-neon/sheltered-neon-cover.jpg",
+					"name": "sheltered neon cover",
+					"description": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art",
+					"caption": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art",
+					"representativeOfPage": true,
+					"creditText": "nekoinstall",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"@type": "ImageObject",
+					"@id": "https://gravemint.com/music/sheltered-neon/#image-2",
+					"contentUrl": "https://gravemint.com/images/releases/sheltered-neon/sheltered-neon-landscape.jpg",
+					"url": "https://gravemint.com/images/releases/sheltered-neon/sheltered-neon-landscape.jpg",
+					"name": "sheltered neon landscape",
+					"description": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art",
+					"caption": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art",
+					"representativeOfPage": false,
+					"creditText": "nekoinstall",
+					"width": 2560,
+					"height": 1440
+				}
+			],
 			"sameAs": [
 				"https://open.spotify.com/album/2bxQH2XGpevo8pkrDgG8mI",
 				"https://music.apple.com/us/album/sheltered-neon-ep/1438823261",
 				"https://www.youtube.com/playlist?list=PLh2fnjD1SbdA4PEBxSdMPieMZoZdw8uAK",
 				"https://gravemint.bandcamp.com/album/sheltered-neon",
+				"https://soundcloud.com/gravemint/sets/sheltered",
 				"https://music.amazon.com/albums/B07JVQBW4G",
 				"https://tidal.com/album/96559737",
 				"https://www.deezer.com/us/album/75451202",
@@ -192,9 +221,11 @@
 				<h1 class="release-page-title">sheltered neon</h1>
 			</header>
 			<div class="release-hero-art-col">
-				<button type="button" class="release-hero-art-wrap release-art-open" data-art-full="/images/releases/placeholder-large.svg" aria-label="view full cover art for sheltered neon">
+				<button type="button" class="release-hero-art-wrap release-art-open" data-art-gallery="[{&quot;src&quot;:&quot;/images/releases/sheltered-neon/sheltered-neon-cover.jpg&quot;,&quot;alt&quot;:&quot;girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art&quot;,&quot;type&quot;:&quot;cover&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:2000,&quot;height&quot;:2000},{&quot;src&quot;:&quot;/images/releases/sheltered-neon/sheltered-neon-landscape.jpg&quot;,&quot;alt&quot;:&quot;girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art&quot;,&quot;type&quot;:&quot;landscape&quot;,&quot;caption&quot;:&quot;&quot;,&quot;width&quot;:2560,&quot;height&quot;:1440}]" aria-label="view gallery for sheltered neon">
 					<img class="release-hero-art" src="/images/releases/sheltered_neon.jpg" alt="sheltered neon cover art" width="800" height="800" fetchpriority="high">
-					<span class="release-art-hint" aria-hidden="true">view art</span>
+					<span class="release-art-zoom" aria-hidden="true">
+						<i class="fa-solid fa-images"></i>
+					</span>
 				</button>
 				<div class="release-hero-art-meta">
 					<p class="release-eyebrow">ep · 2018</p>
@@ -233,6 +264,10 @@
 				</a></li>
 				</ul>
 				<ul id="release-more-platforms-sheltered-neon" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
+				<li><a class="platform-btn platform-btn--soundcloud" href="https://soundcloud.com/gravemint/sets/sheltered" target="_blank" rel="noopener noreferrer">
+					<i class="fab fa-soundcloud" aria-hidden="true"></i>
+					<span>soundcloud</span>
+				</a></li>
 				<li><a class="platform-btn platform-btn--amazon" href="https://music.amazon.com/albums/B07JVQBW4G" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-amazon" aria-hidden="true"></i>
 					<span>amazon music</span>
@@ -278,7 +313,16 @@
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
 		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
 			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<img class="art-lightbox-img" src="" alt="">
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
 		</div>
 	</div>
 
