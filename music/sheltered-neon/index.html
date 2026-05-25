@@ -31,7 +31,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/release.css">
@@ -207,53 +207,49 @@
 				</div>
 			</div>
 			<aside class="release-hero-links" aria-label="streaming and purchase links">
-				<div class="release-links-group">
+				<header class="release-hero-links-head">
 					<h2 class="platform-heading">listen</h2>
-					<ul class="platform-list platform-list--primary">
-				<li><a class="platform-btn" href="https://open.spotify.com/album/2bxQH2XGpevo8pkrDgG8mI" target="_blank" rel="noopener noreferrer">
+					<button type="button" class="platform-more-toggle" aria-expanded="true" aria-controls="release-more-platforms-sheltered-neon" data-platform-more hidden>
+						<span class="visually-hidden">show more platforms</span>
+						<span class="platform-more-plus" aria-hidden="true"></span>
+					</button>
+				</header>
+				<ul class="platform-list platform-grid">
+				<li><a class="platform-btn platform-btn--spotify" href="https://open.spotify.com/album/2bxQH2XGpevo8pkrDgG8mI" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-spotify" aria-hidden="true"></i>
 					<span>spotify</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://music.apple.com/us/album/sheltered-neon-ep/1438823261" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--apple" href="https://music.apple.com/us/album/sheltered-neon-ep/1438823261" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-apple" aria-hidden="true"></i>
 					<span>apple music</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://www.youtube.com/playlist?list=PLh2fnjD1SbdA4PEBxSdMPieMZoZdw8uAK" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--youtube" href="https://www.youtube.com/playlist?list=PLh2fnjD1SbdA4PEBxSdMPieMZoZdw8uAK" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-youtube" aria-hidden="true"></i>
 					<span>youtube</span>
 				</a></li>
-					</ul>
-				</div>
-				<div class="release-links-group">
-					<h2 class="platform-heading platform-heading--support">support</h2>
-					<ul class="platform-list platform-list--support">
-				<li><a class="platform-btn platform-btn--support" href="https://gravemint.bandcamp.com/album/sheltered-neon" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--bandcamp" href="https://gravemint.bandcamp.com/album/sheltered-neon" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-bandcamp" aria-hidden="true"></i>
 					<span>bandcamp</span>
 				</a></li>
-					</ul>
-				</div>
-			<details class="platform-more">
-				<summary>more platforms</summary>
-				<ul class="platform-list platform-list--more">
-				<li><a class="platform-btn" href="https://music.amazon.com/albums/B07JVQBW4G" target="_blank" rel="noopener noreferrer">
+				</ul>
+				<ul id="release-more-platforms-sheltered-neon" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
+				<li><a class="platform-btn platform-btn--amazon" href="https://music.amazon.com/albums/B07JVQBW4G" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-amazon" aria-hidden="true"></i>
 					<span>amazon music</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://tidal.com/album/96559737" target="_blank" rel="noopener noreferrer">
-					<i class="fa-solid fa-water" aria-hidden="true"></i>
+				<li><a class="platform-btn platform-btn--tidal" href="https://tidal.com/album/96559737" target="_blank" rel="noopener noreferrer">
+					<i class="fab fa-tidal" aria-hidden="true"></i>
 					<span>tidal</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://www.deezer.com/us/album/75451202" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--deezer" href="https://www.deezer.com/us/album/75451202" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-deezer" aria-hidden="true"></i>
 					<span>deezer</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://www.iheart.com/artist/gravemint-32325028/albums/sheltered-neon-63071143" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--iheart" href="https://www.iheart.com/artist/gravemint-32325028/albums/sheltered-neon-63071143" target="_blank" rel="noopener noreferrer">
 					<i class="fa-solid fa-heart" aria-hidden="true"></i>
 					<span>iheartradio</span>
 				</a></li>
 				</ul>
-			</details>
 			</aside>
 		</article>
 
@@ -263,13 +259,18 @@
 		</section>
 
 		<section class="release-tracks" aria-label="tracks">
-			<h2 class="release-about-heading">tracks</h2>
-			<ol class="release-tracklist">
-				<li>solace plaza</li>
-				<li>rooftop overgrowth</li>
-				<li>to metropolis</li>
-				<li>sheltered neon</li>
-			</ol>
+			<details class="release-tracks-toggle">
+				<summary class="release-tracks-summary">
+					<span class="release-about-heading">tracks</span>
+					<span class="release-tracks-indicator" aria-hidden="true"></span>
+				</summary>
+				<ol class="release-tracklist">
+					<li>solace plaza</li>
+					<li>rooftop overgrowth</li>
+					<li>to metropolis</li>
+					<li>sheltered neon</li>
+				</ol>
+			</details>
 		</section>
 	</main>
 

@@ -13,11 +13,12 @@ const primaryPlatforms = [
 	{ key: 'spotify', label: 'spotify', icon: 'fab fa-spotify' },
 	{ key: 'apple', label: 'apple music', icon: 'fab fa-apple' },
 	{ key: 'youtube', label: 'youtube', icon: 'fab fa-youtube' },
+	{ key: 'bandcamp', label: 'bandcamp', icon: 'fab fa-bandcamp' },
 ];
 
 const morePlatforms = [
 	{ key: 'amazon', label: 'amazon music', icon: 'fab fa-amazon' },
-	{ key: 'tidal', label: 'tidal', icon: 'fa-solid fa-water' },
+	{ key: 'tidal', label: 'tidal', icon: 'fab fa-tidal' },
 	{ key: 'deezer', label: 'deezer', icon: 'fab fa-deezer' },
 	{ key: 'iheart', label: 'iheartradio', icon: 'fa-solid fa-heart' },
 ];
@@ -34,8 +35,8 @@ function spotifyEmbedUrl(albumId) {
 	return `https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`;
 }
 
-function platformLink(key, label, icon, url, extraClass = '') {
-	return `				<li><a class="platform-btn${extraClass}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
+function platformLink(key, label, icon, url) {
+	return `				<li><a class="platform-btn platform-btn--${esc(key)}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
 					<i class="${icon}" aria-hidden="true"></i>
 					<span>${esc(label)}</span>
 				</a></li>`;
@@ -194,22 +195,27 @@ function buildPage(release) {
 		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
 		.join('\n');
 
-	const bandcampHtml = release.links.bandcamp
-		? platformLink('bandcamp', 'bandcamp', 'fab fa-bandcamp', release.links.bandcamp, ' platform-btn--support')
-		: '';
-
 	const moreHtml = morePlatforms
 		.filter((p) => release.links[p.key])
 		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
 		.join('\n');
 
+	const moreListId = `release-more-platforms-${release.slug}`;
+	const headerHtml = moreHtml
+		? `				<header class="release-hero-links-head">
+					<h2 class="platform-heading">listen</h2>
+					<button type="button" class="platform-more-toggle" aria-expanded="true" aria-controls="${esc(moreListId)}" data-platform-more hidden>
+						<span class="visually-hidden">show more platforms</span>
+						<span class="platform-more-plus" aria-hidden="true"></span>
+					</button>
+				</header>`
+		: `				<h2 class="platform-heading">listen</h2>`;
+
 	const moreSection = moreHtml
-		? `			<details class="platform-more">
-				<summary>more platforms</summary>
-				<ul class="platform-list platform-list--more">
+		? `				<ul id="${esc(moreListId)}" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
 ${moreHtml}
 				</ul>
-			</details>`
+`
 		: '';
 
 	const schemaGraph = {
@@ -249,7 +255,7 @@ ${moreHtml}
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/release.css">
@@ -280,20 +286,11 @@ ${buildArtHtml(release)}
 				</div>
 			</div>
 			<aside class="release-hero-links" aria-label="streaming and purchase links">
-				<div class="release-links-group">
-					<h2 class="platform-heading">listen</h2>
-					<ul class="platform-list platform-list--primary">
+${headerHtml}
+				<ul class="platform-list platform-grid">
 ${primaryHtml}
-					</ul>
-				</div>
-				<div class="release-links-group">
-					<h2 class="platform-heading platform-heading--support">support</h2>
-					<ul class="platform-list platform-list--support">
-${bandcampHtml}
-					</ul>
-				</div>
-${moreSection}
-			</aside>
+				</ul>
+${moreSection}			</aside>
 		</article>
 ${longDesc ? `
 		<section class="release-about" aria-label="about ${esc(release.title)}">
@@ -302,10 +299,15 @@ ${longDesc ? `
 		</section>
 ` : ''}${Array.isArray(release.tracks) && release.tracks.length > 1 ? `
 		<section class="release-tracks" aria-label="tracks">
-			<h2 class="release-about-heading">tracks</h2>
-			<ol class="release-tracklist">
-${release.tracks.map((t) => `				<li>${esc(t)}</li>`).join('\n')}
-			</ol>
+			<details class="release-tracks-toggle">
+				<summary class="release-tracks-summary">
+					<span class="release-about-heading">tracks</span>
+					<span class="release-tracks-indicator" aria-hidden="true"></span>
+				</summary>
+				<ol class="release-tracklist">
+${release.tracks.map((t) => `					<li>${esc(t)}</li>`).join('\n')}
+				</ol>
+			</details>
 		</section>
 ` : ''}	</main>
 
@@ -491,7 +493,7 @@ function syncIndexSeo() {
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="application/ld+json">

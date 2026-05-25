@@ -275,52 +275,45 @@
 	border-radius: 12px;
 }
 
-.release-links-group + .release-links-group {
-	margin-top: 1.5rem;
-}
-
 .platform-heading {
 	font-size: 0.6rem;
 	font-weight: 400;
 	letter-spacing: 0.38em;
 	text-transform: lowercase;
 	color: rgba(255, 255, 255, 0.45);
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.85rem;
 	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
-}
-
-.platform-heading--support {
-	margin-top: 1.5rem;
-}
-
-.release-links-group .platform-heading--support {
-	margin-top: 0;
 }
 
 .platform-list {
 	list-style: none;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	padding: 0;
+	margin: 0;
+}
+
+.platform-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 0.5rem;
 }
 
 .platform-btn {
 	display: flex;
 	align-items: center;
-	gap: 0.85rem;
-	padding: 0.75rem 1rem;
-	border: 1px solid rgba(255, 255, 255, 0.22);
+	justify-content: flex-start;
+	gap: 0.65rem;
+	padding: 0.65rem 0.8rem;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 	border-radius: 3px;
-	color: rgba(255, 255, 255, 0.92);
+	color: rgba(255, 255, 255, 0.88);
 	text-decoration: none;
-	font-size: 0.8rem;
+	font-size: 0.72rem;
 	letter-spacing: 0.1em;
 	text-transform: lowercase;
-	background: rgba(255, 255, 255, 0.04);
-	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+	background: rgba(255, 255, 255, 0.03);
+	box-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
 	-webkit-tap-highlight-color: transparent;
-	width: auto;
+	width: 100%;
 	transition:
 		border-color 0.25s ease,
 		color 0.25s ease,
@@ -329,12 +322,22 @@
 }
 
 .platform-btn i {
-	width: 1.35rem;
+	flex: 0 0 1.1rem;
+	width: 1.1rem;
 	text-align: center;
-	font-size: 1.15rem;
-	color: rgba(255, 255, 255, 0.75);
-	transition: color 0.25s ease;
+	font-size: 1rem;
+	transition: filter 0.25s ease;
 }
+
+/* brand colors per each platform's brand guidelines */
+.platform-btn--spotify i { color: #1db954; }   /* spotify green (developer.spotify.com) */
+.platform-btn--apple i { color: #fa243c; }     /* apple music red */
+.platform-btn--youtube i { color: #ff0000; }   /* youtube red */
+.platform-btn--bandcamp i { color: #408294; }  /* bandcamp teal */
+.platform-btn--amazon i { color: #25d1da; }    /* amazon music cyan */
+.platform-btn--tidal i { color: #ffffff; }     /* tidal monochrome (logo is black/white) */
+.platform-btn--deezer i { color: #ef5466; }    /* deezer coral */
+.platform-btn--iheart i { color: #c6002b; }    /* iheartradio red (brand.iheart.com) */
 
 @media (hover: hover) {
 	.platform-btn:hover,
@@ -347,76 +350,102 @@
 
 	.platform-btn:hover i,
 	.platform-btn:focus-visible i {
-		color: var(--accent-hot);
-	}
-
-	.platform-btn--support:hover,
-	.platform-btn--support:focus-visible {
-		border-color: rgba(98, 181, 130, 0.65);
-		background: rgba(98, 181, 130, 0.1);
+		filter: brightness(1.18) saturate(1.1);
 	}
 }
 
-.platform-btn--support {
-	border-color: rgba(98, 181, 130, 0.35);
+.release-hero-links-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	margin-bottom: 0.85rem;
 }
 
-.platform-more {
-	margin-top: 1.25rem;
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
-	padding-top: 0.5rem;
+.release-hero-links-head .platform-heading {
+	margin-bottom: 0;
 }
 
-.platform-more summary {
+.platform-more-toggle {
+	background: none;
+	border: none;
+	padding: 0.25rem 0.45rem;
+	margin-right: -0.45rem;
 	cursor: pointer;
-	font-size: 0.65rem;
-	letter-spacing: 0.32em;
-	text-transform: lowercase;
-	color: var(--text-muted);
-	padding: 0.5rem 0;
-	list-style: none;
-	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
-	transition: color 0.25s ease;
+	-webkit-tap-highlight-color: transparent;
+	color: rgba(255, 255, 255, 0.45);
+	transition: color 0.2s ease;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.platform-more-toggle .platform-more-plus {
+	display: inline-block;
+	font-size: 1rem;
+	line-height: 1;
+	color: inherit;
+}
+
+.platform-more-toggle[aria-expanded="false"] .platform-more-plus::before {
+	content: "+";
+}
+
+.platform-more-toggle[aria-expanded="true"] .platform-more-plus::before {
+	content: "−";
+}
+
+.platform-more-toggle[aria-expanded="true"] {
+	color: var(--accent-hot);
 }
 
 @media (hover: hover) {
-	.platform-more summary:hover,
-	.platform-more summary:focus-visible {
+	.platform-more-toggle:hover,
+	.platform-more-toggle:focus-visible {
 		color: var(--accent-hot);
 	}
 }
 
-.platform-more summary::-webkit-details-marker {
+.platform-more-toggle:focus-visible {
+	outline: 1px solid rgba(0, 229, 255, 0.4);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+.platform-grid--more {
+	margin-top: 0.5rem;
+}
+
+.platform-grid--more[hidden] {
 	display: none;
 }
 
-.platform-more summary::after {
-	content: ' +';
-	color: rgba(255, 255, 255, 0.35);
+/* iheart uses the actual logo as a CSS mask so we can still tint it */
+.platform-btn--iheart i {
+	width: 1.25rem;
+	height: 1rem;
+	flex: 0 0 1.25rem;
+	font-size: 0;
+	background-color: #c6002b;
+	-webkit-mask: url("/images/platforms/iheart.png") no-repeat center / contain;
+	mask: url("/images/platforms/iheart.png") no-repeat center / contain;
 }
 
-.platform-more[open] summary::after {
-	content: ' −';
+.platform-btn--iheart i::before {
+	content: none;
 }
 
-.platform-more[open] summary {
-	color: var(--accent-hot);
-	margin-bottom: 0.5rem;
-}
-
-@media (hover: hover) {
-	.platform-more summary:hover::after,
-	.platform-more summary:focus-visible::after {
-		color: var(--accent-hot);
-	}
-}
-
-.platform-more[open] summary::after {
-	color: var(--accent-hot);
-}
-
-.platform-list--more {
-	margin-top: 0.25rem;
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 
 .release-about {
@@ -449,10 +478,77 @@
 	border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.release-tracks-toggle {
+	max-width: 32rem;
+}
+
+.release-tracks-toggle > summary {
+	list-style: none;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	padding: 0.25rem 0;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	transition: color 0.18s ease;
+}
+
+.release-tracks-toggle > summary::-webkit-details-marker {
+	display: none;
+}
+
+.release-tracks-toggle > summary::marker {
+	display: none;
+	content: "";
+}
+
+.release-tracks-toggle > summary .release-about-heading {
+	margin-bottom: 0;
+}
+
+.release-tracks-indicator {
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.42);
+	transition: color 0.25s ease;
+	display: inline-block;
+	line-height: 1;
+	font-size: 0.75rem;
+}
+
+.release-tracks-toggle:not([open]) .release-tracks-indicator::before {
+	content: "+";
+}
+
+.release-tracks-toggle[open] .release-tracks-indicator::before {
+	content: "−";
+}
+
+.release-tracks-toggle[open] .release-about-heading,
+.release-tracks-toggle[open] .release-tracks-indicator {
+	color: var(--accent-hot);
+}
+
+@media (hover: hover) {
+	.release-tracks-toggle > summary:hover .release-about-heading,
+	.release-tracks-toggle > summary:focus-visible .release-about-heading,
+	.release-tracks-toggle > summary:hover .release-tracks-indicator,
+	.release-tracks-toggle > summary:focus-visible .release-tracks-indicator {
+		color: var(--accent-hot);
+	}
+}
+
+.release-tracks-toggle > summary:focus-visible {
+	outline: 1px solid rgba(0, 229, 255, 0.4);
+	outline-offset: 4px;
+	border-radius: 2px;
+}
+
 .release-tracklist {
 	list-style: none;
 	padding: 0;
-	margin: 0;
+	margin: 1rem 0 0;
 	max-width: 32rem;
 	counter-reset: track;
 }
@@ -516,51 +612,20 @@
 		--spotify-embed-height: 152px;
 	}
 
-	.release-hero-links {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 0.75rem 1rem;
-		align-items: start;
-	}
-
-	.release-hero-links .release-links-group {
-		min-width: 0;
-	}
-
-	.release-hero-links .release-links-group + .release-links-group {
-		margin-top: 0;
-	}
-
-	.release-hero-links .platform-list {
-		flex-direction: column;
-		gap: 0.55rem;
+	.release-hero-links .platform-grid {
+		gap: 0.5rem;
 	}
 
 	.release-hero-links .platform-btn {
-		width: 100%;
-		padding: 0.75rem 0.85rem;
-		font-size: 0.8rem;
-		gap: 0.7rem;
+		padding: 0.65rem 0.55rem;
+		font-size: 0.7rem;
 		letter-spacing: 0.08em;
+		gap: 0.5rem;
 	}
 
 	.release-hero-links .platform-btn i {
-		width: 1.25rem;
-		font-size: 1.1rem;
-	}
-
-	.release-hero-links .platform-more {
-		grid-column: 1 / -1;
-		margin-top: 0.25rem;
-	}
-
-	.release-hero-links .platform-list--more {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-
-	.release-hero-links .platform-list--more .platform-btn {
-		width: auto;
+		width: 1rem;
+		font-size: 0.95rem;
 	}
 }
 
@@ -620,30 +685,13 @@
 
 	.release-hero-links {
 		grid-area: links;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		gap: 1.25rem clamp(1.5rem, 3vw, 2.5rem);
 		padding-top: clamp(1rem, 2vh, 1.5rem);
 		border-top: 1px solid rgba(255, 255, 255, 0.12);
 	}
 
-	.release-hero-links .release-links-group + .release-links-group {
-		margin-top: 0;
-	}
-
-	.release-hero-links .platform-heading--support {
-		margin-top: 0;
-	}
-
-	.release-links-group {
-		flex: 1 1 14rem;
-		min-width: min(100%, 14rem);
-	}
-
-	.release-hero-links .platform-more {
-		flex: 1 1 100%;
-		margin-top: 0;
+	.release-hero-links .platform-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.6rem;
 	}
 
 	.release-hero-stage .release-embed {
@@ -682,19 +730,6 @@
 	}
 
 	.platform-btn:active i {
-		color: var(--accent-hot);
-	}
-
-	.platform-btn--support:active {
-		border-color: rgba(98, 181, 130, 0.65);
-		background: rgba(98, 181, 130, 0.1);
-	}
-
-	.platform-more summary:active {
-		color: var(--accent-hot);
-	}
-
-	.platform-more summary:active::after {
-		color: var(--accent-hot);
+		filter: brightness(1.18) saturate(1.1);
 	}
 }

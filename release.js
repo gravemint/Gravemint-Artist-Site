@@ -1,6 +1,22 @@
 (function () {
 	'use strict';
 
+	document.querySelectorAll('[data-platform-more]').forEach((btn) => {
+		const targetId = btn.getAttribute('aria-controls');
+		const target = targetId ? document.getElementById(targetId) : null;
+		if (!target) return;
+
+		btn.hidden = false;
+		btn.setAttribute('aria-expanded', 'false');
+		target.hidden = true;
+
+		btn.addEventListener('click', () => {
+			const expanded = btn.getAttribute('aria-expanded') === 'true';
+			btn.setAttribute('aria-expanded', String(!expanded));
+			target.hidden = expanded;
+		});
+	});
+
 	const lightbox = document.querySelector('.art-lightbox');
 	const lightboxImg = document.querySelector('.art-lightbox-img');
 	const artOpen = document.querySelector('.release-art-open');

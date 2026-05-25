@@ -31,7 +31,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/release.css">
@@ -141,45 +141,41 @@
 				</div>
 			</div>
 			<aside class="release-hero-links" aria-label="streaming and purchase links">
-				<div class="release-links-group">
+				<header class="release-hero-links-head">
 					<h2 class="platform-heading">listen</h2>
-					<ul class="platform-list platform-list--primary">
-				<li><a class="platform-btn" href="https://open.spotify.com/album/7iylkvpw1tVpKCU9j6JJ9K" target="_blank" rel="noopener noreferrer">
+					<button type="button" class="platform-more-toggle" aria-expanded="true" aria-controls="release-more-platforms-kitten-kibbu" data-platform-more hidden>
+						<span class="visually-hidden">show more platforms</span>
+						<span class="platform-more-plus" aria-hidden="true"></span>
+					</button>
+				</header>
+				<ul class="platform-list platform-grid">
+				<li><a class="platform-btn platform-btn--spotify" href="https://open.spotify.com/album/7iylkvpw1tVpKCU9j6JJ9K" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-spotify" aria-hidden="true"></i>
 					<span>spotify</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://music.apple.com/us/album/kitten-kibbu-single/1434516559" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--apple" href="https://music.apple.com/us/album/kitten-kibbu-single/1434516559" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-apple" aria-hidden="true"></i>
 					<span>apple music</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://www.youtube.com/watch?v=X1WBlDrklmk" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--youtube" href="https://www.youtube.com/watch?v=X1WBlDrklmk" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-youtube" aria-hidden="true"></i>
 					<span>youtube</span>
 				</a></li>
-					</ul>
-				</div>
-				<div class="release-links-group">
-					<h2 class="platform-heading platform-heading--support">support</h2>
-					<ul class="platform-list platform-list--support">
-				<li><a class="platform-btn platform-btn--support" href="https://gravemint.bandcamp.com/track/kitten-kibbu" target="_blank" rel="noopener noreferrer">
+				<li><a class="platform-btn platform-btn--bandcamp" href="https://gravemint.bandcamp.com/track/kitten-kibbu" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-bandcamp" aria-hidden="true"></i>
 					<span>bandcamp</span>
 				</a></li>
-					</ul>
-				</div>
-			<details class="platform-more">
-				<summary>more platforms</summary>
-				<ul class="platform-list platform-list--more">
-				<li><a class="platform-btn" href="https://music.amazon.com/albums/B07GX8HFYS" target="_blank" rel="noopener noreferrer">
+				</ul>
+				<ul id="release-more-platforms-kitten-kibbu" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
+				<li><a class="platform-btn platform-btn--amazon" href="https://music.amazon.com/albums/B07GX8HFYS" target="_blank" rel="noopener noreferrer">
 					<i class="fab fa-amazon" aria-hidden="true"></i>
 					<span>amazon music</span>
 				</a></li>
-				<li><a class="platform-btn" href="https://tidal.com/album/94245775" target="_blank" rel="noopener noreferrer">
-					<i class="fa-solid fa-water" aria-hidden="true"></i>
+				<li><a class="platform-btn platform-btn--tidal" href="https://tidal.com/album/94245775" target="_blank" rel="noopener noreferrer">
+					<i class="fab fa-tidal" aria-hidden="true"></i>
 					<span>tidal</span>
 				</a></li>
 				</ul>
-			</details>
 			</aside>
 		</article>
 
