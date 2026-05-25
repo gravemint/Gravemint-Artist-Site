@@ -218,6 +218,33 @@ ${buildArtCreditHtml()}				</div>
 `;
 }
 
+function buildMoreMusicHtml(currentRelease) {
+	const others = data.releases.filter((r) => r.slug !== currentRelease.slug);
+	if (!others.length) return '';
+
+	const items = others
+		.map((r) => {
+			const eyebrow = `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
+			return `				<li><a class="release-more-card" href="/music/${esc(r.slug)}/" aria-label="${esc(r.title)} (${eyebrow})">
+					<img src="${esc(r.cover)}" alt="${esc(r.title)} cover" width="400" height="400" loading="lazy">
+					<span class="release-more-meta">
+						<span class="release-more-title">${esc(r.title)}</span>
+						<span class="release-more-eyebrow">${eyebrow}</span>
+					</span>
+				</a></li>`;
+		})
+		.join('\n');
+
+	return `
+		<section class="release-more" aria-label="more music from gravemint">
+			<h2 class="release-about-heading">more music</h2>
+			<ul class="release-more-list">
+${items}
+			</ul>
+		</section>
+`;
+}
+
 function buildArtHtml(release, gallery) {
 	const galleryJson = JSON.stringify(gallery);
 	const hasMultiple = gallery.length > 1;
@@ -311,9 +338,12 @@ ${moreHtml}
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="manifest" href="/manifest.json">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
+	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+	<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous"></noscript>
 	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/release.css">
@@ -367,7 +397,7 @@ ${release.tracks.map((t) => `					<li>${esc(t)}</li>`).join('\n')}
 				</ol>
 			</details>
 		</section>
-` : ''}	</main>
+` : ''}${buildMoreMusicHtml(release)}	</main>
 
 	<div class="art-lightbox" hidden aria-hidden="true">
 		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
@@ -424,6 +454,42 @@ ${sitemapUrls
 
 fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemap);
 console.log('updated sitemap.xml');
+
+function buildLlmsTxt() {
+	const releaseLines = data.releases
+		.map((r) => {
+			const eyebrow = `${String(r.type).toLowerCase()}, ${r.year}`;
+			const desc = r.metaDescription || '';
+			return `- [${r.title} (${eyebrow})](${data.site}/music/${r.slug}/): ${desc}`;
+		})
+		.join('\n');
+
+	const platformLinks = (data.sameAs || [])
+		.map((url) => `- ${url}`)
+		.join('\n');
+
+	return `# gravemint
+
+> michigan-based electronic music artist since 2017. ethereal, melodically driven sounds exploring solitude, memory, atmosphere, and place
+
+## discography
+
+${releaseLines}
+
+## listen
+
+${platformLinks}
+
+## site
+
+- [home](${data.site}/)
+- [all music](${data.site}/#music)
+- [about](${data.site}/#about)
+`;
+}
+
+fs.writeFileSync(path.join(root, 'llms.txt'), buildLlmsTxt());
+console.log('updated llms.txt');
 
 function syncIndexEmbedHints() {
 	const indexPath = path.join(root, 'index.html');
