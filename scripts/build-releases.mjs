@@ -67,6 +67,15 @@ function releaseDatePublished(release) {
 	return release.datePublished || release.year || '';
 }
 
+function twitterMetaHtml() {
+	const handle = data.seo?.twitterHandle;
+	if (!handle) return '';
+	const at = handle.startsWith('@') ? handle : `@${handle}`;
+	return `\t<meta name="twitter:site" content="${esc(at)}">
+\t<meta name="twitter:creator" content="${esc(at)}">
+`;
+}
+
 function artistRef() {
 	return {
 		'@type': 'MusicGroup',
@@ -330,7 +339,7 @@ ${moreHtml}
 	<meta property="og:image:alt" content="${esc(release.title)} cover art by gravemint">
 	<meta property="music:musician" content="${esc(musicianUrl)}">
 	${releaseDate ? `<meta property="music:release_date" content="${esc(releaseDate)}">\n\t` : ''}<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="${esc(release.title)} by gravemint">
+${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(release.title)} by gravemint">
 	<meta name="twitter:description" content="${esc(metaDesc)}">
 	<meta name="twitter:image" content="${esc(ogImage)}">
 	<meta name="twitter:image:alt" content="${esc(release.title)} cover art by gravemint">
@@ -683,7 +692,7 @@ function syncIndexSeo() {
 	<meta property="og:image:height" content="630">
 	<meta property="og:image:alt" content="gravemint electronic music artist">
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
+${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
 	<meta name="twitter:description" content="${esc(seo.ogDescription)}">
 	<meta name="twitter:image" content="${esc(site)}/og.jpg">
 	<meta name="twitter:image:alt" content="gravemint electronic music artist">
