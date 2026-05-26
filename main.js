@@ -19,6 +19,30 @@
 		document.documentElement.classList.add('is-chrome');
 	}
 
+	function initChromeReleaseEmbeds() {
+		if (!chrome) return;
+		document.querySelectorAll('body.release-page .embed-wrap').forEach((wrap) => {
+			wrap.addEventListener(
+				'click',
+				() => {
+					document.querySelectorAll('body.release-page .embed-wrap.is-embed-active').forEach((other) => {
+						if (other !== wrap) other.classList.remove('is-embed-active');
+					});
+					wrap.classList.add('is-embed-active');
+				},
+				true
+			);
+		});
+		document.addEventListener('click', (e) => {
+			if (e.target.closest('body.release-page .embed-wrap')) return;
+			document.querySelectorAll('body.release-page .embed-wrap.is-embed-active').forEach((wrap) => {
+				wrap.classList.remove('is-embed-active');
+			});
+		});
+	}
+
+	initChromeReleaseEmbeds();
+
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const canvas = document.getElementById('ghost-canvas');
 	const navLinks = document.querySelectorAll('.side-nav a[data-section]');
@@ -221,7 +245,7 @@
 		);
 	}
 
-	if (reducedMotion || !canvas || !isPointerEffectDevice()) {
+	if (reducedMotion || !canvas || !isPointerEffectDevice() || (chrome && !hasSections)) {
 		if (canvas) canvas.style.display = 'none';
 		return;
 	}

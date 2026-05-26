@@ -379,7 +379,7 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 ${buildArtHtml(release, gallery)}
 			<div class="release-hero-stage">
 				<div class="spotify-wrap embed-wrap release-embed">
-					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager"></iframe>
+					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 				</div>
 			</div>
 			<aside class="release-hero-links" aria-label="streaming and purchase links">
