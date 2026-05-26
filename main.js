@@ -245,7 +245,7 @@
 		);
 	}
 
-	if (reducedMotion || !canvas || !isPointerEffectDevice() || (chrome && !hasSections)) {
+	if (reducedMotion || !canvas || !isPointerEffectDevice()) {
 		if (canvas) canvas.style.display = 'none';
 		return;
 	}

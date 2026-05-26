@@ -983,11 +983,7 @@
 	}
 }
 
-/* chrome on macOS — iframe wheel capture + compositor load on release pages */
-html.is-chrome body.release-page #ghost-canvas {
-	display: none !important;
-}
-
+/* chrome on macOS — iframe wheel capture on release pages */
 html.is-chrome body.release-page .release-art-zoom {
 	backdrop-filter: none;
 	-webkit-backdrop-filter: none;
