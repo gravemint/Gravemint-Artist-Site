@@ -1,6 +1,24 @@
 (function () {
 	'use strict';
 
+	function isChrome() {
+		if (navigator.userAgentData?.brands) {
+			const brands = navigator.userAgentData.brands.map((b) => b.brand);
+			return (
+				brands.includes('Google Chrome') &&
+				!brands.includes('Microsoft Edge') &&
+				!brands.includes('Opera')
+			);
+		}
+		const ua = navigator.userAgent;
+		return /Chrome|CriOS/.test(ua) && !/Edg|OPR|SamsungBrowser/.test(ua);
+	}
+
+	const chrome = isChrome();
+	if (chrome) {
+		document.documentElement.classList.add('is-chrome');
+	}
+
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const canvas = document.getElementById('ghost-canvas');
 	const navLinks = document.querySelectorAll('.side-nav a[data-section]');
@@ -190,7 +208,7 @@
 		const target = document.querySelector(window.location.hash);
 		if (target) {
 			requestAnimationFrame(() =>
-				target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' })
+				target.scrollIntoView({ behavior: reducedMotion || chrome ? 'auto' : 'smooth' })
 			);
 		}
 		setTimeout(updateActiveSection, 100);
@@ -217,6 +235,31 @@
 	const maxParticles = 110;
 	let lastSpawn = 0;
 	let rafId = 0;
+	let canvasPaused = false;
+	let scrollEndTimer = 0;
+
+	function pauseCanvasForScroll() {
+		if (!canvasPaused) {
+			canvasPaused = true;
+			cancelAnimationFrame(rafId);
+			rafId = 0;
+			ctx.clearRect(0, 0, width, height);
+			particles.length = 0;
+		}
+		clearTimeout(scrollEndTimer);
+		scrollEndTimer = window.setTimeout(resumeCanvasAfterScroll, 150);
+	}
+
+	function resumeCanvasAfterScroll() {
+		canvasPaused = false;
+		if (!document.hidden && !rafId) {
+			rafId = requestAnimationFrame(frame);
+		}
+	}
+
+	if (chrome) {
+		window.addEventListener('scroll', pauseCanvasForScroll, { passive: true });
+	}
 
 	function resize() {
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -384,6 +427,10 @@
 	}
 
 	function frame(time) {
+		if (canvasPaused) {
+			rafId = 0;
+			return;
+		}
 		drawParticles(time);
 		rafId = requestAnimationFrame(frame);
 	}
@@ -391,7 +438,11 @@
 	rafId = requestAnimationFrame(frame);
 
 	document.addEventListener('visibilitychange', () => {
-		if (document.hidden) cancelAnimationFrame(rafId);
-		else rafId = requestAnimationFrame(frame);
+		if (document.hidden) {
+			cancelAnimationFrame(rafId);
+			rafId = 0;
+		} else if (!canvasPaused) {
+			rafId = requestAnimationFrame(frame);
+		}
 	});
 })();

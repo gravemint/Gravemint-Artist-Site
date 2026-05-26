@@ -29,6 +29,12 @@ html {
 	scroll-snap-type: y proximity;
 }
 
+/* blink on macOS — scroll-snap + fixed canvas jank; safari keeps snap above */
+html.is-chrome {
+	scroll-behavior: auto;
+	scroll-snap-type: none;
+}
+
 /* phones, tablets in landscape — snap + smooth scroll fight touch scrolling */
 @media (max-width: 52rem), (max-height: 52rem) {
 	html {
