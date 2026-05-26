@@ -983,18 +983,7 @@
 	}
 }
 
-/* chrome on macOS — fixed bg + iframe wheel capture jank on release pages */
-html.is-chrome body.release-page {
-	position: relative;
-}
-
-html.is-chrome body.release-page .page-bg {
-	position: absolute;
-	inset: 0;
-	height: auto;
-	min-height: 100%;
-}
-
+/* chrome on macOS — iframe wheel capture + compositor load on release pages */
 html.is-chrome body.release-page #ghost-canvas {
 	display: none !important;
 }
