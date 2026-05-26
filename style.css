@@ -35,13 +35,20 @@ html.is-chrome {
 	scroll-snap-type: none;
 }
 
+html.is-chrome #ghost-canvas {
+	transform: translateZ(0);
+}
+
 /* phones, tablets in landscape — snap + smooth scroll fight touch scrolling */
 @media (max-width: 52rem), (max-height: 52rem) {
 	html {
 		scroll-behavior: auto;
 		scroll-snap-type: none;
 	}
+}
 
+/* short laptop viewports (e.g. 14" macbook + chrome UI) must not match max-height alone */
+@media (max-width: 52rem), (hover: none), (pointer: coarse) {
 	#ghost-canvas {
 		display: none !important;
 	}

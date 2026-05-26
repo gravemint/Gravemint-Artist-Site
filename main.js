@@ -240,8 +240,8 @@
 
 	function isPointerEffectDevice() {
 		return (
-			window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-			navigator.maxTouchPoints === 0
+			window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 52.01rem)')
+				.matches && navigator.maxTouchPoints === 0
 		);
 	}
 
@@ -256,13 +256,19 @@
 	let pointer = { x: -9999, y: -9999, active: false };
 	let smooth = { x: -9999, y: -9999 };
 	const particles = [];
-	const maxParticles = 110;
+	const maxParticles = chrome ? 72 : 110;
+	const chromeLiteCanvas = chrome && (window.devicePixelRatio || 1) >= 2;
+	let lastScrollY = window.scrollY;
 	let lastSpawn = 0;
 	let rafId = 0;
 	let canvasPaused = false;
 	let scrollEndTimer = 0;
 
 	function pauseCanvasForScroll() {
+		const dy = Math.abs(window.scrollY - lastScrollY);
+		lastScrollY = window.scrollY;
+		if (dy < 2) return;
+
 		if (!canvasPaused) {
 			canvasPaused = true;
 			cancelAnimationFrame(rafId);
@@ -286,7 +292,10 @@
 	}
 
 	function resize() {
-		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		lastScrollY = window.scrollY;
+		const dpr = chromeLiteCanvas
+			? Math.min(window.devicePixelRatio || 1, 1.5)
+			: Math.min(window.devicePixelRatio || 1, 2);
 		width = window.innerWidth;
 		height = window.innerHeight;
 		canvas.width = width * dpr;
@@ -340,6 +349,9 @@
 	}
 
 	window.addEventListener('resize', resize);
+	if (window.visualViewport) {
+		window.visualViewport.addEventListener('resize', resize);
+	}
 	window.addEventListener('mousemove', (e) => {
 		if (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= width - 1 || e.clientY >= height - 1) {
 			clearPointer();
@@ -356,8 +368,8 @@
 		const pulse = 0.85 + 0.15 * Math.sin(t * 6);
 
 		ctx.save();
-		ctx.filter = 'blur(12px)';
-		ctx.globalCompositeOperation = 'lighter';
+		if (!chromeLiteCanvas) ctx.filter = 'blur(12px)';
+		ctx.globalCompositeOperation = chromeLiteCanvas ? 'screen' : 'lighter';
 
 		for (let layer = 0; layer < 3; layer++) {
 			const r = (18 + layer * 14) * pulse;
@@ -374,7 +386,7 @@
 		ctx.restore();
 
 		ctx.save();
-		ctx.globalCompositeOperation = 'lighter';
+		ctx.globalCompositeOperation = chromeLiteCanvas ? 'screen' : 'lighter';
 		for (let i = 0; i < 5; i++) {
 			const angle = t * 3 + i * 1.4;
 			const dist = 8 + Math.sin(t * 4 + i) * 4;
@@ -406,7 +418,7 @@
 		const trailDecay = embedHoverActive ? 0.06 : 0.034;
 
 		ctx.clearRect(0, 0, width, height);
-		ctx.globalCompositeOperation = 'lighter';
+		ctx.globalCompositeOperation = chromeLiteCanvas ? 'screen' : 'lighter';
 
 		for (let i = particles.length - 1; i >= 0; i--) {
 			const p = particles[i];
@@ -424,7 +436,7 @@
 			const r = p.size * (0.55 + p.life * 0.9);
 
 			ctx.save();
-			ctx.filter = `blur(${2 + (1 - p.life) * 4}px)`;
+			if (!chromeLiteCanvas) ctx.filter = `blur(${2 + (1 - p.life) * 4}px)`;
 			const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 2.8);
 			g.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
 			g.addColorStop(0.35, `rgba(235, 248, 255, ${alpha * 0.45})`);
