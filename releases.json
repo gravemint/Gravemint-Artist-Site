@@ -75,7 +75,7 @@
 		{
 			"slug": "cat-cafe",
 			"title": "cat cafe",
-			"type": "EP",
+			"type": "Single",
 			"year": "2019",
 			"trackCount": 2,
 			"tracks": [
@@ -98,7 +98,7 @@
 				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/cat-cafe-67715116"
 			},
 			"gallery": [
-				{ "src": "cat-cafe-cover.jpg", "alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe ep cover art", "type": "cover", "width": 2000, "height": 2000 },
+				{ "src": "cat-cafe-cover.jpg", "alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe cover art", "type": "cover", "width": 2000, "height": 2000 },
 				{ "src": "cat-cafe-landscape.jpg", "alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe landscape art", "type": "landscape", "width": 2560, "height": 1440 }
 			]
 		},

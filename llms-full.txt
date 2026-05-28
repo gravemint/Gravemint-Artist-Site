@@ -43,7 +43,7 @@ listen:
 - deezer: https://www.deezer.com/us/album/97421582
 - iheart: https://www.iheart.com/artist/gravemint-32325028/albums/maritime-mystic-73567564
 
-### cat cafe (ep, 2019)
+### cat cafe (single, 2019)
 
 https://gravemint.com/music/cat-cafe/
 
