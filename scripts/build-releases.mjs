@@ -364,7 +364,7 @@ ${moreHtml}
 	<link rel="canonical" href="${esc(url)}">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="${esc(ogTypeValue)}">
-	<meta property="og:site_name" content="gravemint">
+	<meta property="og:site_name" content="${esc(data.artist)}">
 	<meta property="og:title" content="${esc(release.title)} by gravemint">
 	<meta property="og:description" content="${esc(metaDesc)}">
 	<meta property="og:url" content="${esc(url)}">
@@ -628,6 +628,7 @@ function buildHomeSchema() {
 	const seo = data.seo || {};
 	const sameAs = data.sameAs || [];
 	const person = data.person;
+	const siteHost = new URL(data.site).hostname.replace(/^www\./i, '').toLowerCase();
 	const discography = data.releases.map((release, index) => ({
 		'@type': 'ListItem',
 		position: index + 1,
@@ -662,6 +663,7 @@ function buildHomeSchema() {
 			'@id': `${data.site}/#website`,
 			url: `${data.site}/`,
 			name: data.artist,
+			alternateName: [siteHost],
 			description: seo.homeDescription,
 			inLanguage: 'en-US',
 			publisher: { '@id': `${data.site}/#musicgroup` },
@@ -714,11 +716,12 @@ function syncIndexSeo() {
 	<title>${esc(seo.homeTitle)}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="${esc(themeColor)}">
+	<meta name="application-name" content="${esc(data.artist)}">
 	<meta name="description" content="${esc(seo.homeDescription)}">
 	<link rel="canonical" href="${esc(site)}/">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="website">
-	<meta property="og:site_name" content="gravemint">
+	<meta property="og:site_name" content="${esc(data.artist)}">
 	<meta property="og:title" content="${esc(seo.ogTitle)}">
 	<meta property="og:description" content="${esc(seo.ogDescription)}">
 	<meta property="og:url" content="${esc(site)}/">
