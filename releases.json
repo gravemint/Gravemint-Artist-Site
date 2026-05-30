@@ -68,8 +68,20 @@
 				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/maritime-mystic-73567564"
 			},
 			"gallery": [
-				{ "src": "maritime-mystic-cover.jpg", "alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic ep cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "maritime-mystic-landscape.jpg", "alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic landscape art", "type": "landscape", "width": 2560, "height": 1440 }
+				{
+					"src": "maritime-mystic-cover.jpg",
+					"alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "maritime-mystic-landscape.jpg",
+					"alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
 			]
 		},
 		{
@@ -98,8 +110,20 @@
 				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/cat-cafe-67715116"
 			},
 			"gallery": [
-				{ "src": "cat-cafe-cover.jpg", "alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "cat-cafe-landscape.jpg", "alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe landscape art", "type": "landscape", "width": 2560, "height": 1440 }
+				{
+					"src": "cat-cafe-cover.jpg",
+					"alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "cat-cafe-landscape.jpg",
+					"alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
 			]
 		},
 		{
@@ -130,8 +154,20 @@
 				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/sheltered-neon-63071143"
 			},
 			"gallery": [
-				{ "src": "sheltered-neon-cover.jpg", "alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "sheltered-neon-landscape.jpg", "alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art", "type": "landscape", "width": 2560, "height": 1440 }
+				{
+					"src": "sheltered-neon-cover.jpg",
+					"alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "sheltered-neon-landscape.jpg",
+					"alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
 			]
 		},
 		{
@@ -161,10 +197,34 @@
 				"deezer": "https://www.deezer.com/us/album/71892222"
 			},
 			"gallery": [
-				{ "src": "vicarious-solitude-cover.jpg", "alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude ep cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "vicarious-solitude-landscape.jpg", "alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude landscape art", "type": "landscape", "width": 2560, "height": 1440 },
-				{ "src": "vicarious-solitude-concept-01-soft-gardens-warm-nights.jpg", "alt": "concept art for the song soft gardens, warm nights from vicarious solitude", "type": "concept", "width": 2560, "height": 1440 },
-				{ "src": "vicarious-solitude-concept-02-soft-gardens-warm-nights-rough.jpg", "alt": "rough concept sketch for the song soft gardens, warm nights from vicarious solitude", "type": "concept", "width": 1920, "height": 1080 }
+				{
+					"src": "vicarious-solitude-cover.jpg",
+					"alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "vicarious-solitude-landscape.jpg",
+					"alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				},
+				{
+					"src": "vicarious-solitude-concept-01-soft-gardens-warm-nights.jpg",
+					"alt": "concept art for the song soft gardens, warm nights from vicarious solitude",
+					"type": "concept",
+					"width": 2560,
+					"height": 1440
+				},
+				{
+					"src": "vicarious-solitude-concept-02-soft-gardens-warm-nights-rough.jpg",
+					"alt": "rough concept sketch for the song soft gardens, warm nights from vicarious solitude",
+					"type": "concept",
+					"width": 1920,
+					"height": 1080
+				}
 			]
 		},
 		{
@@ -188,8 +248,20 @@
 				"deezer": "https://www.deezer.com/us/album/71794092"
 			},
 			"gallery": [
-				{ "src": "keep-us-awake-cover.jpg", "alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "keep-us-awake-landscape.jpg", "alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art", "type": "landscape", "width": 2160, "height": 1215 }
+				{
+					"src": "keep-us-awake-cover.jpg",
+					"alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "keep-us-awake-landscape.jpg",
+					"alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art",
+					"type": "landscape",
+					"width": 2160,
+					"height": 1215
+				}
 			]
 		},
 		{
@@ -212,8 +284,20 @@
 				"tidal": "https://tidal.com/album/94282025"
 			},
 			"gallery": [
-				{ "src": "ghost-cover.jpg", "alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost cover art", "type": "cover", "width": 2000, "height": 2000 },
-				{ "src": "ghost-landscape.jpg", "alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost landscape art", "type": "landscape", "width": 2560, "height": 1440 }
+				{
+					"src": "ghost-cover.jpg",
+					"alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "ghost-landscape.jpg",
+					"alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
 			]
 		},
 		{
@@ -236,8 +320,20 @@
 				"tidal": "https://tidal.com/album/94245775"
 			},
 			"gallery": [
-				{ "src": "kitten-kibbu-cover.jpg", "alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu cover art", "type": "cover", "width": 1080, "height": 1080 },
-				{ "src": "kitten-kibbu-landscape.jpg", "alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art", "type": "landscape", "width": 2489, "height": 1400 }
+				{
+					"src": "kitten-kibbu-cover.jpg",
+					"alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu cover art",
+					"type": "cover",
+					"width": 1080,
+					"height": 1080
+				},
+				{
+					"src": "kitten-kibbu-landscape.jpg",
+					"alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art",
+					"type": "landscape",
+					"width": 2489,
+					"height": 1400
+				}
 			]
 		}
 	]

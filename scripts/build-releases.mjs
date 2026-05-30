@@ -59,6 +59,42 @@ function releaseMetaDescription(release) {
 	return release.metaDescription || release.description || '';
 }
 
+const META_DESC_MIN = 25;
+const META_DESC_MAX = 160;
+
+function assertMetaDescriptionsValid() {
+	const errors = [];
+
+	const home = data.seo?.homeDescription ?? '';
+	if (home.length < META_DESC_MIN || home.length > META_DESC_MAX) {
+		errors.push({ label: 'seo.homeDescription (homepage)', text: home, len: home.length });
+	}
+
+	for (const release of data.releases) {
+		const desc = releaseMetaDescription(release);
+		if (desc.length < META_DESC_MIN || desc.length > META_DESC_MAX) {
+			errors.push({
+				label: `${release.slug} (metaDescription)`,
+				text: desc,
+				len: desc.length,
+			});
+		}
+	}
+
+	if (!errors.length) return;
+
+	console.error(
+		`meta description length must be between ${META_DESC_MIN} and ${META_DESC_MAX} characters:`
+	);
+	for (const { label, len, text } of errors) {
+		console.error(`  ${label}: ${len} chars`);
+		console.error(`    ${text}`);
+	}
+	process.exit(1);
+}
+
+assertMetaDescriptionsValid();
+
 function releaseLongDescription(release) {
 	return release.longDescription || release.description || '';
 }
