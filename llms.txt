@@ -1,0 +1,32 @@
+# gravemint
+
+> michigan-based electronic music artist since 2017. ethereal, melodically driven sounds exploring solitude, memory, atmosphere, and place
+
+extended documentation: https://gravemint.com/llms-full.txt
+
+## discography
+
+- [maritime mystic (ep, 2019)](https://gravemint.com/music/maritime-mystic/): a vocaloid ep inspired by the pacific northwest. sparkly synths, harps, and ghostly vocals exploring loneliness, mystery, and an unfamiliar coast
+- [cat cafe (single, 2019)](https://gravemint.com/music/cat-cafe/): a two-sided release inspired by a cat cafe in downtown seattle: a breakneck glitch track and a calm jazz piece with ambient purring and warm atmosphere
+- [sheltered neon (ep, 2018)](https://gravemint.com/music/sheltered-neon/): almost-downtempo electronica for the unknown of moving to a new city. sparse drops, evolving ambience, and the quiet solace of neon light at night
+- [vicarious solitude (ep, 2018)](https://gravemint.com/music/vicarious-solitude/): gravemint's debut ep. sparkly synths, harps, and ghostly vocal chops tracing seasons, memories, and a grateful look back at who you used to be
+- [keep us awake (single, 2017)](https://gravemint.com/music/keep-us-awake/): dreamy, high-energy electronica built on massive synths and driving piano. our desires keep us going and keep us from sleeping
+- [ghost (single, 2017)](https://gravemint.com/music/ghost/): a glitchy experiment where nearly every instrument is a manipulated voice. a song about believing something completely, then looking back like a stranger
+- [kitten kibbu (single, 2017)](https://gravemint.com/music/kitten-kibbu/): where gravemint began. cat meows and purrs transformed into instruments, wrapped in atmosphere and a beat that quietly started everything
+
+## listen
+
+- https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG
+- https://music.apple.com/us/artist/gravemint/1279415284
+- https://gravemint.bandcamp.com
+- https://www.youtube.com/gravemint
+- https://soundcloud.com/gravemint
+- https://www.instagram.com/gravemint/
+- https://www.tiktok.com/@gravemint
+- https://www.facebook.com/gravemint/
+
+## site
+
+- [home](https://gravemint.com/)
+- [all music](https://gravemint.com/#music)
+- [about](https://gravemint.com/#about)

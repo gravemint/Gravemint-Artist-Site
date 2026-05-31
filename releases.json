@@ -1,0 +1,340 @@
+{
+	"site": "https://gravemint.com",
+	"artist": "gravemint",
+	"seo": {
+		"homeTitle": "gravemint | ethereal electronic music",
+		"homeDescription": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
+		"ogTitle": "gravemint | ethereal electronic music",
+		"ogDescription": "michigan-based electronic music artist. ethereal, melodically driven sounds since 2017",
+		"genre": "electronic music",
+		"foundingDate": "2017",
+		"themeColor": "#060606",
+		"twitterHandle": "gravemint_",
+		"llmsAbout": [
+			"sounds from somewhere between a forest and a dream",
+			"gravemint is a michigan-based producer who has been making melodically driven electronic music since 2017. built from ethereal, reverb-laden synths, harps, pianos, ghostly vocal fragments, and textures often drawn from the natural world, his music explores themes of the transcendent, the mystical, and the ineffable",
+			"the sound of gravemint grew out of a wide range of influences. rock and metal early on, then edm and pop, and eventually everything from tycho to porter robinson"
+		]
+	},
+	"person": {
+		"givenName": "christian",
+		"alternateName": "gravemint"
+	},
+	"sameAs": [
+		"https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG",
+		"https://music.apple.com/us/artist/gravemint/1279415284",
+		"https://gravemint.bandcamp.com",
+		"https://www.youtube.com/gravemint",
+		"https://soundcloud.com/gravemint",
+		"https://www.instagram.com/gravemint/",
+		"https://www.tiktok.com/@gravemint",
+		"https://www.facebook.com/gravemint/"
+	],
+	"coverFullPlaceholder": "/images/releases/placeholder-large.svg",
+	"artCredit": {
+		"name": "nekoinstall",
+		"instagram": "https://www.instagram.com/nekoinstall/"
+	},
+	"releases": [
+		{
+			"slug": "maritime-mystic",
+			"title": "maritime mystic",
+			"type": "EP",
+			"year": "2019",
+			"trackCount": 8,
+			"tracks": [
+				"illuminate",
+				"misted mentha",
+				"maritime mystic",
+				"relinquish",
+				"illuminate (instrumental)",
+				"misted mentha (instrumental)",
+				"maritime mystic (instrumental)",
+				"relinquish (instrumental)"
+			],
+			"metaDescription": "a vocaloid ep inspired by the pacific northwest. sparkly synths, harps, and ghostly vocals exploring loneliness, mystery, and an unfamiliar coast",
+			"longDescription": "gravemint's vocaloid debut, featuring synthesizer performances from miku and luka with full instrumental versions of every track. inspired by the beauty of the pacific northwest and the puget sound, maritime mystic explores the loneliness and wonder of arriving somewhere new, far from everyone you know. sparkly synths, harps, piano, and clean bass weave through themes of solitude, mystery, and the strange pull of an unfamiliar coast",
+			"cover": "/images/releases/maritime_mystic.jpg",
+			"spotifyAlbumId": "1F1HYiAuW2jTwEGdxosLq8",
+			"links": {
+				"spotify": "https://open.spotify.com/album/1F1HYiAuW2jTwEGdxosLq8",
+				"apple": "https://music.apple.com/us/album/maritime-mystic/1464429766",
+				"youtube": "https://www.youtube.com/playlist?list=PLh2fnjD1SbdB6GFe96nqVcX_LcsZC8TP6",
+				"bandcamp": "https://gravemint.bandcamp.com/album/maritime-mystic",
+				"soundcloud": "https://soundcloud.com/gravemint/sets/maritime-mystic",
+				"amazon": "https://music.amazon.com/albums/B07S1K7PGG",
+				"tidal": "https://tidal.com/album/109651370",
+				"deezer": "https://www.deezer.com/us/album/97421582",
+				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/maritime-mystic-73567564"
+			},
+			"gallery": [
+				{
+					"src": "maritime-mystic-cover.jpg",
+					"alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "maritime-mystic-landscape.jpg",
+					"alt": "three moons hovering above the ocean in a purple-blue magical haze, maritime mystic landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
+			]
+		},
+		{
+			"slug": "cat-cafe",
+			"title": "cat cafe",
+			"type": "Single",
+			"year": "2019",
+			"trackCount": 2,
+			"tracks": [
+				"neon cat cafe",
+				"cat cafe piano"
+			],
+			"metaDescription": "a two-sided release inspired by a cat cafe in downtown seattle: a breakneck glitch track and a calm jazz piece with ambient purring and warm atmosphere",
+			"longDescription": "a two-sided release inspired by a cat cafe in downtown seattle, capturing the duality of cats. one version is a breakneck, glitch-adjacent track built on fast experimental beats and piano; the other a calm, jazz-inflected piece filled with ambient purring and warm atmosphere",
+			"cover": "/images/releases/cat_cafe.jpg",
+			"spotifyAlbumId": "20mO0c9zXx2MjFSjx5H0EJ",
+			"links": {
+				"spotify": "https://open.spotify.com/album/20mO0c9zXx2MjFSjx5H0EJ",
+				"apple": "https://music.apple.com/us/album/cat-cafe-single/1448825863",
+				"youtube": "https://www.youtube.com/playlist?list=PLh2fnjD1SbdApIvjAds3WdbmsxyTq9Llp",
+				"bandcamp": "https://gravemint.bandcamp.com/album/cat-cafe",
+				"soundcloud": "https://soundcloud.com/gravemint/sets/cat-cafe",
+				"amazon": "https://music.amazon.com/albums/B07MQ3DW91",
+				"tidal": "https://tidal.com/album/102025654",
+				"deezer": "https://www.deezer.com/us/album/83685262",
+				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/cat-cafe-67715116"
+			},
+			"gallery": [
+				{
+					"src": "cat-cafe-cover.jpg",
+					"alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "cat-cafe-landscape.jpg",
+					"alt": "anime girl with a white cat on her lap at a cat cafe, cat cafe landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
+			]
+		},
+		{
+			"slug": "sheltered-neon",
+			"title": "sheltered neon",
+			"type": "EP",
+			"year": "2018",
+			"trackCount": 4,
+			"tracks": [
+				"solace plaza",
+				"rooftop overgrowth",
+				"to metropolis",
+				"sheltered neon"
+			],
+			"metaDescription": "almost-downtempo electronica for the unknown of moving to a new city. sparse drops, evolving ambience, and the quiet solace of neon light at night",
+			"longDescription": "an almost-downtempo electronica record about the unknown of moving to a new city. sparse, dark drops give way to evolving ambience, with high pads and deliberate breaks that let the atmosphere breathe and shift. the quiet solace of a distant neon glow",
+			"cover": "/images/releases/sheltered_neon.jpg",
+			"spotifyAlbumId": "2bxQH2XGpevo8pkrDgG8mI",
+			"links": {
+				"spotify": "https://open.spotify.com/album/2bxQH2XGpevo8pkrDgG8mI",
+				"apple": "https://music.apple.com/us/album/sheltered-neon-ep/1438823261",
+				"youtube": "https://www.youtube.com/playlist?list=PLh2fnjD1SbdA4PEBxSdMPieMZoZdw8uAK",
+				"bandcamp": "https://gravemint.bandcamp.com/album/sheltered-neon",
+				"soundcloud": "https://soundcloud.com/gravemint/sets/sheltered",
+				"amazon": "https://music.amazon.com/albums/B07JVQBW4G",
+				"tidal": "https://tidal.com/album/96559737",
+				"deezer": "https://www.deezer.com/us/album/75451202",
+				"iheart": "https://www.iheart.com/artist/gravemint-32325028/albums/sheltered-neon-63071143"
+			},
+			"gallery": [
+				{
+					"src": "sheltered-neon-cover.jpg",
+					"alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "sheltered-neon-landscape.jpg",
+					"alt": "girl in a witch hat petting a black cat in a neon-lit city alley, dark pink and purple lighting, sheltered neon landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
+			]
+		},
+		{
+			"slug": "vicarious-solitude",
+			"title": "vicarious solitude",
+			"type": "EP",
+			"year": "2018",
+			"trackCount": 4,
+			"tracks": [
+				"rain, hello",
+				"winter moon's installment",
+				"temporal blossom",
+				"soft gardens, warm nights"
+			],
+			"metaDescription": "gravemint's debut ep. sparkly synths, harps, and ghostly vocal chops tracing seasons, memories, and a grateful look back at who you used to be",
+			"longDescription": "gravemint's debut ep, structured around the seasons. sparkly synths, harps, ghostly vocal chops, piano, and delicate strings that open into something much larger. gratefully revisiting who you used to be, surrounded by everything that made you",
+			"cover": "/images/releases/vicarious_solitude.jpg",
+			"spotifyAlbumId": "6Nc3nYDm89fRlFLgtvHw9x",
+			"links": {
+				"spotify": "https://open.spotify.com/album/6Nc3nYDm89fRlFLgtvHw9x",
+				"apple": "https://music.apple.com/us/album/vicarious-solitude-ep/1434637371",
+				"youtube": "https://www.youtube.com/playlist?list=PLh2fnjD1SbdCWSHJsyoLQnXf9gpo63pfd",
+				"bandcamp": "https://gravemint.bandcamp.com/album/vicarious-solitude",
+				"soundcloud": "https://soundcloud.com/gravemint/sets/vicarious-solitude",
+				"amazon": "https://music.amazon.com/albums/B07GYTY11T",
+				"tidal": "https://tidal.com/album/94300286",
+				"deezer": "https://www.deezer.com/us/album/71892222"
+			},
+			"gallery": [
+				{
+					"src": "vicarious-solitude-cover.jpg",
+					"alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude ep cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "vicarious-solitude-landscape.jpg",
+					"alt": "anime girl in a window nook playing a nintendo ds, surrounded by plants and gravemint cat-ghost mascots, pink and purple scene, vicarious solitude landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				},
+				{
+					"src": "vicarious-solitude-concept-01-soft-gardens-warm-nights.jpg",
+					"alt": "concept art for the song soft gardens, warm nights from vicarious solitude",
+					"type": "concept",
+					"width": 2560,
+					"height": 1440
+				},
+				{
+					"src": "vicarious-solitude-concept-02-soft-gardens-warm-nights-rough.jpg",
+					"alt": "rough concept sketch for the song soft gardens, warm nights from vicarious solitude",
+					"type": "concept",
+					"width": 1920,
+					"height": 1080
+				}
+			]
+		},
+		{
+			"slug": "keep-us-awake",
+			"title": "keep us awake",
+			"type": "Single",
+			"year": "2017",
+			"trackCount": 1,
+			"metaDescription": "dreamy, high-energy electronica built on massive synths and driving piano. our desires keep us going and keep us from sleeping",
+			"longDescription": "a dreamy, high-energy electronic track built on enormous synths and a driving piano backing. somewhere between house and ethereal electronica, about the dreams and desires that give us purpose and keep us awake at night",
+			"cover": "/images/releases/keep_us_awake.jpg",
+			"spotifyAlbumId": "0di8JK6lUJhussV0bRpy0D",
+			"links": {
+				"spotify": "https://open.spotify.com/album/0di8JK6lUJhussV0bRpy0D",
+				"apple": "https://music.apple.com/us/album/keep-us-awake/1434517317",
+				"youtube": "https://www.youtube.com/watch?v=IFk78_-pgpM",
+				"bandcamp": "https://gravemint.bandcamp.com/track/keep-us-awake",
+				"soundcloud": "https://soundcloud.com/gravemint/keep-us-awake",
+				"amazon": "https://music.amazon.com/albums/B07GXF17NR",
+				"tidal": "https://tidal.com/album/94249763",
+				"deezer": "https://www.deezer.com/us/album/71794092"
+			},
+			"gallery": [
+				{
+					"src": "keep-us-awake-cover.jpg",
+					"alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "keep-us-awake-landscape.jpg",
+					"alt": "floating anime girl in a purple dreamlike landscape above a field with distant mountains, stars galaxies and planets visible in the sky, keep us awake landscape art",
+					"type": "landscape",
+					"width": 2160,
+					"height": 1215
+				}
+			]
+		},
+		{
+			"slug": "ghost",
+			"title": "ghost",
+			"type": "Single",
+			"year": "2017",
+			"trackCount": 1,
+			"metaDescription": "a glitchy experiment where nearly every instrument is a manipulated voice. a song about believing something completely, then looking back like a stranger",
+			"longDescription": "a glitchy, chiptune-adjacent experiment where nearly every instrument is gravemint's own voice, heavily modulated and transformed beyond recognition. about how completely you can believe something in the moment, and how foreign that feeling can look later. heavy beat, manipulated vocal layers, and a restless, distorted energy throughout",
+			"cover": "/images/releases/ghost.jpg",
+			"spotifyAlbumId": "3rvRfvtzprvaHnsiT7nW9Z",
+			"links": {
+				"spotify": "https://open.spotify.com/album/3rvRfvtzprvaHnsiT7nW9Z",
+				"apple": "https://music.apple.com/us/album/ghost-single/1434618308",
+				"youtube": "https://www.youtube.com/watch?v=pmekEjYvYrg",
+				"bandcamp": "https://gravemint.bandcamp.com/track/ghost",
+				"soundcloud": "https://soundcloud.com/gravemint/ghost",
+				"amazon": "https://music.amazon.com/albums/B07GY25PG2",
+				"tidal": "https://tidal.com/album/94282025"
+			},
+			"gallery": [
+				{
+					"src": "ghost-cover.jpg",
+					"alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost cover art",
+					"type": "cover",
+					"width": 2000,
+					"height": 2000
+				},
+				{
+					"src": "ghost-landscape.jpg",
+					"alt": "distorted pinkish purple anime girl glitched and overlayed onto herself with visual noise and static, ghost landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
+				}
+			]
+		},
+		{
+			"slug": "kitten-kibbu",
+			"title": "kitten kibbu",
+			"type": "Single",
+			"year": "2017",
+			"trackCount": 1,
+			"metaDescription": "where gravemint began. cat meows and purrs transformed into instruments, wrapped in atmosphere and a beat that quietly started everything",
+			"longDescription": "where gravemint began. built in a first daw session using manipulated cat meows and purrs as instruments. a strong beat with hats anchors the manipulated cat voices, with an ethereal drift underneath",
+			"cover": "/images/releases/kitten_kibbu.jpg",
+			"spotifyAlbumId": "7iylkvpw1tVpKCU9j6JJ9K",
+			"links": {
+				"spotify": "https://open.spotify.com/album/7iylkvpw1tVpKCU9j6JJ9K",
+				"apple": "https://music.apple.com/us/album/kitten-kibbu-single/1434516559",
+				"youtube": "https://www.youtube.com/watch?v=X1WBlDrklmk",
+				"bandcamp": "https://gravemint.bandcamp.com/track/kitten-kibbu",
+				"soundcloud": "https://soundcloud.com/gravemint/kittenkibbu",
+				"amazon": "https://music.amazon.com/albums/B07GX8HFYS",
+				"tidal": "https://tidal.com/album/94245775"
+			},
+			"gallery": [
+				{
+					"src": "kitten-kibbu-cover.jpg",
+					"alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu cover art",
+					"type": "cover",
+					"width": 1080,
+					"height": 1080
+				},
+				{
+					"src": "kitten-kibbu-landscape.jpg",
+					"alt": "kawaii cat paw raised against a pastel purple background, kitten kibbu landscape art",
+					"type": "landscape",
+					"width": 2489,
+					"height": 1400
+				}
+			]
+		}
+	]
+}

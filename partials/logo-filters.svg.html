@@ -1,0 +1,14 @@
+<svg class="svg-filters" aria-hidden="true" focusable="false" width="0" height="0">
+	<defs>
+		<filter id="gravemint-logo-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"></feGaussianBlur>
+			<feFlood flood-color="#00e5ff" flood-opacity="0.52" result="color"></feFlood>
+			<feComposite in="color" in2="blur" operator="in" result="glow"></feComposite>
+			<feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000000" flood-opacity="0.75" in="SourceGraphic" result="logo"></feDropShadow>
+			<feMerge>
+				<feMergeNode in="glow"></feMergeNode>
+				<feMergeNode in="logo"></feMergeNode>
+			</feMerge>
+		</filter>
+	</defs>
+</svg>

@@ -1,88 +1,294 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>gravemint</title>
 	<meta charset="utf-8">
-	<meta lang="en-US">
-	<meta name="description" content="sounds from somewhere between a forest and a dream">
-	<meta name="keywords" content="html, css, javascript, practice, learning, meta, tags">
+	<title>gravemint | ethereal electronic music</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://kit.fontawesome.com/f0bd8f0778.js" crossorigin="anonymous"></script>
-	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Six+Caps" type="text/css" media="all">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600" type="text/css" media="all">
+	<meta name="theme-color" content="#060606">
+	<meta name="application-name" content="gravemint">
+	<meta name="description" content="gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more">
+	<link rel="canonical" href="https://gravemint.com/">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="gravemint">
+	<meta property="og:title" content="gravemint | ethereal electronic music">
+	<meta property="og:description" content="michigan-based electronic music artist. ethereal, melodically driven sounds since 2017">
+	<meta property="og:url" content="https://gravemint.com/">
+	<meta property="og:image" content="https://gravemint.com/og.jpg">
+	<meta property="og:image:type" content="image/jpeg">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="gravemint electronic music artist">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@gravemint_">
+	<meta name="twitter:creator" content="@gravemint_">
+	<meta name="twitter:title" content="gravemint | ethereal electronic music">
+	<meta name="twitter:description" content="michigan-based electronic music artist. ethereal, melodically driven sounds since 2017">
+	<meta name="twitter:image" content="https://gravemint.com/og.jpg">
+	<meta name="twitter:image:alt" content="gravemint electronic music artist">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
+	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
-
+	<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"@id": "https://gravemint.com/#website",
+			"url": "https://gravemint.com/",
+			"name": "gravemint",
+			"alternateName": [
+				"gravemint.com"
+			],
+			"description": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
+			"inLanguage": "en-US",
+			"publisher": {
+				"@id": "https://gravemint.com/#musicgroup"
+			},
+			"mainEntity": {
+				"@id": "https://gravemint.com/#musicgroup"
+			}
+		},
+		{
+			"@type": "Person",
+			"@id": "https://gravemint.com/#person",
+			"name": "christian",
+			"alternateName": "gravemint",
+			"memberOf": {
+				"@id": "https://gravemint.com/#musicgroup"
+			},
+			"givenName": "christian"
+		},
+		{
+			"@type": [
+				"MusicGroup",
+				"Organization"
+			],
+			"@id": "https://gravemint.com/#musicgroup",
+			"name": "gravemint",
+			"url": "https://gravemint.com/",
+			"description": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
+			"foundingDate": "2017",
+			"genre": "electronic music",
+			"logo": {
+				"@type": "ImageObject",
+				"@id": "https://gravemint.com/#logo",
+				"url": "https://gravemint.com/favicon-192.png",
+				"contentUrl": "https://gravemint.com/favicon-192.png",
+				"width": 192,
+				"height": 192,
+				"caption": "gravemint"
+			},
+			"image": {
+				"@id": "https://gravemint.com/#logo"
+			},
+			"sameAs": [
+				"https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG",
+				"https://music.apple.com/us/artist/gravemint/1279415284",
+				"https://gravemint.bandcamp.com",
+				"https://www.youtube.com/gravemint",
+				"https://soundcloud.com/gravemint",
+				"https://www.instagram.com/gravemint/",
+				"https://www.tiktok.com/@gravemint",
+				"https://www.facebook.com/gravemint/"
+			],
+			"member": {
+				"@id": "https://gravemint.com/#person"
+			}
+		},
+		{
+			"@type": "ItemList",
+			"@id": "https://gravemint.com/#discography",
+			"name": "gravemint discography",
+			"numberOfItems": 7,
+			"itemListElement": [
+				{
+					"@type": "ListItem",
+					"position": 1,
+					"name": "maritime mystic",
+					"url": "https://gravemint.com/music/maritime-mystic/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 2,
+					"name": "cat cafe",
+					"url": "https://gravemint.com/music/cat-cafe/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 3,
+					"name": "sheltered neon",
+					"url": "https://gravemint.com/music/sheltered-neon/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 4,
+					"name": "vicarious solitude",
+					"url": "https://gravemint.com/music/vicarious-solitude/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 5,
+					"name": "keep us awake",
+					"url": "https://gravemint.com/music/keep-us-awake/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 6,
+					"name": "ghost",
+					"url": "https://gravemint.com/music/ghost/"
+				},
+				{
+					"@type": "ListItem",
+					"position": 7,
+					"name": "kitten kibbu",
+					"url": "https://gravemint.com/music/kitten-kibbu/"
+				}
+			]
+		}
+	]
+}
+	</script>
 </head>
 <body>
-	<div class="main-container">
-		<div id="desktop-logo">
-			<a href="https://www.gravemint.com/">
-				<img src="images/logo@2x.png" href="" alt="Gravemint">
-			</a>
-		</div>
+	<svg class="svg-filters" aria-hidden="true" focusable="false" width="0" height="0">
+		<defs>
+			<filter id="gravemint-logo-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+				<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"></feGaussianBlur>
+				<feFlood flood-color="#00e5ff" flood-opacity="0.52" result="color"></feFlood>
+				<feComposite in="color" in2="blur" operator="in" result="glow"></feComposite>
+				<feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000000" flood-opacity="0.75" in="SourceGraphic" result="logo"></feDropShadow>
+				<feMerge>
+					<feMergeNode in="glow"></feMergeNode>
+					<feMergeNode in="logo"></feMergeNode>
+				</feMerge>
+			</filter>
+		</defs>
+	</svg>
+	<div class="page-bg" aria-hidden="true"></div>
+	<canvas id="ghost-canvas" aria-hidden="true"></canvas>
 
-		<div id="mobile-bar-container">
-			<div id="mobile-logo">
-				<a href="https://www.gravemint.com/">
-					<img src="images/logo-mobile.png" href="" alt="Gravemint">
-				</a>
+	<main class="scroll-root">
+		<section id="home" class="panel panel--hero" data-section="home">
+			<h1 class="logo-heading">
+				<span class="logo logo--static">
+					<img src="images/logo@2x.png" alt="gravemint" width="626" height="142">
+				</span>
+			</h1>
+
+			<ul class="social social--primary" aria-label="Social links">
+				<li><a target="_blank" rel="noopener noreferrer" href="https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG" aria-label="Spotify"><i class="fab fa-spotify"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://music.apple.com/us/artist/gravemint/1279415284" aria-label="Apple Music"><i class="fab fa-apple"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://gravemint.bandcamp.com" aria-label="Bandcamp"><i class="fab fa-bandcamp"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/gravemint" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/gravemint/" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.tiktok.com/@gravemint" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/gravemint/" aria-label="Facebook"><i class="fab fa-facebook"></i></a></li>
+				<li><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%68%65%6C%6C%6F%40%67%72%61%76%65%6D%69%6E%74%2E%63%6F%6D" aria-label="Email"><i class="far fa-envelope"></i></a></li>
+			</ul>
+
+			<div class="video-wrap embed-wrap">
+				<iframe src="https://www.youtube.com/embed/asmuX78lwsA" title="gravemint on YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 
-			<div id="mobile-bar"></div>
-		</div>
+			<a class="release-link" href="/music/vicarious-solitude/" data-spotify-embed="https://open.spotify.com/embed/album/6Nc3nYDm89fRlFLgtvHw9x?utm_source=generator&amp;theme=0">
+				<span class="release-eyebrow">featured music</span>
+				<span class="release-title">vicarious solitude</span>
+			</a>
 
-		<div id="mobile-nav">
-			<ul>
-				<a href="https://www.gravemint.com/menu
-				">
-				<i class="fas fa-bars fa-3x"></i>
-			</ul>
-		</div>
+			<a class="scroll-hint" href="#about" aria-label="Scroll to about">
+				<span>scroll</span>
+			</a>
+		</section>
 
-		<div id="mobile-nav-overlay">
-		</div>
+		<section id="about" class="panel" data-section="about">
+			<hr class="rule">
+			<h2 class="section-label">about</h2>
+			<div class="prose">
+				<p class="prose-lead">sounds from somewhere between a <span class="prose-accent">forest</span> and a <span class="prose-accent">dream</span></p>
+				<p><span class="prose-name">gravemint</span> is a michigan-based producer who has been making melodically driven electronic music <span class="prose-meta">since 2017</span>. built from <span class="prose-tone">ethereal</span>, <span class="prose-tone">reverb-laden</span> synths, harps, pianos, <span class="prose-tone">ghostly</span> vocal fragments, and textures often drawn from the natural world, his music explores themes of the <span class="prose-theme">transcendent</span>, the <span class="prose-theme">mystical</span>, and the <span class="prose-theme">ineffable</span></p>
+				<p>the sound of gravemint grew out of a wide range of influences. rock and metal early on, then edm and pop, and eventually everything from <span class="prose-name">tycho</span> to <span class="prose-name">porter robinson</span></p>
+			</div>
+		</section>
 
-
-		<nav id="navbar">
-			<ul>
-				<li class="leftmost-nav">
-					<a href="https://www.gravemint.com/" class="main" style="padding: 1px 10px; color: white; border-radius: 25px; background-image: linear-gradient(to bottom right, rgb(17 197 216 / 48%), rgb(114 25 136 / 30%));">home</a>
+		<section id="music" class="panel panel--scrollable" data-section="music">
+			<hr class="rule">
+			<h2 class="section-label">music</h2>
+			<ul class="release-catalog">
+				<li>
+					<a class="release-card" href="/music/maritime-mystic/" data-spotify-embed="https://open.spotify.com/embed/album/1F1HYiAuW2jTwEGdxosLq8?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/maritime_mystic.jpg" alt="maritime mystic cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">maritime mystic</span>
+					</a>
 				</li>
 				<li>
-					<a href="https://www.gravemint.com/about" class="main">about</a>
+					<a class="release-card" href="/music/cat-cafe/" data-spotify-embed="https://open.spotify.com/embed/album/20mO0c9zXx2MjFSjx5H0EJ?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/cat_cafe.jpg" alt="cat cafe cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">cat cafe</span>
+					</a>
 				</li>
-				<li class="rightmost-nav">
-					<a href="https://www.gravemint.com/music" class="main">music</a>
+				<li>
+					<a class="release-card" href="/music/sheltered-neon/" data-spotify-embed="https://open.spotify.com/embed/album/2bxQH2XGpevo8pkrDgG8mI?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/sheltered_neon.jpg" alt="sheltered neon cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">sheltered neon</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/vicarious-solitude/" data-spotify-embed="https://open.spotify.com/embed/album/6Nc3nYDm89fRlFLgtvHw9x?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/vicarious_solitude.jpg" alt="vicarious solitude cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">vicarious solitude</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/keep-us-awake/" data-spotify-embed="https://open.spotify.com/embed/album/0di8JK6lUJhussV0bRpy0D?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/keep_us_awake.jpg" alt="keep us awake cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">keep us awake</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/ghost/" data-spotify-embed="https://open.spotify.com/embed/album/3rvRfvtzprvaHnsiT7nW9Z?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/ghost.jpg" alt="ghost cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">ghost</span>
+					</a>
+				</li>
+				<li>
+					<a class="release-card" href="/music/kitten-kibbu/" data-spotify-embed="https://open.spotify.com/embed/album/7iylkvpw1tVpKCU9j6JJ9K?utm_source=generator&amp;theme=0">
+						<span class="release-card-art-wrap">
+							<img class="release-card-art" src="images/releases/kitten_kibbu.jpg" alt="kitten kibbu cover art" width="800" height="800" loading="lazy">
+						</span>
+						<span class="release-card-title">kitten kibbu</span>
+					</a>
 				</li>
 			</ul>
-		</nav>
+		</section>
+	</main>
 
-		<div class="youtube-sizing">
-			<div id="responsive">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/asmuX78lwsA" style="border-radius: 25px" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
-		</div>
-		
-		<div id="separator">
-		</div>
+	<nav class="side-nav" aria-label="Sections">
+		<a href="#home" data-section="home" class="is-active">home</a>
+		<a href="#about" data-section="about">about</a>
+		<a href="#music" data-section="music">music</a>
+	</nav>
 
-		<div id="social">
-			<ul>
-				<li><a target="_blank" href="https://open.spotify.com/artist/5c4jVMtMG21iRKAe0bUKBG"><i class="fab fa-spotify fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://itunes.apple.com/us/artist/gravemint/1279415284"><i class="fab fa-apple fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://gravemint.bandcamp.com"><i class="fab fa-bandcamp fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://www.youtube.com/gravemint?sub_confirmation=1"><i class="fab fa-youtube fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://twitter.com/gravemint_"><i class="fab fa-twitter fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://www.instagram.com/gravemint/"><i class="fab fa-instagram fa-3x"></i></a></li>
-				<li><a target="_blank" href="https://www.facebook.com/Gravemint/"><i class="fab fa-facebook fa-3x"></i></a></li>
-				<li><a target="_blank" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%67%72%61%76%65%6D%69%6E%74%6F%66%66%69%63%69%61%6C%40%67%6D%61%69%6C%2E%63%6F%6D"><i class="far fa-envelope fa-3x"></i></a></li>
-			</ul>
-		</div>
-
-	</div>
-
-<script src="external.js">
-</script>
-
+	<script src="main.js" defer></script>
 </body>
 </html>
+

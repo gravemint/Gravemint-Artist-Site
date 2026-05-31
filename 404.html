@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#060606">
+	<meta name="robots" content="noindex">
+	<title>page not found | gravemint</title>
+	<link rel="canonical" href="https://gravemint.com/">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/style.css">
+	<link rel="stylesheet" href="/release.css">
+</head>
+<body class="release-page error-page">
+<svg class="svg-filters" aria-hidden="true" focusable="false" width="0" height="0">
+	<defs>
+		<filter id="gravemint-logo-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"></feGaussianBlur>
+			<feFlood flood-color="#00e5ff" flood-opacity="0.52" result="color"></feFlood>
+			<feComposite in="color" in2="blur" operator="in" result="glow"></feComposite>
+			<feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000000" flood-opacity="0.75" in="SourceGraphic" result="logo"></feDropShadow>
+			<feMerge>
+				<feMergeNode in="glow"></feMergeNode>
+				<feMergeNode in="logo"></feMergeNode>
+			</feMerge>
+		</filter>
+	</defs>
+</svg>
+	<div class="page-bg" aria-hidden="true"></div>
+
+	<main class="release-main error-main">
+		<header class="release-header">
+			<a class="logo" href="/">
+				<img src="/images/logo@2x.png" alt="gravemint" width="626" height="142">
+			</a>
+		</header>
+
+		<section class="error-content" aria-labelledby="error-title">
+			<p class="error-eyebrow">404</p>
+			<h1 id="error-title" class="error-title">page not found</h1>
+			<p class="error-text">this page does not exist. return to the official gravemint music site</p>
+			<div class="error-actions">
+				<a class="release-back" href="/">← gravemint home</a>
+				<a class="release-back" href="/#music">all music</a>
+			</div>
+		</section>
+	</main>
+</body>
+</html>
