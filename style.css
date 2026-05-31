@@ -643,6 +643,15 @@ body {
 	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
 }
 
+.release-card-badge {
+	font-size: 0.52rem;
+	letter-spacing: 0.28em;
+	text-transform: lowercase;
+	color: var(--accent-hot);
+	text-align: center;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+
 .scroll-hint {
 	margin-top: clamp(1rem, 2.5vh, 1.5rem);
 	font-size: 0.65rem;

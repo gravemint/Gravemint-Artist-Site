@@ -36,11 +36,38 @@ function spotifyEmbedUrl(albumId) {
 	return `https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`;
 }
 
-function platformLink(key, label, icon, url) {
+function isPreSave(release) {
+	return release.preSave === true;
+}
+
+function ogImageType(coverPath) {
+	return coverPath.endsWith('.svg') ? 'image/svg+xml' : 'image/jpeg';
+}
+
+function platformLink(key, label, icon, url, { pending = false } = {}) {
+	if (pending) {
+		return `				<li><span class="platform-btn platform-btn--${esc(key)} platform-btn--pending" aria-disabled="true">
+					<i class="${icon}" aria-hidden="true"></i>
+					<span>${esc(label)}</span>
+				</span></li>`;
+	}
+
 	return `				<li><a class="platform-btn platform-btn--${esc(key)}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
 					<i class="${icon}" aria-hidden="true"></i>
 					<span>${esc(label)}</span>
 				</a></li>`;
+}
+
+function buildPlatformLinksHtml(release, platforms) {
+	const preSave = isPreSave(release);
+
+	return platforms
+		.filter((p) => preSave || release.links?.[p.key])
+		.map((p) => {
+			const url = release.links?.[p.key];
+			return platformLink(p.key, p.label, p.icon, url, { pending: preSave && !url });
+		})
+		.join('\n');
 }
 
 function todayISO() {
@@ -257,10 +284,54 @@ function buildArtCreditHtml() {
 }
 
 function buildArtMetaHtml(release) {
+	const eyebrow = isPreSave(release)
+		? `${String(release.type).toLowerCase()} · coming soon`
+		: `${String(release.type).toLowerCase()} · ${release.year}`;
+
 	return `				<div class="release-hero-art-meta">
-					<p class="release-eyebrow">${esc(String(release.type).toLowerCase())} · ${esc(release.year)}</p>
+					<p class="release-eyebrow">${esc(eyebrow)}</p>
 ${buildArtCreditHtml()}				</div>
 `;
+}
+
+function buildPreSaveArtHtml(release) {
+	return `			<div class="release-hero-art-col">
+				<div class="release-hero-art-wrap release-hero-art-wrap--static">
+					<img class="release-hero-art" src="${esc(release.cover)}" alt="${esc(release.title)} cover art placeholder" width="800" height="800" fetchpriority="high">
+				</div>
+${buildArtMetaHtml(release)}			</div>`;
+}
+
+function formatReleaseDate(isoDate) {
+	const date = new Date(`${isoDate}T12:00:00`);
+	if (Number.isNaN(date.getTime())) return isoDate;
+
+	return date.toLocaleDateString('en-US', {
+		month: 'long',
+		day: 'numeric',
+		year: 'numeric',
+	});
+}
+
+function buildHeroStageHtml(release) {
+	if (isPreSave(release)) {
+		const dateLine = release.releaseDate
+			? `\n\t\t\t\t\t<p class="release-presave-date">${esc(formatReleaseDate(release.releaseDate))}</p>`
+			: '';
+
+		return `			<div class="release-hero-stage">
+				<div class="release-presave-stage">
+					<p class="release-presave-kicker">coming soon</p>${dateLine}
+					<p class="release-presave-note">pre-save below to hear it the moment it drops</p>
+				</div>
+			</div>`;
+	}
+
+	return `			<div class="release-hero-stage">
+				<div class="spotify-wrap embed-wrap release-embed">
+					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+				</div>
+			</div>`;
 }
 
 function buildMoreMusicHtml(currentRelease) {
@@ -269,7 +340,9 @@ function buildMoreMusicHtml(currentRelease) {
 
 	const items = others
 		.map((r) => {
-			const eyebrow = `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
+			const eyebrow = isPreSave(r)
+				? `${String(r.type).toLowerCase()} · coming soon`
+				: `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
 			return `				<li><a class="release-more-card" href="/music/${esc(r.slug)}/" aria-label="${esc(r.title)} (${eyebrow})">
 					<img src="${esc(r.cover)}" alt="${esc(r.title)} cover" width="400" height="400" loading="lazy">
 					<span class="release-more-meta">
@@ -291,6 +364,10 @@ ${items}
 }
 
 function buildArtHtml(release, gallery) {
+	if (isPreSave(release)) {
+		return buildPreSaveArtHtml(release);
+	}
+
 	const galleryJson = JSON.stringify(gallery);
 	const hasMultiple = gallery.length > 1;
 	const iconClass = hasMultiple ? 'fa-solid fa-images' : 'fa-solid fa-magnifying-glass-plus';
@@ -318,27 +395,23 @@ function buildPage(release) {
 	const releaseDate = releaseDatePublished(release);
 	const themeColor = data.seo?.themeColor || '#060606';
 	const musicianUrl = `${data.site}/#musicgroup`;
+	const preSave = isPreSave(release);
+	const linksHeading = preSave ? 'pre-save' : 'listen';
+	const linksAriaLabel = preSave ? 'pre-save links' : 'streaming and purchase links';
 
-	const primaryHtml = primaryPlatforms
-		.filter((p) => release.links[p.key])
-		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
-		.join('\n');
-
-	const moreHtml = morePlatforms
-		.filter((p) => release.links[p.key])
-		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
-		.join('\n');
+	const primaryHtml = buildPlatformLinksHtml(release, primaryPlatforms);
+	const moreHtml = buildPlatformLinksHtml(release, morePlatforms);
 
 	const moreListId = `release-more-platforms-${release.slug}`;
 	const headerHtml = moreHtml
 		? `				<header class="release-hero-links-head">
-					<h2 class="platform-heading">listen</h2>
+					<h2 class="platform-heading">${esc(linksHeading)}</h2>
 					<button type="button" class="platform-more-toggle" aria-expanded="true" aria-controls="${esc(moreListId)}" data-platform-more hidden>
 						<span class="visually-hidden">show more platforms</span>
 						<span class="platform-more-plus" aria-hidden="true"></span>
 					</button>
 				</header>`
-		: `				<h2 class="platform-heading">listen</h2>`;
+		: `				<h2 class="platform-heading">${esc(linksHeading)}</h2>`;
 
 	const moreSection = moreHtml
 		? `				<ul id="${esc(moreListId)}" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
@@ -352,6 +425,25 @@ ${moreHtml}
 		'@context': 'https://schema.org',
 		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage, gallery)],
 	};
+	const lightboxHtml = preSave
+		? ''
+		: `
+	<div class="art-lightbox" hidden aria-hidden="true">
+		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
+		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
+			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
+		</div>
+	</div>`;
 
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -369,7 +461,7 @@ ${moreHtml}
 	<meta property="og:description" content="${esc(metaDesc)}">
 	<meta property="og:url" content="${esc(url)}">
 	<meta property="og:image" content="${esc(ogImage)}">
-	<meta property="og:image:type" content="image/jpeg">
+	<meta property="og:image:type" content="${esc(ogImageType(release.cover))}">
 	<meta property="og:image:width" content="800">
 	<meta property="og:image:height" content="800">
 	<meta property="og:image:alt" content="${esc(release.title)} cover art by gravemint">
@@ -396,7 +488,7 @@ ${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(release.title)} b
 ${JSON.stringify(schemaGraph, null, '\t')}
 	</script>
 </head>
-<body class="release-page">
+<body class="release-page${preSave ? ' release-page--presave' : ''}">
 ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 	<canvas id="ghost-canvas" aria-hidden="true"></canvas>
 
@@ -413,12 +505,8 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 				<h1 class="release-page-title">${esc(release.title)}</h1>
 			</header>
 ${buildArtHtml(release, gallery)}
-			<div class="release-hero-stage">
-				<div class="spotify-wrap embed-wrap release-embed">
-					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-				</div>
-			</div>
-			<aside class="release-hero-links" aria-label="streaming and purchase links">
+${buildHeroStageHtml(release)}
+			<aside class="release-hero-links" aria-label="${esc(linksAriaLabel)}">
 ${headerHtml}
 				<ul class="platform-list platform-grid">
 ${primaryHtml}
@@ -443,23 +531,7 @@ ${release.tracks.map((t) => `					<li>${esc(t)}</li>`).join('\n')}
 			</details>
 		</section>
 ` : ''}${buildMoreMusicHtml(release)}	</main>
-
-	<div class="art-lightbox" hidden aria-hidden="true">
-		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
-		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
-			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
-				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-			</button>
-			<div class="art-lightbox-frame">
-				<img class="art-lightbox-img" src="" alt="">
-			</div>
-			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
-				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-			</button>
-			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
-		</div>
-	</div>
+${lightboxHtml}
 
 	<script src="/release.js" defer></script>
 	<script src="/main.js" defer></script>
@@ -608,6 +680,7 @@ function syncIndexEmbedHints() {
 	let html = fs.readFileSync(indexPath, 'utf8');
 
 	for (const release of data.releases) {
+		if (!release.spotifyAlbumId) continue;
 		const href = `/music/${release.slug}/`;
 		const embed = esc(spotifyEmbedUrl(release.spotifyAlbumId));
 		const pattern = new RegExp(

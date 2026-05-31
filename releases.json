@@ -37,6 +37,28 @@
 	},
 	"releases": [
 		{
+			"slug": "moss-and-memory",
+			"title": "moss and memory",
+			"type": "Single",
+			"year": "2026",
+			"trackCount": 1,
+			"preSave": true,
+			"metaDescription": "downtempo electronic single rooted in the forest as collective memory, and the love that lives on in what grows after",
+			"longDescription": "a downtempo electronic single rooted in the forest as collective memory, and the love that lives on in what grows after. forest ambience, ghostly choir pads, harp, and layered vocal chops drift through an arrangement that builds and recedes like breathing",
+			"cover": "/images/releases/placeholder.svg",
+			"links": {
+				"spotify": "",
+				"apple": "",
+				"youtube": "",
+				"bandcamp": "",
+				"soundcloud": "",
+				"amazon": "",
+				"tidal": "",
+				"deezer": "",
+				"iheart": ""
+			}
+		},
+		{
 			"slug": "maritime-mystic",
 			"title": "maritime mystic",
 			"type": "EP",
