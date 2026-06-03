@@ -750,6 +750,84 @@ console.log('updated llms.txt');
 fs.writeFileSync(path.join(root, 'llms-full.txt'), buildLlmsFullTxt());
 console.log('updated llms-full.txt');
 
+function resolveHomeHeroRelease() {
+	const hero = data.homeHero || { mode: 'featured', slug: 'vicarious-solitude' };
+	const fallbackSlug = hero.fallbackSlug || 'vicarious-solitude';
+
+	if (hero.mode === 'presave') {
+		let release;
+		if (hero.slug) {
+			release = data.releases.find((r) => r.slug === hero.slug);
+			if (release && !isPreSave(release)) {
+				console.warn(`homeHero.slug "${hero.slug}" is not a pre-save release`);
+				release = undefined;
+			} else if (!release) {
+				console.warn(`homeHero.slug "${hero.slug}" not found`);
+			}
+		} else {
+			release = data.releases.find(isPreSave);
+		}
+		if (release) return { release, mode: 'presave' };
+		console.warn('homeHero mode presave but no active pre-save; using featured fallback');
+	}
+
+	const slug = hero.mode === 'featured' ? hero.slug || fallbackSlug : fallbackSlug;
+	const release = data.releases.find((r) => r.slug === slug);
+	if (!release) {
+		throw new Error(`homeHero featured slug "${slug}" not found in releases`);
+	}
+	return { release, mode: 'featured' };
+}
+
+function preSaveHubUrl(release) {
+	return release.preSaveHub || release.links?.spotify || null;
+}
+
+function buildHomeHeroHtml() {
+	const { release, mode } = resolveHomeHeroRelease();
+	const href = `/music/${release.slug}/`;
+	const title = esc(release.title);
+	if (mode === 'presave') {
+		const hub = preSaveHubUrl(release);
+		if (!hub) {
+			console.warn(`homeHero pre-save for "${release.slug}" has no preSaveHub; linking to release page`);
+		}
+		const presaveHref = hub || href;
+		const external = hub
+			? ' target="_blank" rel="noopener noreferrer"'
+			: '';
+		return `\t\t\t<!-- home-hero-start -->
+			<a class="release-link release-link--presave" href="${esc(presaveHref)}"${external}>
+				<span class="release-eyebrow">pre-save</span>
+				<span class="release-title">${title}</span>
+			</a>
+\t\t\t<!-- home-hero-end -->`;
+	}
+	const embedAttr = release.spotifyAlbumId
+		? ` data-spotify-embed="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}"`
+		: '';
+	return `\t\t\t<!-- home-hero-start -->
+			<a class="release-link" href="${esc(href)}"${embedAttr}>
+				<span class="release-eyebrow">featured music</span>
+				<span class="release-title">${title}</span>
+			</a>
+\t\t\t<!-- home-hero-end -->`;
+}
+
+function syncIndexHero() {
+	const indexPath = path.join(root, 'index.html');
+	let html = fs.readFileSync(indexPath, 'utf8');
+	const block = buildHomeHeroHtml();
+	const pattern = /\t\t\t<!-- home-hero-start -->[\s\S]*?\t\t\t<!-- home-hero-end -->/;
+	if (!pattern.test(html)) {
+		console.warn('index.html missing home-hero markers; skipping hero sync');
+		return;
+	}
+	html = html.replace(pattern, block);
+	fs.writeFileSync(indexPath, html);
+	console.log('updated index.html home hero');
+}
+
 function syncIndexEmbedHints() {
 	const indexPath = path.join(root, 'index.html');
 	let html = fs.readFileSync(indexPath, 'utf8');
@@ -920,6 +998,7 @@ ${homeSchema}
 	console.log('updated index.html SEO');
 }
 
+syncIndexHero();
 syncIndexEmbedHints();
 syncIndexCatalog();
 syncIndexSeo();

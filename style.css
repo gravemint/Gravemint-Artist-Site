@@ -397,6 +397,10 @@ body {
 	color: rgba(255, 255, 255, 0.45);
 }
 
+.release-link--presave .release-eyebrow {
+	color: var(--accent-hot);
+}
+
 .release-title {
 	font-size: clamp(0.85rem, 2vw, 1rem);
 	font-weight: 400;

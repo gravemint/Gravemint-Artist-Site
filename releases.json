@@ -1,6 +1,9 @@
 {
 	"site": "https://gravemint.com",
 	"artist": "gravemint",
+	"homeHero": {
+		"mode": "presave"
+	},
 	"seo": {
 		"homeTitle": "gravemint | ethereal electronic music",
 		"homeDescription": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
