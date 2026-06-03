@@ -510,6 +510,15 @@
 	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
 }
 
+.platform-btn--presave-hub {
+	grid-column: 1 / -1;
+	justify-content: center;
+}
+
+.platform-btn--presave-hub i {
+	color: var(--accent-hot);
+}
+
 @media (hover: hover) {
 	.platform-btn:hover,
 	.platform-btn:focus-visible {

@@ -76,7 +76,7 @@ body {
 	inset: 0;
 	z-index: 0;
 	background-color: var(--bg);
-	background-image: url('images/background.jpg');
+	background-image: url('images/site/background.jpg');
 	background-position: center center;
 	background-size: cover;
 	background-repeat: no-repeat;

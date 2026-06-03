@@ -24,6 +24,13 @@ const morePlatforms = [
 	{ key: 'iheart', label: 'iheartradio', icon: 'fa-solid fa-heart' },
 ];
 
+const preSavePlatforms = [
+	{ key: 'spotify', label: 'spotify', icon: 'fab fa-spotify' },
+	{ key: 'apple', label: 'apple music', icon: 'fab fa-apple' },
+	{ key: 'deezer', label: 'deezer', icon: 'fab fa-deezer' },
+	{ key: 'amazon', label: 'amazon music', icon: 'fab fa-amazon' },
+];
+
 function esc(s) {
 	return String(s)
 		.replace(/&/g, '&amp;')
@@ -38,6 +45,28 @@ function spotifyEmbedUrl(albumId) {
 
 function isPreSave(release) {
 	return release.preSave === true;
+}
+
+function isPlaceholderCover(release) {
+	return !release.cover || release.cover.includes('placeholder');
+}
+
+function resolveOgImage(release, gallery) {
+	const coverItem = gallery?.find((item) => item.type === 'cover') || gallery?.[0];
+	if (coverItem?.src) {
+		return `${data.site}${coverItem.src}`;
+	}
+
+	return `${data.site}${release.cover}`;
+}
+
+function ogImageDimensions(release, gallery) {
+	const coverItem = gallery?.find((item) => item.type === 'cover') || gallery?.[0];
+	if (coverItem?.width && coverItem?.height) {
+		return { width: coverItem.width, height: coverItem.height };
+	}
+
+	return { width: 800, height: 800 };
 }
 
 function ogImageType(coverPath) {
@@ -59,15 +88,32 @@ function platformLink(key, label, icon, url, { pending = false } = {}) {
 }
 
 function buildPlatformLinksHtml(release, platforms) {
-	const preSave = isPreSave(release);
-
 	return platforms
-		.filter((p) => preSave || release.links?.[p.key])
-		.map((p) => {
-			const url = release.links?.[p.key];
-			return platformLink(p.key, p.label, p.icon, url, { pending: preSave && !url });
-		})
+		.filter((p) => release.links?.[p.key])
+		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
 		.join('\n');
+}
+
+function preSaveHubButton(hubUrl) {
+	return `				<li><a class="platform-btn platform-btn--presave-hub" href="${esc(hubUrl)}" target="_blank" rel="noopener noreferrer">
+					<i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+					<span>pre-save</span>
+				</a></li>`;
+}
+
+function buildPreSaveLinksHtml(release) {
+	const hub = release.preSaveHub;
+	const direct = buildPlatformLinksHtml(release, preSavePlatforms);
+
+	if (direct) {
+		return direct;
+	}
+
+	if (hub) {
+		return preSaveHubButton(hub);
+	}
+
+	return '';
 }
 
 function todayISO() {
@@ -127,7 +173,41 @@ function releaseLongDescription(release) {
 }
 
 function releaseDatePublished(release) {
-	return release.datePublished || release.year || '';
+	return release.datePublished || release.releaseDate || release.year || '';
+}
+
+function preSaveDayOrdinal(day) {
+	if (day >= 11 && day <= 13) return `${day}th`;
+	const ones = day % 10;
+	if (ones === 1) return `${day}st`;
+	if (ones === 2) return `${day}nd`;
+	if (ones === 3) return `${day}rd`;
+	return `${day}th`;
+}
+
+function preSaveReleaseLine(release) {
+	if (!release.releaseDate) return '';
+
+	const date = new Date(`${release.releaseDate}T12:00:00`);
+	if (Number.isNaN(date.getTime())) return '';
+
+	const months = [
+		'january',
+		'february',
+		'march',
+		'april',
+		'may',
+		'june',
+		'july',
+		'august',
+		'september',
+		'october',
+		'november',
+		'december',
+	];
+	const month = months[date.getMonth()];
+	const day = preSaveDayOrdinal(date.getDate());
+	return `this song releases on ${month} ${day}`;
 }
 
 function twitterMetaHtml() {
@@ -225,7 +305,10 @@ function buildReleaseSchema(release, url, ogImage, gallery) {
 		});
 	}
 
-	const sameAs = Object.values(release.links).filter(Boolean);
+	const sameAs = [
+		...(release.preSaveHub ? [release.preSaveHub] : []),
+		...Object.values(release.links || {}).filter(Boolean),
+	];
 	if (sameAs.length) schema.sameAs = sameAs;
 
 	return schema;
@@ -302,27 +385,16 @@ function buildPreSaveArtHtml(release) {
 ${buildArtMetaHtml(release)}			</div>`;
 }
 
-function formatReleaseDate(isoDate) {
-	const date = new Date(`${isoDate}T12:00:00`);
-	if (Number.isNaN(date.getTime())) return isoDate;
-
-	return date.toLocaleDateString('en-US', {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	});
-}
-
 function buildHeroStageHtml(release) {
 	if (isPreSave(release)) {
-		const dateLine = release.releaseDate
-			? `\n\t\t\t\t\t<p class="release-presave-date">${esc(formatReleaseDate(release.releaseDate))}</p>`
+		const releaseLine = preSaveReleaseLine(release);
+		const dateLine = releaseLine
+			? `\n\t\t\t\t\t<p class="release-presave-date">${esc(releaseLine)}</p>`
 			: '';
 
 		return `			<div class="release-hero-stage">
 				<div class="release-presave-stage">
 					<p class="release-presave-kicker">coming soon</p>${dateLine}
-					<p class="release-presave-note">pre-save below to hear it the moment it drops</p>
 				</div>
 			</div>`;
 	}
@@ -364,7 +436,7 @@ ${items}
 }
 
 function buildArtHtml(release, gallery) {
-	if (isPreSave(release)) {
+	if (isPreSave(release) && isPlaceholderCover(release)) {
 		return buildPreSaveArtHtml(release);
 	}
 
@@ -388,7 +460,9 @@ ${buildArtMetaHtml(release)}			</div>`;
 function buildPage(release) {
 	const url = `${data.site}/music/${release.slug}/`;
 	const title = releaseTitle(release);
-	const ogImage = `${data.site}${release.cover}`;
+	const gallery = resolveGallery(release);
+	const ogImage = resolveOgImage(release, gallery);
+	const ogDims = ogImageDimensions(release, gallery);
 	const ogTypeValue = ogType(release);
 	const metaDesc = releaseMetaDescription(release);
 	const longDesc = releaseLongDescription(release);
@@ -399,8 +473,10 @@ function buildPage(release) {
 	const linksHeading = preSave ? 'pre-save' : 'listen';
 	const linksAriaLabel = preSave ? 'pre-save links' : 'streaming and purchase links';
 
-	const primaryHtml = buildPlatformLinksHtml(release, primaryPlatforms);
-	const moreHtml = buildPlatformLinksHtml(release, morePlatforms);
+	const primaryHtml = preSave
+		? buildPreSaveLinksHtml(release)
+		: buildPlatformLinksHtml(release, primaryPlatforms);
+	const moreHtml = preSave ? '' : buildPlatformLinksHtml(release, morePlatforms);
 
 	const moreListId = `release-more-platforms-${release.slug}`;
 	const headerHtml = moreHtml
@@ -420,12 +496,11 @@ ${moreHtml}
 `
 		: '';
 
-	const gallery = resolveGallery(release);
 	const schemaGraph = {
 		'@context': 'https://schema.org',
 		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage, gallery)],
 	};
-	const lightboxHtml = preSave
+	const lightboxHtml = preSave && isPlaceholderCover(release)
 		? ''
 		: `
 	<div class="art-lightbox" hidden aria-hidden="true">
@@ -461,9 +536,9 @@ ${moreHtml}
 	<meta property="og:description" content="${esc(metaDesc)}">
 	<meta property="og:url" content="${esc(url)}">
 	<meta property="og:image" content="${esc(ogImage)}">
-	<meta property="og:image:type" content="${esc(ogImageType(release.cover))}">
-	<meta property="og:image:width" content="800">
-	<meta property="og:image:height" content="800">
+	<meta property="og:image:type" content="${esc(ogImageType(ogImage.replace(data.site, '')))}">
+	<meta property="og:image:width" content="${ogDims.width}">
+	<meta property="og:image:height" content="${ogDims.height}">
 	<meta property="og:image:alt" content="${esc(release.title)} cover art by gravemint">
 	<meta property="music:musician" content="${esc(musicianUrl)}">
 	${releaseDate ? `<meta property="music:release_date" content="${esc(releaseDate)}">\n\t` : ''}<meta name="twitter:card" content="summary_large_image">
@@ -697,6 +772,24 @@ function syncIndexEmbedHints() {
 	console.log('updated index.html embed hints');
 }
 
+function syncIndexCatalog() {
+	const indexPath = path.join(root, 'index.html');
+	let html = fs.readFileSync(indexPath, 'utf8');
+
+	for (const release of data.releases) {
+		const href = `/music/${release.slug}/`;
+		const src = release.cover.replace(/^\//, '');
+		const pattern = new RegExp(
+			`(<a class="release-card[^"]*" href="${href.replace(/\//g, '\\/')}"[\\s\\S]*?<img class="release-card-art" src=")[^"]+(")`,
+			''
+		);
+		html = html.replace(pattern, `$1${src}$2`);
+	}
+
+	fs.writeFileSync(indexPath, html);
+	console.log('updated index.html catalog covers');
+}
+
 function buildHomeSchema() {
 	const seo = data.seo || {};
 	const sameAs = data.sameAs || [];
@@ -798,7 +891,7 @@ function syncIndexSeo() {
 	<meta property="og:title" content="${esc(seo.ogTitle)}">
 	<meta property="og:description" content="${esc(seo.ogDescription)}">
 	<meta property="og:url" content="${esc(site)}/">
-	<meta property="og:image" content="${esc(site)}/og.jpg">
+	<meta property="og:image" content="${esc(site)}${esc(seo.homeOgImage || '/images/site/home-og.jpg')}">
 	<meta property="og:image:type" content="image/jpeg">
 	<meta property="og:image:width" content="1200">
 	<meta property="og:image:height" content="630">
@@ -806,7 +899,7 @@ function syncIndexSeo() {
 	<meta name="twitter:card" content="summary_large_image">
 ${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
 	<meta name="twitter:description" content="${esc(seo.ogDescription)}">
-	<meta name="twitter:image" content="${esc(site)}/og.jpg">
+	<meta name="twitter:image" content="${esc(site)}${esc(seo.homeOgImage || '/images/site/home-og.jpg')}">
 	<meta name="twitter:image:alt" content="gravemint electronic music artist">
 	<link rel="icon" href="/favicon.ico" sizes="any">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -828,4 +921,5 @@ ${homeSchema}
 }
 
 syncIndexEmbedHints();
+syncIndexCatalog();
 syncIndexSeo();
