@@ -452,6 +452,73 @@
 .platform-btn--deezer i { color: #ef5466; }     /* deezer coral */
 .platform-btn--iheart i { color: #c6002b; }     /* iheartradio red (brand.iheart.com) */
 
+.platform-btn--pending {
+	cursor: default;
+	opacity: 0.42;
+	border-style: dashed;
+}
+
+.platform-btn--pending i {
+	filter: grayscale(0.35);
+}
+
+.release-hero-art-wrap--static {
+	cursor: default;
+}
+
+.release-presave-stage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.65rem;
+	min-height: clamp(10rem, 28vw, 14rem);
+	padding: clamp(1.5rem, 4vw, 2.25rem);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+	background: rgba(255, 255, 255, 0.03);
+	box-shadow: 0 8px 36px rgba(0, 0, 0, 0.45);
+	text-align: center;
+}
+
+.release-presave-kicker {
+	margin: 0;
+	font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+	letter-spacing: 0.32em;
+	text-transform: lowercase;
+	color: rgba(255, 255, 255, 0.92);
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+
+.release-presave-date {
+	margin: 0;
+	font-size: 0.72rem;
+	letter-spacing: 0.18em;
+	text-transform: lowercase;
+	color: var(--accent-hot);
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+
+.release-presave-note {
+	margin: 0;
+	max-width: 22rem;
+	font-size: 0.68rem;
+	line-height: 1.65;
+	letter-spacing: 0.12em;
+	text-transform: lowercase;
+	color: var(--text-muted);
+	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.platform-btn--presave-hub {
+	grid-column: 1 / -1;
+	justify-content: center;
+}
+
+.platform-btn--presave-hub i {
+	color: var(--accent-hot);
+}
+
 @media (hover: hover) {
 	.platform-btn:hover,
 	.platform-btn:focus-visible {

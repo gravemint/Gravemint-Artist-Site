@@ -24,6 +24,13 @@ const morePlatforms = [
 	{ key: 'iheart', label: 'iheartradio', icon: 'fa-solid fa-heart' },
 ];
 
+const preSavePlatforms = [
+	{ key: 'spotify', label: 'spotify', icon: 'fab fa-spotify' },
+	{ key: 'apple', label: 'apple music', icon: 'fab fa-apple' },
+	{ key: 'deezer', label: 'deezer', icon: 'fab fa-deezer' },
+	{ key: 'amazon', label: 'amazon music', icon: 'fab fa-amazon' },
+];
+
 function esc(s) {
 	return String(s)
 		.replace(/&/g, '&amp;')
@@ -36,11 +43,77 @@ function spotifyEmbedUrl(albumId) {
 	return `https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`;
 }
 
-function platformLink(key, label, icon, url) {
+function isPreSave(release) {
+	return release.preSave === true;
+}
+
+function isPlaceholderCover(release) {
+	return !release.cover || release.cover.includes('placeholder');
+}
+
+function resolveOgImage(release, gallery) {
+	const coverItem = gallery?.find((item) => item.type === 'cover') || gallery?.[0];
+	if (coverItem?.src) {
+		return `${data.site}${coverItem.src}`;
+	}
+
+	return `${data.site}${release.cover}`;
+}
+
+function ogImageDimensions(release, gallery) {
+	const coverItem = gallery?.find((item) => item.type === 'cover') || gallery?.[0];
+	if (coverItem?.width && coverItem?.height) {
+		return { width: coverItem.width, height: coverItem.height };
+	}
+
+	return { width: 800, height: 800 };
+}
+
+function ogImageType(coverPath) {
+	return coverPath.endsWith('.svg') ? 'image/svg+xml' : 'image/jpeg';
+}
+
+function platformLink(key, label, icon, url, { pending = false } = {}) {
+	if (pending) {
+		return `				<li><span class="platform-btn platform-btn--${esc(key)} platform-btn--pending" aria-disabled="true">
+					<i class="${icon}" aria-hidden="true"></i>
+					<span>${esc(label)}</span>
+				</span></li>`;
+	}
+
 	return `				<li><a class="platform-btn platform-btn--${esc(key)}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
 					<i class="${icon}" aria-hidden="true"></i>
 					<span>${esc(label)}</span>
 				</a></li>`;
+}
+
+function buildPlatformLinksHtml(release, platforms) {
+	return platforms
+		.filter((p) => release.links?.[p.key])
+		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
+		.join('\n');
+}
+
+function preSaveHubButton(hubUrl) {
+	return `				<li><a class="platform-btn platform-btn--presave-hub" href="${esc(hubUrl)}" target="_blank" rel="noopener noreferrer">
+					<i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+					<span>pre-save</span>
+				</a></li>`;
+}
+
+function buildPreSaveLinksHtml(release) {
+	const hub = release.preSaveHub;
+	const direct = buildPlatformLinksHtml(release, preSavePlatforms);
+
+	if (direct) {
+		return direct;
+	}
+
+	if (hub) {
+		return preSaveHubButton(hub);
+	}
+
+	return '';
 }
 
 function todayISO() {
@@ -100,7 +173,41 @@ function releaseLongDescription(release) {
 }
 
 function releaseDatePublished(release) {
-	return release.datePublished || release.year || '';
+	return release.datePublished || release.releaseDate || release.year || '';
+}
+
+function preSaveDayOrdinal(day) {
+	if (day >= 11 && day <= 13) return `${day}th`;
+	const ones = day % 10;
+	if (ones === 1) return `${day}st`;
+	if (ones === 2) return `${day}nd`;
+	if (ones === 3) return `${day}rd`;
+	return `${day}th`;
+}
+
+function preSaveReleaseLine(release) {
+	if (!release.releaseDate) return '';
+
+	const date = new Date(`${release.releaseDate}T12:00:00`);
+	if (Number.isNaN(date.getTime())) return '';
+
+	const months = [
+		'january',
+		'february',
+		'march',
+		'april',
+		'may',
+		'june',
+		'july',
+		'august',
+		'september',
+		'october',
+		'november',
+		'december',
+	];
+	const month = months[date.getMonth()];
+	const day = preSaveDayOrdinal(date.getDate());
+	return `this song releases on ${month} ${day}`;
 }
 
 function twitterMetaHtml() {
@@ -198,7 +305,10 @@ function buildReleaseSchema(release, url, ogImage, gallery) {
 		});
 	}
 
-	const sameAs = Object.values(release.links).filter(Boolean);
+	const sameAs = [
+		...(release.preSaveHub ? [release.preSaveHub] : []),
+		...Object.values(release.links || {}).filter(Boolean),
+	];
 	if (sameAs.length) schema.sameAs = sameAs;
 
 	return schema;
@@ -257,10 +367,43 @@ function buildArtCreditHtml() {
 }
 
 function buildArtMetaHtml(release) {
+	const eyebrow = isPreSave(release)
+		? `${String(release.type).toLowerCase()} · coming soon`
+		: `${String(release.type).toLowerCase()} · ${release.year}`;
+
 	return `				<div class="release-hero-art-meta">
-					<p class="release-eyebrow">${esc(String(release.type).toLowerCase())} · ${esc(release.year)}</p>
+					<p class="release-eyebrow">${esc(eyebrow)}</p>
 ${buildArtCreditHtml()}				</div>
 `;
+}
+
+function buildPreSaveArtHtml(release) {
+	return `			<div class="release-hero-art-col">
+				<div class="release-hero-art-wrap release-hero-art-wrap--static">
+					<img class="release-hero-art" src="${esc(release.cover)}" alt="${esc(release.title)} cover art placeholder" width="800" height="800" fetchpriority="high">
+				</div>
+${buildArtMetaHtml(release)}			</div>`;
+}
+
+function buildHeroStageHtml(release) {
+	if (isPreSave(release)) {
+		const releaseLine = preSaveReleaseLine(release);
+		const dateLine = releaseLine
+			? `\n\t\t\t\t\t<p class="release-presave-date">${esc(releaseLine)}</p>`
+			: '';
+
+		return `			<div class="release-hero-stage">
+				<div class="release-presave-stage">
+					<p class="release-presave-kicker">coming soon</p>${dateLine}
+				</div>
+			</div>`;
+	}
+
+	return `			<div class="release-hero-stage">
+				<div class="spotify-wrap embed-wrap release-embed">
+					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+				</div>
+			</div>`;
 }
 
 function buildMoreMusicHtml(currentRelease) {
@@ -269,7 +412,9 @@ function buildMoreMusicHtml(currentRelease) {
 
 	const items = others
 		.map((r) => {
-			const eyebrow = `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
+			const eyebrow = isPreSave(r)
+				? `${String(r.type).toLowerCase()} · coming soon`
+				: `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
 			return `				<li><a class="release-more-card" href="/music/${esc(r.slug)}/" aria-label="${esc(r.title)} (${eyebrow})">
 					<img src="${esc(r.cover)}" alt="${esc(r.title)} cover" width="400" height="400" loading="lazy">
 					<span class="release-more-meta">
@@ -291,6 +436,10 @@ ${items}
 }
 
 function buildArtHtml(release, gallery) {
+	if (isPreSave(release) && isPlaceholderCover(release)) {
+		return buildPreSaveArtHtml(release);
+	}
+
 	const galleryJson = JSON.stringify(gallery);
 	const hasMultiple = gallery.length > 1;
 	const iconClass = hasMultiple ? 'fa-solid fa-images' : 'fa-solid fa-magnifying-glass-plus';
@@ -311,34 +460,34 @@ ${buildArtMetaHtml(release)}			</div>`;
 function buildPage(release) {
 	const url = `${data.site}/music/${release.slug}/`;
 	const title = releaseTitle(release);
-	const ogImage = `${data.site}${release.cover}`;
+	const gallery = resolveGallery(release);
+	const ogImage = resolveOgImage(release, gallery);
+	const ogDims = ogImageDimensions(release, gallery);
 	const ogTypeValue = ogType(release);
 	const metaDesc = releaseMetaDescription(release);
 	const longDesc = releaseLongDescription(release);
 	const releaseDate = releaseDatePublished(release);
 	const themeColor = data.seo?.themeColor || '#060606';
 	const musicianUrl = `${data.site}/#musicgroup`;
+	const preSave = isPreSave(release);
+	const linksHeading = preSave ? 'pre-save' : 'listen';
+	const linksAriaLabel = preSave ? 'pre-save links' : 'streaming and purchase links';
 
-	const primaryHtml = primaryPlatforms
-		.filter((p) => release.links[p.key])
-		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
-		.join('\n');
-
-	const moreHtml = morePlatforms
-		.filter((p) => release.links[p.key])
-		.map((p) => platformLink(p.key, p.label, p.icon, release.links[p.key]))
-		.join('\n');
+	const primaryHtml = preSave
+		? buildPreSaveLinksHtml(release)
+		: buildPlatformLinksHtml(release, primaryPlatforms);
+	const moreHtml = preSave ? '' : buildPlatformLinksHtml(release, morePlatforms);
 
 	const moreListId = `release-more-platforms-${release.slug}`;
 	const headerHtml = moreHtml
 		? `				<header class="release-hero-links-head">
-					<h2 class="platform-heading">listen</h2>
+					<h2 class="platform-heading">${esc(linksHeading)}</h2>
 					<button type="button" class="platform-more-toggle" aria-expanded="true" aria-controls="${esc(moreListId)}" data-platform-more hidden>
 						<span class="visually-hidden">show more platforms</span>
 						<span class="platform-more-plus" aria-hidden="true"></span>
 					</button>
 				</header>`
-		: `				<h2 class="platform-heading">listen</h2>`;
+		: `				<h2 class="platform-heading">${esc(linksHeading)}</h2>`;
 
 	const moreSection = moreHtml
 		? `				<ul id="${esc(moreListId)}" class="platform-list platform-grid platform-grid--more" data-platform-more-list>
@@ -347,11 +496,29 @@ ${moreHtml}
 `
 		: '';
 
-	const gallery = resolveGallery(release);
 	const schemaGraph = {
 		'@context': 'https://schema.org',
 		'@graph': [buildBreadcrumb(url, release), buildReleaseSchema(release, url, ogImage, gallery)],
 	};
+	const lightboxHtml = preSave && isPlaceholderCover(release)
+		? ''
+		: `
+	<div class="art-lightbox" hidden aria-hidden="true">
+		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
+		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
+			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
+			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-frame">
+				<img class="art-lightbox-img" src="" alt="">
+			</div>
+			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
+				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
+		</div>
+	</div>`;
 
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -369,9 +536,9 @@ ${moreHtml}
 	<meta property="og:description" content="${esc(metaDesc)}">
 	<meta property="og:url" content="${esc(url)}">
 	<meta property="og:image" content="${esc(ogImage)}">
-	<meta property="og:image:type" content="image/jpeg">
-	<meta property="og:image:width" content="800">
-	<meta property="og:image:height" content="800">
+	<meta property="og:image:type" content="${esc(ogImageType(ogImage.replace(data.site, '')))}">
+	<meta property="og:image:width" content="${ogDims.width}">
+	<meta property="og:image:height" content="${ogDims.height}">
 	<meta property="og:image:alt" content="${esc(release.title)} cover art by gravemint">
 	<meta property="music:musician" content="${esc(musicianUrl)}">
 	${releaseDate ? `<meta property="music:release_date" content="${esc(releaseDate)}">\n\t` : ''}<meta name="twitter:card" content="summary_large_image">
@@ -396,7 +563,7 @@ ${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(release.title)} b
 ${JSON.stringify(schemaGraph, null, '\t')}
 	</script>
 </head>
-<body class="release-page">
+<body class="release-page${preSave ? ' release-page--presave' : ''}">
 ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 	<canvas id="ghost-canvas" aria-hidden="true"></canvas>
 
@@ -413,12 +580,8 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 				<h1 class="release-page-title">${esc(release.title)}</h1>
 			</header>
 ${buildArtHtml(release, gallery)}
-			<div class="release-hero-stage">
-				<div class="spotify-wrap embed-wrap release-embed">
-					<iframe src="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}" title="${esc(release.title)} on spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-				</div>
-			</div>
-			<aside class="release-hero-links" aria-label="streaming and purchase links">
+${buildHeroStageHtml(release)}
+			<aside class="release-hero-links" aria-label="${esc(linksAriaLabel)}">
 ${headerHtml}
 				<ul class="platform-list platform-grid">
 ${primaryHtml}
@@ -443,23 +606,7 @@ ${release.tracks.map((t) => `					<li>${esc(t)}</li>`).join('\n')}
 			</details>
 		</section>
 ` : ''}${buildMoreMusicHtml(release)}	</main>
-
-	<div class="art-lightbox" hidden aria-hidden="true">
-		<div class="art-lightbox-backdrop" data-art-close tabindex="-1"></div>
-		<div class="art-lightbox-dialog" role="dialog" aria-modal="true" aria-label="cover art">
-			<button type="button" class="art-lightbox-close" data-art-close aria-label="close">×</button>
-			<button type="button" class="art-lightbox-nav art-lightbox-prev" data-art-prev aria-label="previous image" hidden>
-				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-			</button>
-			<div class="art-lightbox-frame">
-				<img class="art-lightbox-img" src="" alt="">
-			</div>
-			<button type="button" class="art-lightbox-nav art-lightbox-next" data-art-next aria-label="next image" hidden>
-				<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-			</button>
-			<div class="art-lightbox-counter" data-art-counter aria-live="polite" hidden></div>
-		</div>
-	</div>
+${lightboxHtml}
 
 	<script src="/release.js" defer></script>
 	<script src="/main.js" defer></script>
@@ -608,6 +755,7 @@ function syncIndexEmbedHints() {
 	let html = fs.readFileSync(indexPath, 'utf8');
 
 	for (const release of data.releases) {
+		if (!release.spotifyAlbumId) continue;
 		const href = `/music/${release.slug}/`;
 		const embed = esc(spotifyEmbedUrl(release.spotifyAlbumId));
 		const pattern = new RegExp(
@@ -622,6 +770,24 @@ function syncIndexEmbedHints() {
 
 	fs.writeFileSync(indexPath, html);
 	console.log('updated index.html embed hints');
+}
+
+function syncIndexCatalog() {
+	const indexPath = path.join(root, 'index.html');
+	let html = fs.readFileSync(indexPath, 'utf8');
+
+	for (const release of data.releases) {
+		const href = `/music/${release.slug}/`;
+		const src = release.cover.replace(/^\//, '');
+		const pattern = new RegExp(
+			`(<a class="release-card[^"]*" href="${href.replace(/\//g, '\\/')}"[\\s\\S]*?<img class="release-card-art" src=")[^"]+(")`,
+			''
+		);
+		html = html.replace(pattern, `$1${src}$2`);
+	}
+
+	fs.writeFileSync(indexPath, html);
+	console.log('updated index.html catalog covers');
 }
 
 function buildHomeSchema() {
@@ -725,7 +891,7 @@ function syncIndexSeo() {
 	<meta property="og:title" content="${esc(seo.ogTitle)}">
 	<meta property="og:description" content="${esc(seo.ogDescription)}">
 	<meta property="og:url" content="${esc(site)}/">
-	<meta property="og:image" content="${esc(site)}/og.jpg">
+	<meta property="og:image" content="${esc(site)}${esc(seo.homeOgImage || '/images/site/home-og.jpg')}">
 	<meta property="og:image:type" content="image/jpeg">
 	<meta property="og:image:width" content="1200">
 	<meta property="og:image:height" content="630">
@@ -733,7 +899,7 @@ function syncIndexSeo() {
 	<meta name="twitter:card" content="summary_large_image">
 ${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
 	<meta name="twitter:description" content="${esc(seo.ogDescription)}">
-	<meta name="twitter:image" content="${esc(site)}/og.jpg">
+	<meta name="twitter:image" content="${esc(site)}${esc(seo.homeOgImage || '/images/site/home-og.jpg')}">
 	<meta name="twitter:image:alt" content="gravemint electronic music artist">
 	<link rel="icon" href="/favicon.ico" sizes="any">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -755,4 +921,5 @@ ${homeSchema}
 }
 
 syncIndexEmbedHints();
+syncIndexCatalog();
 syncIndexSeo();
