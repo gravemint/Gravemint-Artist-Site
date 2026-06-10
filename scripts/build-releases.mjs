@@ -267,7 +267,13 @@ function buildReleaseSchema(release, url, ogImage, gallery) {
 		datePublished: releaseDatePublished(release),
 		inLanguage: 'en-US',
 		byArtist: artistRef(),
-		mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': url,
+			name: `${release.title} by ${data.artist}`,
+			isPartOf: { '@id': `${data.site}/#website` },
+			publisher: { '@id': `${data.site}/#musicgroup` },
+		},
 	};
 
 	if (!isSingle && release.trackCount) {
@@ -868,16 +874,36 @@ function syncIndexCatalog() {
 	console.log('updated index.html catalog covers');
 }
 
+function buildSiteNavigationSchema() {
+	const site = data.site;
+	const items = [
+		{ id: 'about', name: 'about', url: `${site}/#about` },
+		{ id: 'music', name: 'music', url: `${site}/#music` },
+		...data.releases.map((release) => ({
+			id: release.slug,
+			name: release.title,
+			url: `${site}/music/${release.slug}/`,
+		})),
+	];
+	return items.map((item, index) => ({
+		'@type': 'SiteNavigationElement',
+		'@id': `${site}/#nav-${item.id}`,
+		position: index + 1,
+		name: item.name,
+		url: item.url,
+	}));
+}
+
 function buildHomeSchema() {
 	const seo = data.seo || {};
 	const sameAs = data.sameAs || [];
 	const person = data.person;
-	const siteHost = new URL(data.site).hostname.replace(/^www\./i, '').toLowerCase();
+	const site = data.site;
 	const discography = data.releases.map((release, index) => ({
 		'@type': 'ListItem',
 		position: index + 1,
 		name: release.title,
-		url: `${data.site}/music/${release.slug}/`,
+		url: `${site}/music/${release.slug}/`,
 	}));
 
 	const musicGroup = {
@@ -904,14 +930,25 @@ function buildHomeSchema() {
 	const graph = [
 		{
 			'@type': 'WebSite',
-			'@id': `${data.site}/#website`,
-			url: `${data.site}/`,
+			'@id': `${site}/#website`,
+			url: `${site}/`,
 			name: data.artist,
-			alternateName: [siteHost],
 			description: seo.homeDescription,
 			inLanguage: 'en-US',
-			publisher: { '@id': `${data.site}/#musicgroup` },
-			mainEntity: { '@id': `${data.site}/#musicgroup` },
+			publisher: { '@id': `${site}/#musicgroup` },
+			mainEntity: { '@id': `${site}/#musicgroup` },
+			hasPart: { '@id': `${site}/#discography` },
+			image: { '@id': `${site}/#logo` },
+		},
+		{
+			'@type': 'WebPage',
+			'@id': `${site}/#webpage`,
+			url: `${site}/`,
+			name: data.artist,
+			description: seo.homeDescription,
+			isPartOf: { '@id': `${site}/#website` },
+			about: { '@id': `${site}/#musicgroup` },
+			primaryImageOfPage: { '@id': `${site}/#logo` },
 		},
 	];
 
@@ -933,11 +970,12 @@ function buildHomeSchema() {
 	graph.push(musicGroup);
 	graph.push({
 		'@type': 'ItemList',
-		'@id': `${data.site}/#discography`,
+		'@id': `${site}/#discography`,
 		name: `${data.artist} discography`,
 		numberOfItems: discography.length,
 		itemListElement: discography,
 	});
+	graph.push(...buildSiteNavigationSchema());
 
 	return {
 		'@context': 'https://schema.org',
@@ -983,6 +1021,7 @@ ${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(seo.ogTitle)}">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="manifest" href="/manifest.json">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">

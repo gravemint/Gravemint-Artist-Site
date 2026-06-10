@@ -30,6 +30,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="manifest" href="/manifest.json">
 	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
 	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
@@ -44,9 +45,6 @@
 			"@id": "https://gravemint.com/#website",
 			"url": "https://gravemint.com/",
 			"name": "gravemint",
-			"alternateName": [
-				"gravemint.com"
-			],
 			"description": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
 			"inLanguage": "en-US",
 			"publisher": {
@@ -54,6 +52,28 @@
 			},
 			"mainEntity": {
 				"@id": "https://gravemint.com/#musicgroup"
+			},
+			"hasPart": {
+				"@id": "https://gravemint.com/#discography"
+			},
+			"image": {
+				"@id": "https://gravemint.com/#logo"
+			}
+		},
+		{
+			"@type": "WebPage",
+			"@id": "https://gravemint.com/#webpage",
+			"url": "https://gravemint.com/",
+			"name": "gravemint",
+			"description": "gravemint is a michigan-based electronic artist making ethereal, melodically driven music since 2017. stream on spotify, apple music, youtube, and more",
+			"isPartOf": {
+				"@id": "https://gravemint.com/#website"
+			},
+			"about": {
+				"@id": "https://gravemint.com/#musicgroup"
+			},
+			"primaryImageOfPage": {
+				"@id": "https://gravemint.com/#logo"
 			}
 		},
 		{
@@ -158,6 +178,76 @@
 					"url": "https://gravemint.com/music/kitten-kibbu/"
 				}
 			]
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-about",
+			"position": 1,
+			"name": "about",
+			"url": "https://gravemint.com/#about"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-music",
+			"position": 2,
+			"name": "music",
+			"url": "https://gravemint.com/#music"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-moss-and-memory",
+			"position": 3,
+			"name": "moss and memory",
+			"url": "https://gravemint.com/music/moss-and-memory/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-maritime-mystic",
+			"position": 4,
+			"name": "maritime mystic",
+			"url": "https://gravemint.com/music/maritime-mystic/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-cat-cafe",
+			"position": 5,
+			"name": "cat cafe",
+			"url": "https://gravemint.com/music/cat-cafe/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-sheltered-neon",
+			"position": 6,
+			"name": "sheltered neon",
+			"url": "https://gravemint.com/music/sheltered-neon/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-vicarious-solitude",
+			"position": 7,
+			"name": "vicarious solitude",
+			"url": "https://gravemint.com/music/vicarious-solitude/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-keep-us-awake",
+			"position": 8,
+			"name": "keep us awake",
+			"url": "https://gravemint.com/music/keep-us-awake/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-ghost",
+			"position": 9,
+			"name": "ghost",
+			"url": "https://gravemint.com/music/ghost/"
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://gravemint.com/#nav-kitten-kibbu",
+			"position": 10,
+			"name": "kitten kibbu",
+			"url": "https://gravemint.com/music/kitten-kibbu/"
 		}
 	]
 }
