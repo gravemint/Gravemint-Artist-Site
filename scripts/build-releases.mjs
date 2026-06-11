@@ -228,6 +228,70 @@ function artistRef() {
 	};
 }
 
+function imageRightsFields(item, release) {
+	const credit = data.artCredit || {};
+	const rights = data.imageRights || {};
+	const creatorName = item?.credit || credit.name;
+	const rightsHolder = item?.rightsHolder || data.rightsHolder || data.artist;
+	const year = release?.year || new Date().getFullYear();
+	const fields = {};
+
+	if (creatorName) {
+		fields.creditText = `art by ${creatorName}`;
+		fields.copyrightNotice = `© ${year} ${rightsHolder}`;
+		fields.creator = {
+			'@type': 'Person',
+			name: creatorName,
+			...(credit.instagram ? { url: credit.instagram } : {}),
+		};
+	} else {
+		fields.copyrightNotice = `© ${year} ${rightsHolder}`;
+		fields.creator = {
+			'@type': 'Organization',
+			name: data.artist,
+			url: `${data.site}/`,
+		};
+	}
+
+	const licenseUrl = item?.license || credit.license || rights.license;
+	const acquireUrl = item?.acquireLicensePage || credit.acquireLicensePage || rights.acquireLicensePage;
+	if (licenseUrl) fields.license = licenseUrl;
+	if (acquireUrl) fields.acquireLicensePage = acquireUrl;
+
+	return fields;
+}
+
+function buildGalleryImageObject(item, release, pageUrl, index) {
+	const node = {
+		'@type': 'ImageObject',
+		'@id': `${pageUrl}#image-${index + 1}`,
+		contentUrl: `${data.site}${item.src}`,
+		url: `${data.site}${item.src}`,
+		name: `${release.title} ${item.type}`,
+		description: item.alt,
+		caption: item.alt,
+		representativeOfPage: index === 0,
+		...imageRightsFields(item, release),
+	};
+	if (item.width) node.width = item.width;
+	if (item.height) node.height = item.height;
+	return node;
+}
+
+function siteBrandImageRights() {
+	const rights = data.imageRights || {};
+	const year = new Date().getFullYear();
+	return {
+		copyrightNotice: `© ${year} ${data.artist}`,
+		creator: {
+			'@type': 'Organization',
+			name: data.artist,
+			url: `${data.site}/`,
+		},
+		...(rights.license ? { license: rights.license } : {}),
+	};
+}
+
 function buildBreadcrumb(url, release) {
 	return {
 		'@type': 'BreadcrumbList',
@@ -292,23 +356,10 @@ function buildReleaseSchema(release, url, ogImage, gallery) {
 		}));
 	}
 
-	if (Array.isArray(gallery) && gallery.length > 1) {
-		schema.associatedMedia = gallery.map((item, index) => {
-			const node = {
-				'@type': 'ImageObject',
-				'@id': `${url}#image-${index + 1}`,
-				contentUrl: `${data.site}${item.src}`,
-				url: `${data.site}${item.src}`,
-				name: `${release.title} ${item.type}`,
-				description: item.alt,
-				caption: item.alt,
-				representativeOfPage: index === 0,
-				creditText: data.artCredit?.name || undefined,
-			};
-			if (item.width) node.width = item.width;
-			if (item.height) node.height = item.height;
-			return node;
-		});
+	if (Array.isArray(gallery) && gallery.length) {
+		schema.associatedMedia = gallery.map((item, index) =>
+			buildGalleryImageObject(item, release, url, index)
+		);
 	}
 
 	const sameAs = [
@@ -922,9 +973,23 @@ function buildHomeSchema() {
 			width: 192,
 			height: 192,
 			caption: data.artist,
+			...siteBrandImageRights(),
 		},
 		image: { '@id': `${data.site}/#logo` },
 		sameAs,
+	};
+
+	const homeOgPath = seo.homeOgImage || '/images/site/home-og.jpg';
+	const homeOgImage = {
+		'@type': 'ImageObject',
+		'@id': `${site}/#home-og`,
+		contentUrl: `${site}${homeOgPath}`,
+		url: `${site}${homeOgPath}`,
+		name: `${data.artist} electronic music artist`,
+		description: seo.ogDescription || seo.homeDescription,
+		width: 1200,
+		height: 630,
+		...siteBrandImageRights(),
 	};
 
 	const graph = [
@@ -938,8 +1003,9 @@ function buildHomeSchema() {
 			publisher: { '@id': `${site}/#musicgroup` },
 			mainEntity: { '@id': `${site}/#musicgroup` },
 			hasPart: { '@id': `${site}/#discography` },
-			image: { '@id': `${site}/#logo` },
+			image: { '@id': `${site}/#home-og` },
 		},
+		homeOgImage,
 		{
 			'@type': 'WebPage',
 			'@id': `${site}/#webpage`,
@@ -948,7 +1014,7 @@ function buildHomeSchema() {
 			description: seo.homeDescription,
 			isPartOf: { '@id': `${site}/#website` },
 			about: { '@id': `${site}/#musicgroup` },
-			primaryImageOfPage: { '@id': `${site}/#logo` },
+			primaryImageOfPage: { '@id': `${site}/#home-og` },
 		},
 	];
 

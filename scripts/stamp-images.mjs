@@ -63,7 +63,7 @@ function processRelease(release) {
 		const creator = item.credit || defaultCredit;
 		const rightsHolder = item.rightsHolder || defaultRightsHolder;
 		const year = release.year || new Date().getFullYear();
-		const copyright = `© ${year} ${rightsHolder}, art by ${creator}`;
+		const copyright = `© ${year} ${rightsHolder}`;
 		const credit = `art by ${creator}`;
 		const description = item.alt || `${release.title} art by ${creator}`;
 

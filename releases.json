@@ -40,6 +40,10 @@
 		"name": "nekoinstall",
 		"instagram": "https://www.instagram.com/nekoinstall/"
 	},
+	"imageRights": {
+		"license": "https://gravemint.com/",
+		"acquireLicensePage": "https://gravemint.com/"
+	},
 	"releases": [
 		{
 			"slug": "moss-and-memory",
