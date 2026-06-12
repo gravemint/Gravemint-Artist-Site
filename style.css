@@ -37,6 +37,8 @@ html.is-chrome {
 
 html.is-chrome #ghost-canvas {
 	transform: translateZ(0);
+	will-change: transform;
+	contain: strict;
 }
 
 /* phones, tablets in landscape — snap + smooth scroll fight touch scrolling */

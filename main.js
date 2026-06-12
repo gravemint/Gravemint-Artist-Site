@@ -250,14 +250,15 @@
 		return;
 	}
 
-	const ctx = canvas.getContext('2d');
+	const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
 	let width = 0;
 	let height = 0;
 	let pointer = { x: -9999, y: -9999, active: false };
 	let smooth = { x: -9999, y: -9999 };
 	const particles = [];
-	const maxParticles = chrome ? 72 : 110;
-	const chromeLiteCanvas = chrome && (window.devicePixelRatio || 1) >= 2;
+	// chrome’s canvas path is slower on integrated-gpu macbooks; safari uses a lighter compositor
+	const chromeLiteCanvas = chrome;
+	const maxParticles = chromeLiteCanvas ? 48 : 110;
 	let lastScrollY = window.scrollY;
 	let lastSpawn = 0;
 	let rafId = 0;
@@ -294,7 +295,7 @@
 	function resize() {
 		lastScrollY = window.scrollY;
 		const dpr = chromeLiteCanvas
-			? Math.min(window.devicePixelRatio || 1, 1.5)
+			? Math.min(window.devicePixelRatio || 1, 1.25)
 			: Math.min(window.devicePixelRatio || 1, 2);
 		width = window.innerWidth;
 		height = window.innerHeight;
@@ -340,12 +341,6 @@
 		pointer.x = clientX;
 		pointer.y = clientY;
 		pointer.active = true;
-		const now = performance.now();
-		if (now - lastSpawn > 14) {
-			lastSpawn = now;
-			spawnParticle(clientX, clientY);
-			if (Math.random() > 0.25) spawnParticle(clientX, clientY);
-		}
 	}
 
 	window.addEventListener('resize', resize);
@@ -366,12 +361,14 @@
 
 	function drawCursorSparkle(t, x, y) {
 		const pulse = 0.85 + 0.15 * Math.sin(t * 6);
+		const layers = chromeLiteCanvas ? 1 : 3;
+		const sparkles = chromeLiteCanvas ? 3 : 5;
 
 		ctx.save();
 		if (!chromeLiteCanvas) ctx.filter = 'blur(12px)';
 		ctx.globalCompositeOperation = chromeLiteCanvas ? 'screen' : 'lighter';
 
-		for (let layer = 0; layer < 3; layer++) {
+		for (let layer = 0; layer < layers; layer++) {
 			const r = (18 + layer * 14) * pulse;
 			const g = ctx.createRadialGradient(x, y, 0, x, y, r);
 			g.addColorStop(0, `rgba(255, 255, 255, ${0.28 - layer * 0.06})`);
@@ -387,7 +384,7 @@
 
 		ctx.save();
 		ctx.globalCompositeOperation = chromeLiteCanvas ? 'screen' : 'lighter';
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < sparkles; i++) {
 			const angle = t * 3 + i * 1.4;
 			const dist = 8 + Math.sin(t * 4 + i) * 4;
 			const sx = x + Math.cos(angle) * dist;
@@ -408,10 +405,21 @@
 		smooth.y += (pointer.y - smooth.y) * followRate;
 
 		const cursorAlive = !embedHoverActive && pointer.active;
+		const spawnChance = chromeLiteCanvas ? 0.32 : 0.5;
+		const driftChance = chromeLiteCanvas ? 0.14 : 0.22;
 
-		if (pointer.active && !embedHoverActive && Math.random() < 0.5) {
+		if (pointer.active && !embedHoverActive) {
+			const now = performance.now();
+			if (now - lastSpawn > (chromeLiteCanvas ? 22 : 14)) {
+				lastSpawn = now;
+				spawnParticle(pointer.x, pointer.y);
+				if (Math.random() > 0.35) spawnParticle(pointer.x, pointer.y);
+			}
+		}
+
+		if (pointer.active && !embedHoverActive && Math.random() < spawnChance) {
 			spawnParticle(smooth.x, smooth.y, { size: 1.2 + Math.random() * 2.5 });
-		} else if (cursorAlive && Math.random() < 0.22) {
+		} else if (cursorAlive && Math.random() < driftChance) {
 			spawnParticle(smooth.x, smooth.y, { size: 0.8 + Math.random() * 1.8, life: 0.85 });
 		}
 
