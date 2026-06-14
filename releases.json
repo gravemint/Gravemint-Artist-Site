@@ -65,6 +65,13 @@
 					"type": "cover",
 					"width": 2000,
 					"height": 2000
+				},
+				{
+					"src": "moss-and-memory-landscape.jpg",
+					"alt": "mossy gravestone labeled gravemint with two lavender ghost cats in a misty forest at night, fireflies glowing, moss and memory landscape art",
+					"type": "landscape",
+					"width": 2560,
+					"height": 1440
 				}
 			]
 		},

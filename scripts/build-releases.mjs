@@ -282,6 +282,7 @@ function siteBrandImageRights() {
 	const rights = data.imageRights || {};
 	const year = new Date().getFullYear();
 	return {
+		creditText: data.artist,
 		copyrightNotice: `© ${year} ${data.artist}`,
 		creator: {
 			'@type': 'Organization',
@@ -289,6 +290,7 @@ function siteBrandImageRights() {
 			url: `${data.site}/`,
 		},
 		...(rights.license ? { license: rights.license } : {}),
+		...(rights.acquireLicensePage ? { acquireLicensePage: rights.acquireLicensePage } : {}),
 	};
 }
 
