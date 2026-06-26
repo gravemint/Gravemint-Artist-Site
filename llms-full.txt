@@ -26,6 +26,7 @@ listen:
 - spotify: https://open.spotify.com/album/4lwaNiJJ8yISwJGUS838yc
 - apple: https://music.apple.com/us/album/moss-and-memory-single/6775813280
 - bandcamp: https://gravemint.bandcamp.com/track/moss-and-memory
+- soundcloud: https://soundcloud.com/gravemint/moss-and-memory
 - tidal: https://tidal.com/track/529934492
 - deezer: https://www.deezer.com/us/album/1003935181
 - amazon: https://music.amazon.com/albums/B0H3NL2881
