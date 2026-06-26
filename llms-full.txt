@@ -200,5 +200,5 @@ listen:
 ## site
 
 - [home](https://gravemint.com/)
-- [all music](https://gravemint.com/#music)
+- [all music](https://gravemint.com/music/)
 - [about](https://gravemint.com/#about)

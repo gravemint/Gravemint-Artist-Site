@@ -29,5 +29,5 @@ extended documentation: https://gravemint.com/llms-full.txt
 ## site
 
 - [home](https://gravemint.com/)
-- [all music](https://gravemint.com/#music)
+- [all music](https://gravemint.com/music/)
 - [about](https://gravemint.com/#about)

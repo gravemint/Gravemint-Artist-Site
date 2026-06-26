@@ -294,6 +294,218 @@ function siteBrandImageRights() {
 	};
 }
 
+function musicHubUrl() {
+	return `${data.site}/music/`;
+}
+
+function releasePageUrl(release) {
+	return `${data.site}/music/${release.slug}/`;
+}
+
+function releaseEyebrow(release) {
+	if (isPreSave(release)) {
+		return `${String(release.type).toLowerCase()} · coming soon`;
+	}
+	return `${String(release.type).toLowerCase()} · ${release.year}`;
+}
+
+function buildMusicHubBreadcrumb() {
+	const url = musicHubUrl();
+	return {
+		'@type': 'BreadcrumbList',
+		'@id': `${url}#breadcrumb`,
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: data.artist,
+				item: `${data.site}/`,
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'music',
+				item: url,
+			},
+		],
+	};
+}
+
+function buildMusicHubDiscographySchema() {
+	const url = musicHubUrl();
+	const items = data.releases.map((release, index) => ({
+		'@type': 'ListItem',
+		position: index + 1,
+		name: release.title,
+		url: releasePageUrl(release),
+	}));
+
+	return {
+		'@type': 'ItemList',
+		'@id': `${url}#discography`,
+		name: `${data.artist} discography`,
+		numberOfItems: items.length,
+		itemListElement: items,
+	};
+}
+
+function buildMusicHubNavigationSchema() {
+	const url = musicHubUrl();
+	return data.releases.map((release, index) => ({
+		'@type': 'SiteNavigationElement',
+		'@id': `${url}#nav-${release.slug}`,
+		position: index + 1,
+		name: release.title,
+		url: releasePageUrl(release),
+	}));
+}
+
+function buildMusicHubSchema() {
+	const seo = data.seo || {};
+	const url = musicHubUrl();
+	const title = seo.musicHubTitle || `music by ${data.artist}`;
+	const heading = seo.musicHubHeading || 'music';
+	const description = seo.musicHubDescription || seo.homeDescription || '';
+	const discography = buildMusicHubDiscographySchema();
+	const featured = data.releases[0];
+	const ogImage = featured ? resolveOgImage(featured, resolveGallery(featured)) : `${data.site}${seo.homeOgImage || '/images/site/home-og.jpg'}`;
+	const ogDims = featured ? ogImageDimensions(featured, resolveGallery(featured)) : { width: 1200, height: 630 };
+
+	return {
+		graph: {
+			'@context': 'https://schema.org',
+			'@graph': [
+				buildMusicHubBreadcrumb(),
+				{
+					'@type': 'CollectionPage',
+					'@id': `${url}#webpage`,
+					url,
+					name: title,
+					description,
+					inLanguage: 'en-US',
+					isPartOf: { '@id': `${data.site}/#website` },
+					about: { '@id': `${data.site}/#musicgroup` },
+					publisher: { '@id': `${data.site}/#musicgroup` },
+					mainEntity: { '@id': discography['@id'] },
+					image: ogImage,
+				},
+				discography,
+				...buildMusicHubNavigationSchema(),
+			],
+		},
+		title,
+		heading,
+		description,
+		ogImage,
+		ogDims,
+	};
+}
+
+function buildMusicHubDiscographyListHtml() {
+	const items = data.releases
+		.map((release) => {
+			const eyebrow = releaseEyebrow(release);
+			const href = `/music/${release.slug}/`;
+			const metaDesc = release.metaDescription
+				? `\n\t\t\t\t\t\t<p class="music-discography-desc">${esc(release.metaDescription)}</p>`
+				: '';
+			return `\t\t\t\t<li class="music-discography-item">
+\t\t\t\t\t<a class="music-discography-row" href="${esc(href)}" aria-label="${esc(release.title)} (${eyebrow})">
+\t\t\t\t\t\t<span class="music-discography-art-wrap">
+\t\t\t\t\t\t\t<img class="music-discography-art" src="${esc(release.cover)}" alt="${esc(release.title)} cover art" width="400" height="400" loading="lazy">
+\t\t\t\t\t\t</span>
+\t\t\t\t\t\t<span class="music-discography-body">
+\t\t\t\t\t\t\t<span class="music-discography-title">${esc(release.title)}</span>
+\t\t\t\t\t\t\t<span class="music-discography-meta">${esc(eyebrow)}</span>${metaDesc}
+\t\t\t\t\t\t</span>
+\t\t\t\t\t</a>
+\t\t\t\t</li>`;
+		})
+		.join('\n');
+
+	return `\t\t\t<ol class="music-discography">
+${items}
+\t\t\t</ol>`;
+}
+
+function buildMusicIndexPage() {
+	const seo = data.seo || {};
+	const hub = buildMusicHubSchema();
+	const url = musicHubUrl();
+	const themeColor = seo.themeColor || '#060606';
+	const ogImageTypeValue = hub.ogImage.includes('.svg') ? 'image/svg+xml' : 'image/jpeg';
+
+	return `<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>${esc(hub.title)}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="${esc(themeColor)}">
+	<meta name="description" content="${esc(hub.description)}">
+	<link rel="canonical" href="${esc(url)}">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="${esc(data.artist)}">
+	<meta property="og:title" content="${esc(hub.title)}">
+	<meta property="og:description" content="${esc(hub.description)}">
+	<meta property="og:url" content="${esc(url)}">
+	<meta property="og:image" content="${esc(hub.ogImage)}">
+	<meta property="og:image:type" content="${ogImageTypeValue}">
+	<meta property="og:image:width" content="${hub.ogDims.width}">
+	<meta property="og:image:height" content="${hub.ogDims.height}">
+	<meta property="og:image:alt" content="${esc(data.artist)} discography cover art">
+	<meta name="twitter:card" content="summary_large_image">
+${twitterMetaHtml()}	<meta name="twitter:title" content="${esc(hub.title)}">
+	<meta name="twitter:description" content="${esc(hub.description)}">
+	<meta name="twitter:image" content="${esc(hub.ogImage)}">
+	<meta name="twitter:image:alt" content="${esc(data.artist)} discography cover art">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+	<link rel="manifest" href="/manifest.json">
+	<link rel="preconnect" href="https://open.spotify.com" crossorigin>
+	<link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
+	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+	<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous"></noscript>
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/style.css">
+	<link rel="stylesheet" href="/release.css">
+	<script type="application/ld+json">
+${JSON.stringify(hub.graph, null, '\t')}
+	</script>
+</head>
+<body class="release-page music-hub-page">
+${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
+	<canvas id="ghost-canvas" aria-hidden="true"></canvas>
+
+	<main class="release-main">
+		<header class="release-header">
+			<a class="logo" href="/">
+				<img src="/images/logo@2x.png" alt="gravemint" width="626" height="142">
+			</a>
+			<a class="release-back" href="/">← home</a>
+		</header>
+
+		<article class="music-hub">
+			<header class="music-hub-head">
+				<h1 class="section-label music-hub-heading">${esc(hub.heading)}</h1>
+			</header>
+
+			<nav class="music-hub-discography" aria-label="gravemint discography">
+${buildMusicHubDiscographyListHtml()}
+			</nav>
+		</article>
+	</main>
+
+	<script src="/main.js" defer></script>
+</body>
+</html>
+`;
+}
+
 function buildBreadcrumb(url, release) {
 	return {
 		'@type': 'BreadcrumbList',
@@ -309,7 +521,7 @@ function buildBreadcrumb(url, release) {
 				'@type': 'ListItem',
 				position: 2,
 				name: 'music',
-				item: `${data.site}/#music`,
+				item: musicHubUrl(),
 			},
 			{
 				'@type': 'ListItem',
@@ -426,9 +638,7 @@ function buildArtCreditHtml() {
 }
 
 function buildArtMetaHtml(release) {
-	const eyebrow = isPreSave(release)
-		? `${String(release.type).toLowerCase()} · coming soon`
-		: `${String(release.type).toLowerCase()} · ${release.year}`;
+	const eyebrow = releaseEyebrow(release);
 
 	return `				<div class="release-hero-art-meta">
 					<p class="release-eyebrow">${esc(eyebrow)}</p>
@@ -471,9 +681,7 @@ function buildMoreMusicHtml(currentRelease) {
 
 	const items = others
 		.map((r) => {
-			const eyebrow = isPreSave(r)
-				? `${String(r.type).toLowerCase()} · coming soon`
-				: `${String(r.type).toLowerCase()} · ${esc(r.year)}`;
+			const eyebrow = releaseEyebrow(r);
 			return `				<li><a class="release-more-card" href="/music/${esc(r.slug)}/" aria-label="${esc(r.title)} (${eyebrow})">
 					<img src="${esc(r.cover)}" alt="${esc(r.title)} cover" width="400" height="400" loading="lazy">
 					<span class="release-more-meta">
@@ -631,7 +839,7 @@ ${logoFiltersSvg}	<div class="page-bg" aria-hidden="true"></div>
 			<a class="logo" href="/">
 				<img src="/images/logo@2x.png" alt="gravemint" width="626" height="142">
 			</a>
-			<a class="release-back" href="/#music">← all music</a>
+			<a class="release-back" href="/music/">← all music</a>
 		</header>
 
 		<article class="release-hero">
@@ -674,6 +882,11 @@ ${lightboxHtml}
 `;
 }
 
+const musicDir = path.join(root, 'music');
+fs.mkdirSync(musicDir, { recursive: true });
+fs.writeFileSync(path.join(musicDir, 'index.html'), buildMusicIndexPage());
+console.log('wrote music/index.html');
+
 for (const release of data.releases) {
 	const dir = path.join(root, 'music', release.slug);
 	fs.mkdirSync(dir, { recursive: true });
@@ -684,6 +897,7 @@ for (const release of data.releases) {
 const buildDate = todayISO();
 const sitemapUrls = [
 	{ loc: `${data.site}/`, lastmod: buildDate },
+	{ loc: musicHubUrl(), lastmod: buildDate },
 	...data.releases.map((r) => ({
 		loc: `${data.site}/music/${r.slug}/`,
 		lastmod: r.lastmod || buildDate,
@@ -736,7 +950,7 @@ ${platformLinks}
 ## site
 
 - [home](${data.site}/)
-- [all music](${data.site}/#music)
+- [all music](${musicHubUrl()})
 - [about](${data.site}/#about)
 `;
 }
@@ -799,7 +1013,7 @@ ${platformLinks}
 ## site
 
 - [home](${data.site}/)
-- [all music](${data.site}/#music)
+- [all music](${musicHubUrl()})
 - [about](${data.site}/#about)
 `;
 }
@@ -947,11 +1161,39 @@ function syncIndexCatalog() {
 	console.log('updated index.html catalog');
 }
 
+function buildMusicHubLinkHtml() {
+	return `\t\t\t<!-- music-hub-link-start -->
+\t\t\t<p class="music-hub-link"><a href="/music/">all music</a></p>
+\t\t\t<!-- music-hub-link-end -->`;
+}
+
+function syncIndexMusicHubLink() {
+	const indexPath = path.join(root, 'index.html');
+	let html = fs.readFileSync(indexPath, 'utf8');
+	const block = buildMusicHubLinkHtml();
+	const pattern = /\t\t\t<!-- music-hub-link-start -->[\s\S]*?\t\t\t<!-- music-hub-link-end -->/;
+
+	if (pattern.test(html)) {
+		html = html.replace(pattern, block);
+	} else {
+		const catalogEnd = html.indexOf('\t\t\t</ul>\n\t\t</section>', html.indexOf('<ul class="release-catalog">'));
+		if (catalogEnd === -1) {
+			console.warn('index.html missing release-catalog closing tag; skipping music hub link sync');
+			return;
+		}
+		const insertAt = catalogEnd + '\t\t\t</ul>'.length;
+		html = `${html.slice(0, insertAt)}\n${block}\n${html.slice(insertAt)}`;
+	}
+
+	fs.writeFileSync(indexPath, html);
+	console.log('updated index.html music hub link');
+}
+
 function buildSiteNavigationSchema() {
 	const site = data.site;
 	const items = [
 		{ id: 'about', name: 'about', url: `${site}/#about` },
-		{ id: 'music', name: 'music', url: `${site}/#music` },
+		{ id: 'music', name: 'music', url: musicHubUrl() },
 		...data.releases.map((release) => ({
 			id: release.slug,
 			name: release.title,
@@ -1060,6 +1302,7 @@ function buildHomeSchema() {
 		'@type': 'ItemList',
 		'@id': `${site}/#discography`,
 		name: `${data.artist} discography`,
+		url: musicHubUrl(),
 		numberOfItems: discography.length,
 		itemListElement: discography,
 	});
@@ -1128,4 +1371,5 @@ ${homeSchema}
 syncIndexHero();
 syncIndexEmbedHints();
 syncIndexCatalog();
+syncIndexMusicHubLink();
 syncIndexSeo();

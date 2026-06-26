@@ -1063,3 +1063,117 @@ html.is-chrome body.release-page .embed-wrap iframe {
 html.is-chrome body.release-page .embed-wrap.is-embed-active iframe {
 	pointer-events: auto;
 }
+
+.music-hub-page .release-main {
+	max-width: calc(var(--embed-max) + 10rem);
+}
+
+.music-hub-head {
+	text-align: center;
+	padding-bottom: clamp(0.75rem, 2vh, 1.25rem);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.music-hub-heading {
+	margin-bottom: 0;
+}
+
+.music-hub-discography {
+	margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.music-discography {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: clamp(0.85rem, 2vh, 1.15rem);
+}
+
+.music-discography-item {
+	padding-bottom: clamp(0.85rem, 2vh, 1.15rem);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.music-discography-item:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.music-discography-row {
+	display: flex;
+	align-items: flex-start;
+	gap: clamp(0.85rem, 2vw, 1.25rem);
+	text-decoration: none;
+	color: inherit;
+	transition: transform 0.2s ease;
+}
+
+.music-discography-art-wrap {
+	flex: 0 0 auto;
+	width: clamp(3.75rem, 9vw, 5.5rem);
+}
+
+.music-discography-art {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: 2px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+	transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.music-discography-body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	min-width: 0;
+	padding-top: 0.1rem;
+}
+
+.music-discography-title {
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	letter-spacing: 0.08em;
+	text-transform: lowercase;
+	color: #fff;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+	transition: color 0.25s ease;
+}
+
+@media (hover: hover) {
+	.music-discography-row:hover .music-discography-title,
+	.music-discography-row:focus-visible .music-discography-title {
+		color: var(--accent-hot);
+	}
+
+	.music-discography-row:hover .music-discography-art,
+	.music-discography-row:focus-visible .music-discography-art {
+		box-shadow:
+			0 8px 28px rgba(0, 0, 0, 0.65),
+			0 0 0 1px rgba(0, 229, 255, 0.25);
+		transform: translateY(-1px);
+	}
+}
+
+.music-discography-row:focus-visible {
+	outline: 2px solid rgba(0, 229, 255, 0.45);
+	outline-offset: 4px;
+	border-radius: 2px;
+}
+
+.music-discography-meta {
+	font-size: 0.65rem;
+	letter-spacing: 0.28em;
+	text-transform: lowercase;
+	color: var(--text-muted);
+}
+
+.music-discography-desc {
+	margin: 0;
+	max-width: 42rem;
+	font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.62);
+}

@@ -697,6 +697,28 @@ body {
 	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
 }
 
+.music-hub-link {
+	margin-top: clamp(1.5rem, 4vh, 2.25rem);
+	text-align: center;
+}
+
+.music-hub-link a {
+	font-size: 0.65rem;
+	letter-spacing: 0.32em;
+	text-transform: lowercase;
+	color: var(--text-muted);
+	text-decoration: none;
+	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+	transition: color 0.25s ease;
+}
+
+@media (hover: hover) {
+	.music-hub-link a:hover,
+	.music-hub-link a:focus-visible {
+		color: var(--accent-hot);
+	}
+}
+
 .prose {
 	max-width: var(--content-max);
 	font-size: clamp(1rem, 1.8vw, 1.125rem);
