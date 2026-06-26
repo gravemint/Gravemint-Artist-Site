@@ -909,22 +909,42 @@ function syncIndexEmbedHints() {
 	console.log('updated index.html embed hints');
 }
 
+function buildCatalogCardHtml(release) {
+	const href = `/music/${release.slug}/`;
+	const src = release.cover.replace(/^\//, '');
+	const preSave = isPreSave(release);
+	const cardClass = preSave ? 'release-card release-card--presave' : 'release-card';
+	const embedAttr = release.spotifyAlbumId
+		? ` data-spotify-embed="${esc(spotifyEmbedUrl(release.spotifyAlbumId))}"`
+		: '';
+	const badge = preSave
+		? `\n\t\t\t\t\t<span class="release-card-badge">pre-save</span>`
+		: '';
+
+	return `\t\t\t\t<li>
+\t\t\t\t\t<a class="${cardClass}" href="${esc(href)}"${embedAttr}>
+\t\t\t\t\t\t<span class="release-card-art-wrap">
+\t\t\t\t\t\t\t<img class="release-card-art" src="${esc(src)}" alt="${esc(release.title)} cover art" width="800" height="800" loading="lazy">
+\t\t\t\t\t\t</span>
+\t\t\t\t\t\t<span class="release-card-title">${esc(release.title)}</span>${badge}
+\t\t\t\t\t</a>
+\t\t\t\t</li>`;
+}
+
 function syncIndexCatalog() {
 	const indexPath = path.join(root, 'index.html');
 	let html = fs.readFileSync(indexPath, 'utf8');
+	const items = data.releases.map(buildCatalogCardHtml).join('\n');
+	const pattern = /(<ul class="release-catalog">)[\s\S]*?(<\/ul>)/;
 
-	for (const release of data.releases) {
-		const href = `/music/${release.slug}/`;
-		const src = release.cover.replace(/^\//, '');
-		const pattern = new RegExp(
-			`(<a class="release-card[^"]*" href="${href.replace(/\//g, '\\/')}"[\\s\\S]*?<img class="release-card-art" src=")[^"]+(")`,
-			''
-		);
-		html = html.replace(pattern, `$1${src}$2`);
+	if (!pattern.test(html)) {
+		console.warn('index.html missing release-catalog; skipping catalog sync');
+		return;
 	}
 
+	html = html.replace(pattern, `$1\n${items}\n\t\t\t$2`);
 	fs.writeFileSync(indexPath, html);
-	console.log('updated index.html catalog covers');
+	console.log('updated index.html catalog');
 }
 
 function buildSiteNavigationSchema() {
