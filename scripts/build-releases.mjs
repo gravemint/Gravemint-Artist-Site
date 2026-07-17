@@ -1239,7 +1239,7 @@ function buildHomeSchema() {
 			caption: data.artist,
 			...siteBrandImageRights(),
 		},
-		image: { '@id': `${data.site}/#logo` },
+		image: { '@id': `${data.site}/#home-og` },
 		sameAs,
 	};
 
